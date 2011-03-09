@@ -1,16 +1,8 @@
 #ifndef SOCKET_H
 #define SOCKET_H
 
-#include <QString>
-
-#include <stdio.h>
-#include <QDebug>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netdb.h>
-
-#define TCP 1
-#define UDP 2
+#include "includes.h"
+#include "packet.h"
 
 class Socket : public QObject {
     Q_OBJECT
@@ -34,14 +26,13 @@ private:
     int buflen_;
     int socketType_;
     int sPort_;
-    struct sockaddr_in client_, server_;
+    //struct sockaddr_in client_, server_;
     int serverLength_;
     int socketDescriptor_;
 
 signals:
     void SignalClientConnected(char * client);
     void SignalClientDisconnected(char * client);
-
+    void SignalPacketReceived(void *);
 };
-
 #endif

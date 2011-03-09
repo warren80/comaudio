@@ -1,6 +1,7 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
+#include "includes.h"
 #include <QDialog>
 
 typedef struct ConnSettings {
