@@ -22,8 +22,12 @@ public:
     void printF(QString);
 
 private:
+    Thread * dispatcherThread_;
     Ui::MainWindow *ui;
     PSETTINGS settings;
+
+
+    void initDispatcher();
 
 public slots:
 
