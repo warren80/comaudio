@@ -22,7 +22,7 @@
  * recieve thread.
  *
  * How the clients will handle multiple connections tho i have no idea
- *
+ *here
  * TODO
  * buffering transmissions maybe?  This may be done implicitly on our signal slot system.
  * may want to rework the design to do our own buffering inside the Socket class
