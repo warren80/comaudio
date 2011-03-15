@@ -10,7 +10,9 @@ tags
 *.o
 moc_*.cpp
 Makefile*
-ComAudio*
+ComAudio
+ComAudio-*
+ComAudio.pro.user
 moc_*
 ui_*
 
