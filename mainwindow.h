@@ -18,8 +18,6 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    void printF(const char*);
-    void printF(QString);
 
 private:
     Thread * dispatcherThread_;

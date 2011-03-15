@@ -7,8 +7,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
     initDispatcher();
-    connect(ui->sendButton, SIGNAL(clicked()), this, SLOT(sendMessage()));
 }
 
 MainWindow::~MainWindow()
@@ -16,15 +16,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::printF(const char *message) {
-    ui->chatScreen->appendPlainText(QString(*message));
-}
-
-void MainWindow::printF(QString message) {
-    ui->chatScreen->appendPlainText(message);
-}
-
-void initDispatcher() {
+void MainWindow::initDispatcher() {
     Thread * dispatcherThread = new Thread();
     dispatcherThread->start();
 
