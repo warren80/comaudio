@@ -32,6 +32,7 @@ void Socket::createUDPSocket() {
 }
 
 int Socket::tx(const char * str, int length) {
+    return 1;
 }
 
 int Socket::tx(const QString str) {
@@ -44,9 +45,10 @@ int Socket::tx(const char *str, int length, int socketDescriptor) {
 
 int Socket::rx(char * str) {
     //TODO warren emit signal
+    return 1;
 }
 
 void Socket::closeSocket() {
     //TODO warren socket closed signal
-    close(socketDescriptor_);
+    //close(socketDescriptor_);
 }
