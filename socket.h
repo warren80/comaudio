@@ -219,6 +219,10 @@ signals:
 * Emitted if a client disconnects from the server.
 */
     void signalClientDisconnected(QString);
+    /**
+     * emited when any data has been recieved by the server.
+     */
+    void signalDataRecieved(void *);
 
 };
 

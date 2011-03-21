@@ -205,6 +205,13 @@ void SocketClass::writeToEveryoneElse(int maxi, int client[FD_SETSIZE], int reci
 }
 
 int SocketClass::UDPServer() {
+    MessageStruct * mesg = new MessageStruct;
+    while (true) {
+        if (rx(mesg) != -1) {
+            emit signalDataRecieved(mesg);
+        }
+
+    }
     return 1;
 }
 
@@ -347,7 +354,18 @@ int SocketClass::rx(MessageStruct * mesg) {
             }
             break;
         case UDP:
-            //n = recvfrom(socketDescriptor_, str, bytesToRead, 0, (struct sockaddr *) &server_, sizeof(server_));
+            //this line needs to be fixed
+            //n = recvfrom(socketDescriptor_, (char *) mesg, bytesToRead, 0, (struct sockaddr *) &server_, sizeof(server_));
+            qDebug(mesg->data);
+            if (n == -1) {
+                qDebug ("Rx(): recv(): error");
+                writeToLog(errorLog_, QString("\nrx(): recv - Errno(" + QString::number(errno)
+                                              + " ~ " + QTime::currentTime().toString() + ")"));
+                return -1;
+            }
+            if (n == 0) {
+                return 0;
+            }
             break;
         default:
             qDebug("Rx(): invalid socket type");
