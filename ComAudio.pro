@@ -12,8 +12,6 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-        socket.cpp \
-        settings.cpp \
         thread.cpp \
         component.cpp \
         dispatcher.cpp \
@@ -21,11 +19,11 @@ SOURCES += main.cpp\
         componenttext.cpp \
         componentvoice.cpp \
         componentfile.cpp \
-        audioplayer.cpp
+        audioplayer.cpp \
+    socket.cpp
 
 HEADERS  += mainwindow.h \
         socket.h \
-        settings.h \
         includes.h \
         thread.h \
         component.h \
@@ -37,5 +35,4 @@ HEADERS  += mainwindow.h \
         componentfile.h \
         audioplayer.h
 
-FORMS    += mainwindow.ui \
-         settings.ui
+FORMS    += mainwindow.ui
