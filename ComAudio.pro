@@ -39,3 +39,7 @@ HEADERS  += mainwindow.h \
 
 FORMS    += mainwindow.ui \
          settings.ui
+
+win32 {
+    LIBS += -lwsock32
+}

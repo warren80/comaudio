@@ -1,14 +1,12 @@
 #include "dispatcher.h"
 
-
-
 //TODO Check if a component has already been created added to creation
 //stop component logic and reset above boolean
 
 Dispatcher::Dispatcher(QObject *parent) :
     QObject(parent)
 {
-    pSocket = new Socket(0,0,0);
+    pSocket = new SocketClass(0,0);
 }
 
 void Dispatcher::slotPacketRecieved(void * pckt) {

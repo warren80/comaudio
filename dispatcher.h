@@ -10,6 +10,7 @@
 #include "componentvoice.h"
 #include "thread.h"
 
+
 /**
  * The Dispatcher is the core to this program.
  *
@@ -40,7 +41,7 @@ public:
     void stopComponent(int type);
 protected:
 private:
-    Socket * pSocket;
+    SocketClass * pSocket;
 signals:
     void signalStartComponentAudio();
     void signalStopComponentAudio();
