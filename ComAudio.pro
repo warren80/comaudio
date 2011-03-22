@@ -20,7 +20,8 @@ SOURCES += main.cpp\
         componentvoice.cpp \
         componentfile.cpp \
         audioplayer.cpp \
-    socket.cpp
+    socket.cpp \
+    server.cpp
 
 HEADERS  += mainwindow.h \
         socket.h \
@@ -33,7 +34,8 @@ HEADERS  += mainwindow.h \
         componenttext.h \
         componentvoice.h \
         componentfile.h \
-        audioplayer.h
+        audioplayer.h \
+    server.h
 
 FORMS    += mainwindow.ui \
 
