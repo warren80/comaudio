@@ -337,7 +337,7 @@ int SocketClass::tx(MessageStruct * mesg, int length, int socketDescriptor) {
 int SocketClass::rx(MessageStruct * mesg) {
     int n = 0;
     int bytesToRead = buflen_;
-
+    int length = sizeof(server_);
     while((n != buflen_)) {
         switch (socketType_) {
         case TCP:
@@ -355,7 +355,7 @@ int SocketClass::rx(MessageStruct * mesg) {
             break;
         case UDP:
             //this line needs to be fixed
-            //n = recvfrom(socketDescriptor_, (char *) mesg, bytesToRead, 0, (struct sockaddr *) &server_, sizeof(server_));
+            n = recvfrom(socketDescriptor_, (char *) mesg, bytesToRead, 0, (struct sockaddr *) &server_, &length);
             qDebug(mesg->data);
             if (n == -1) {
                 qDebug ("Rx(): recv(): error");
