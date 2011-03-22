@@ -1,7 +1,7 @@
 #include "dispatcher.h"
 
-//TODO Check if a component has already been created added to creation
-//stop component logic and reset above boolean
+
+//TODO take all components out of thread and add them to a storage structure that can be itereated
 
 Dispatcher::Dispatcher(QObject *parent) :
     QObject(parent)
