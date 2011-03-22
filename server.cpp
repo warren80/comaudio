@@ -1,8 +1,6 @@
 #include "server.h"
 #include "thread.h"
 
-
-
 Server::Server(int port) {
     Thread * UDPThread = new Thread;
     Thread * TCPThread = new Thread;
