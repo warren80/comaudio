@@ -51,7 +51,11 @@ void MainWindow::connected(bool connected) {
     ui->fileTab->setEnabled(settings_->isClient && connected);
 
     if(connected) {
-        ui->statusText->setText("Connected");
+        if(settings_->isClient) {
+            ui->statusText->setText("Client");
+        } else {
+            ui->statusText->setText("Server");
+        }
     } else {
         delete settings_;
         ui->statusText->setText("Disconnected");

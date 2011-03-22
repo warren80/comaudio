@@ -1,7 +1,7 @@
 #include "componenttext.h"
 
-ComponentText::ComponentText()
-{
+ComponentText::ComponentText() {
+
 }
 
 void ComponentText::slotStart() {
