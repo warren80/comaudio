@@ -359,7 +359,7 @@ int SocketClass::rx(MessageStruct * mesg) {
             break;
         case UDP:
             //this line needs to be fixed
-            n = recvfrom(socketDescriptor_, (char *) mesg, bytesToRead, 0, (struct sockaddr *) &server_, &length);
+            n = recvfrom(socketDescriptor_, (char *) mesg, bytesToRead, 0, (struct sockaddr *) &server_,(socklen_t*) &length);
             qDebug(mesg->data);
             if (n == -1) {
                 qDebug ("Rx(): recv(): error");
