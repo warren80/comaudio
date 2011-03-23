@@ -9,6 +9,12 @@ QT       += core gui multimedia
 TARGET = ComAudio
 TEMPLATE = app
 
+# compilation output directories
+
+DESTDIR = ./bin
+OBJECTS_DIR = ./obj
+MOC_DIR = ./moc
+UI_DIR = ./ui
 
 SOURCES += main.cpp\
         mainwindow.cpp \
