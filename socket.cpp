@@ -151,14 +151,6 @@ int Socket::TCPServer() {
     } //end of while loop
 }
 
-void Socket::writeToEveryoneElse(int maxi, int client[FD_SETSIZE], int recieveSocketDescriptor, MessageStruct * mesg) {
-    for(int j = 0; j < maxi + 1; j++) { //this loop still doesn't work right
-        if(client[j] != -1 && client[j] != recieveSocketDescriptor) {
-            tx(mesg, buflen_, client[j]);
-        }
-    }
-}
-
 int Socket::UDPServer() {
     //Packet p = new Packet();
     //need some sort of bind or accept i forget which
@@ -241,43 +233,52 @@ void Socket::createUDPSocket() {
     }
 }
 
-int Socket::tx(MessageStruct * mesg, int length) {
-    int temp;
-    switch (socketType_) {
-    case TCP:
-        if((temp = send(socketDescriptor_, (const char *) mesg, length, 0)) == -1) {
-            //write to error log
-        }
-        return temp;
-    case UDP:
-        return sendto(socketDescriptor_, (const char *) mesg, length, 0,
-                      (struct sockaddr *) &server_, serverLength_);
-    default:
-        qDebug() << "Socket(): invalid socket type";
-        return -1;
-    }
+char * Socket::createBuffer(Packet * pckt) {
+    char * buffer = new char[pckt->length + LENGTHSIZE];
+    memcpy(buffer,&(pckt->length), LENGTHSIZE);
+    buffer[LENGTHSIZE - 1] = pckt->length;
+    memcpy(&buffer[LENGTHSIZE], pckt->data,pckt->length);
+    return buffer;
 }
 
-int Socket::tx(MessageStruct * mesg) {
-    return tx(mesg, sizeof(MessageStruct));
-}
 
-int Socket::tx(MessageStruct * mesg, int length, int socketDescriptor) {
+int Socket::tx(Packet * pckt) {
     int temp;
+    char * buffer = createBuffer(pckt);
     switch (socketType_) {
     case TCP:
-        qDebug() << QString::number(socketDescriptor).toLatin1().data();
-        if((temp = send(socketDescriptor, (const char *) mesg, length, 0)) == -1) {
-            //write to error log
+        qDebug() << QString::number(socketDescriptor_).toLatin1().data();
+        if((temp = send(socketDescriptor_, buffer, pckt->length, 0)) == -1) {
+            //log
         }
         return -1;
     case UDP:
-        return sendto(socketDescriptor, (const char *) mesg, length, 0,
+        return sendto(socketDescriptor_, buffer, pckt->length, 0,
                       (struct sockaddr*)&server_, serverLength_);
     default:
         qDebug() << "Socket(): invalid socket type";
         return -1;
     }
+    return temp;
+}
+
+int Socket::tx(Packet * pckt, int SocketID) {
+    //used only for TCP packets
+    //probably need mutex to assess the socket list
+    int temp;
+    char * buffer;
+    //check to see if socketID has not disconnect
+    buffer = createBuffer(pckt);
+    if((temp = send(SocketID, buffer, pckt->length, 0)) == -1) {
+        //log
+    }
+
+    return temp;
+}
+
+int tx(Packet *pckt, char ipAddr[16]) {
+    //this is for udp transmissions and it is deffinetly not done
+    return 0;
 }
 
 int Socket::rx(MessageStruct * mesg) {

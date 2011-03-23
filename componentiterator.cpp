@@ -1,12 +1,12 @@
 #include "componentiterator.h"
 
-componentIterator::componentIterator(QObject *parent) :
+ComponentIterator::ComponentIterator(QObject *parent) :
     QObject(parent)
 {
 }
 
-void addComponent(Component comp) {}
+void ComponentIterator::addComponent(Component comp) {}
 
-void removeComponent(unsigned char) {}
+void ComponentIterator::removeComponent(unsigned char) {}
 
-int reserveID() {return 0;}
+int ComponentIterator::reserveID() {return 0;}

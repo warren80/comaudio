@@ -5,6 +5,5 @@
 #include <QDebug>
 #include <QObject>
 #include <QString>
-//todo add windows.h
 
 #endif // INCLUDES_H

@@ -4,12 +4,11 @@
 //TODO take all components out of thread and add them to a storage structure that can be itereated
 
 Dispatcher::Dispatcher(QObject *parent) :
-    QObject(parent)
-{
-    pSocket = new Socket(0,0);
+    QObject(parent) {
 }
 
-void Dispatcher::slotPacketRecieved(void * pckt) {
+void Dispatcher::slotPacketRecieved(Packet * pckt) {
+    //pckt->componentID
     /*
     Packet *p = (Packet *) pckt;
     if (p->packetType & AUDIOCOMPONENT) {
@@ -45,8 +44,11 @@ void Dispatcher::startComponent(int type, int socketID) {
     }
 }
 
-void Dispatcher::slotPacketToTransmit(void*) {
-    //todo code to transmit all transmits must be done in same thread
-    //so this may have to emit something. to be in right thread
+void Dispatcher::slotPacketToTransmit(Message * msg) {
+    emit signalTxPckt(msg);
+}
+
+void Dispatcher::slotSocketClosed(int socketID) {
+
 }
 

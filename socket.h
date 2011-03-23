@@ -23,12 +23,10 @@
 #include <winsock2.h>
 #endif
 
-#define UDP 0x00
-#define TCP 0x01
-
 #define BUFSIZE 1024
 #define IPADDRSIZE 16
 #define ALIASSIZE 32
+#define LENGTHSIZE 4
 
 /**
 * A generic socket class where the socket will be created or destroyed. This is
@@ -78,14 +76,14 @@ public:
     */
     int SetAsServer();
     /**
-    * Call this method to send a message to the client.
+    * Call this method to send a Packet to the client.
     *
     * @author Warren Voelkl
-    * @arg mesg - the struct that will be transmitted
+    * @arg pckt - the struct that will be transmitted
     * @return 0 - if no error occurs
     * -1 - if an error occurs
     */
-    int tx(MessageStruct *mesg);
+    int tx(Packet *pckt);
     /**
     * An overload of the tx method.
     *
@@ -95,7 +93,7 @@ public:
     * @return 0 - if no error occurs
     * -1 - if an error occurs
     */
-    int tx(MessageStruct *mesg, int length);
+    int tx(Packet *pckt, int socketID);
     /**
     * An overload of the tx method.
     *
@@ -106,7 +104,7 @@ public:
     * @return 0 - if no error occurs
     * -1 - if an error occurs
     */
-    int tx(MessageStruct *mesg, int length, int socketDescriptor);
+    int tx(Packet *pckt, char ipAddr[16]);
     /**
     * This is a blocked method and will only unblock if a message is received or
     * other socket operation is going on.
@@ -204,8 +202,13 @@ private:
     */
     int socketDescriptor_;
 
+    /**
+     * Creates a buffer for transmission from a packet
+     */
+    char * createBuffer(Packet * pckt);
+
 signals:
-    void signalPacketRecieved(Packet p);
+    void signalPacketRecieved(Packet * p);
     void signalSocketClosed(int socketID);
     /**
     * Emitted if a client connects to the server.
