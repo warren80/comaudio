@@ -14,3 +14,7 @@ Component::Component(int socketID) {
  */
 void Component::slotPacketReceived(void * pckt) {
 }
+
+void Component::slotStart(){
+
+}

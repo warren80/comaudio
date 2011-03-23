@@ -22,7 +22,7 @@ signals:
 
 public slots:
     virtual void slotPacketReceived(void *);
-    virtual void slotStart() = 0;
+    virtual void slotStart();
 };
 
 #endif // COMPONENT_H

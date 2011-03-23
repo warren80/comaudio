@@ -29,7 +29,6 @@ void Dispatcher::slotPacketRecieved(void * pckt) {
 
 void Dispatcher::startComponent(int type, int socketID) {
     Component * pComponent;
-    Thread * t = new Thread();
     switch (type) {
     case AUDIOCOMPONENT:
         pComponent = new ComponentAudio(socketID);

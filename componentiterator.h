@@ -18,7 +18,7 @@ class componentIterator : public QObject
     Q_OBJECT
 public:
     explicit componentIterator(QObject *parent = 0);
-    //QMap<Component, unsigned char> componentMap_;
+    QMap<Component, unsigned char> componentMap_;
 
     /**
      * Used to add a component to the iterator list

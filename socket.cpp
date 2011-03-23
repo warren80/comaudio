@@ -121,11 +121,6 @@ int SocketClass::TCPServer() {
                                     + " (Connected: " + QTime::currentTime().toString()
                                     + ")"));
 
-           emit signalClientConnected(QString("\nIP: "
-                                              + QString(inet_ntoa(clientAddr.sin_addr))
-                                              + " (Connected: " + QTime::currentTime().toString()
-                                              + ")"));
-
             //some sort of emit here inet_ntoa(clientAddr.sin_addr);
             for (i = 0; i < FD_SETSIZE; ++i) {
                 if (client[i] < 0) {
@@ -169,23 +164,15 @@ int SocketClass::TCPServer() {
                 qDebug() << mesg->data;
                 qDebug() << QString::number(recieveSocketDescriptor).toLatin1().data();
 
-                //write to all but current fn
-                //
-                if (n != 0) {
-                    writeToEveryoneElse(maxi, client, recieveSocketDescriptor, mesg);
-                }
+                //emit packet that was recieved here
 
-                //write loop to all clients but this one
                 if (n == 0) //connection closed by client
                 {
                     writeToLog(log_, QString("\nIP: "
                                              + QString(inet_ntoa(clientAddr.sin_addr))
                                              + " (Disconnected: " + QTime::currentTime().toString()
                                              + ")"));
-                    emit signalClientDisconnected(QString("\nIP: "
-                                                          + QString(inet_ntoa(clientAddr.sin_addr))
-                                                          + " (Disconnected: " + QTime::currentTime().toString()
-                                                          + ")"));
+                    emit signalSocketClosed(recieveSocketDescriptor);
                     qDebug() << "TCPServer(): Connection disconnected %s" <<
                            inet_ntoa(clientAddr.sin_addr);
                     closesocket(recieveSocketDescriptor);
@@ -209,12 +196,12 @@ void SocketClass::writeToEveryoneElse(int maxi, int client[FD_SETSIZE], int reci
 }
 
 int SocketClass::UDPServer() {
-    MessageStruct * mesg = new MessageStruct;
+    //Packet p = new Packet();
     //need some sort of bind or accept i forget which
     while (true) {
-        if (rx(mesg) != -1) {
-            emit signalDataRecieved(mesg);
-        }
+        //if (rx(mesg) != -1) {
+        //    emit signalPacketRecieved(p);
+        //}
 
     }
     return 1;
