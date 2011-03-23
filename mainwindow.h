@@ -8,6 +8,7 @@
 #include "logs.h"
 #include "server.h"
 #include "audioplayer.h"
+#include "microphone.h"
 
 typedef struct Settings {
     Settings():ipAddr(""), alias(""), port(0), logChat(false), isClient(false){}
@@ -50,6 +51,10 @@ private:
      * The audio player that will play the .wav files.
      */
     AudioPlayer *player_;
+    /**
+     * The microphone object that will recordthe user's voice.
+     */
+    Microphone *mic_;
 
     void initDispatcher();
     /**

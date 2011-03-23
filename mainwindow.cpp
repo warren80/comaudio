@@ -77,6 +77,8 @@ void MainWindow::connected(bool connected) {
 
     if(!connected) {
         if(settings_->isClient) {
+            mic_->stopRecording();
+            delete mic_;
             delete player_;
         }
         delete settings_;
@@ -107,6 +109,9 @@ void MainWindow::appConnect() {
 
     if((settings_->isClient = ui->client->isChecked())) {
         player_ = new AudioPlayer();
+        mic_ = new Microphone();
+
+        mic_->startRecording();
         ui->statusText->setText("Client");
         setWindowTitle("Kidnapster - Client");
         settings_->ipAddr = ui->serverAddrBox->text();
