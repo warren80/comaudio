@@ -2,6 +2,7 @@
 
 #ifndef _WIN32
 #define closesocket close
+#include <sys/types.h>
 #endif
 
 #ifdef _WIN32
@@ -164,9 +165,9 @@ int SocketClass::TCPServer() {
                 }
 
                 //emit data to server probably have to copy this info for use in another thread
-                qDebug(mesg->ipAddr);
-                qDebug(mesg->data);
-                qDebug(QString::number(recieveSocketDescriptor).toLatin1().data());
+                qDebug() << mesg->ipAddr;
+                qDebug() << mesg->data;
+                qDebug() << QString::number(recieveSocketDescriptor).toLatin1().data();
 
                 //write to all but current fn
                 //
@@ -257,8 +258,8 @@ int SocketClass::SetAsClient(const char * str) {
     case TCP:
         if (::connect(socketDescriptor_, (struct sockaddr*)&server_,
                       sizeof(server_)) == -1) {
-            qDebug("SetAsClient(): failure to connect to port");
-            qDebug(QString::number(errno).toLatin1().data());
+            qDebug() << "SetAsClient(): failure to connect to port";
+            qDebug() << QString::number(errno).toLatin1().data();
             writeToLog(errorLog_, QString("\nSetAsClient(): connect - Errno(" + QString::number(errno)
                                           + " ~ " + QTime::currentTime().toString() + ")"));
             return -1;
@@ -323,7 +324,7 @@ int SocketClass::tx(MessageStruct * mesg, int length, int socketDescriptor) {
     int temp;
     switch (socketType_) {
     case TCP:
-        qDebug(QString::number(socketDescriptor).toLatin1().data());
+        qDebug() << QString::number(socketDescriptor).toLatin1().data();
         if((temp = send(socketDescriptor, (const char *) mesg, length, 0)) == -1) {
             writeToLog(errorLog_, QString("\ntx(): send - Errno(" + QString::number(errno)
                                           + " ~ " + QTime::currentTime().toString() + ")"));
@@ -346,7 +347,7 @@ int SocketClass::rx(MessageStruct * mesg) {
         switch (socketType_) {
         case TCP:
             n = recv(socketDescriptor_, (char *) mesg, bytesToRead, 0);
-            qDebug(mesg->data);
+            qDebug() << mesg->data;
             if (n == -1) {
                 qDebug ("Rx(): recv(): error");
                 writeToLog(errorLog_, QString("\nrx(): recv - Errno(" + QString::number(errno)
@@ -360,7 +361,7 @@ int SocketClass::rx(MessageStruct * mesg) {
         case UDP:
             //this line needs to be fixed
             n = recvfrom(socketDescriptor_, (char *) mesg, bytesToRead, 0, (struct sockaddr *) &server_,(socklen_t*) &length);
-            qDebug(mesg->data);
+            qDebug() << mesg->data;
             if (n == -1) {
                 qDebug ("Rx(): recv(): error");
                 writeToLog(errorLog_, QString("\nrx(): recv - Errno(" + QString::number(errno)
@@ -382,8 +383,8 @@ int SocketClass::rx(MessageStruct * mesg) {
 }
 
 void SocketClass::closeSocket() {
-    qDebug("Closing socket");
-    qDebug(QString::number(closesocket(socketDescriptor_)).toLatin1().data());
+    qDebug() << "Closing socket";
+    qDebug() << QString::number(closesocket(socketDescriptor_)).toLatin1().data();
 }
 
 void SocketClass::writeToLog(QFile *log, QString logMesg) {
