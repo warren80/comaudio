@@ -1,13 +1,16 @@
-#ifndef COMPONENTiTERATOR_H
-#define COMPONENTiTERATOR_H
+#ifndef COMPONENTITERATOR_H
+#define COMPONENTITERATOR_H
 
 #include <QObject>
 #include <QMap>
+#include "packet.h"
 #include "component.h"
+#include "componentaudio.h"
+#include "componentfile.h"
+#include "componenttext.h"
+#include "componentvoice.h"
 
-#define COMPONENTMAX 251
-
-//TODO fill in all the classes
+//TODO fill in all the functions
 //Decide on how to loop through list either in the creator or from a slot
 //slot could be signled after a compleat list through this file or
 //a continuous loop.
@@ -30,13 +33,13 @@ public:
      */
     void removeComponent(unsigned char);
     /**
-     * Used prior to creating a component and adding it to the list
-     * @returns a -1 if more COMPONENTMAX are already inexistence
+     * Used to create a component prior to adding it to the componentlist
+     * @returns a -1 if more COMPONENENT limit hit
      *          or 0 - 251 for the new component ID
      */
-    int reserveID();
+    int createComponent(Message * msg);
     /**
-     * gives client information recieved from socket to the
+     * gives client packets recieved from socket to the
      * component.
      *
      * @returns -1 if component does not exist;

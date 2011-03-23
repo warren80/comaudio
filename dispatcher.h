@@ -3,13 +3,7 @@
 
 #include "includes.h"
 #include "socket.h"
-#include "component.h"
-#include "componentaudio.h"
-#include "componentfile.h"
-#include "componenttext.h"
-#include "componentvoice.h"
-#include "ComponentIterator.h"
-
+#include "componentIterator.h"
 
 /**
  * The Dispatcher is the core to this program.
@@ -30,15 +24,33 @@
 
 class Dispatcher : public QObject
 {
-    Q_OBJECT
+Q_OBJECT
+private:
+    /** the class which holds all components */
+    ComponentIterator * compIterator_;
+
 public:
+    /**
+     * Constructor creates the compIterator
+     *
+     * @author Warren Voelkl
+     */
     Dispatcher(QObject *parent = 0);
+    /**
+     * tells the componentIterator class to create a new component
+     *
+     * @author Warren Voelkl
+     */
     void startComponent(Message * msg);
+    /**
+     *Tells the componentIterator class to delete a component
+     *
+     *@author Warren Voelkl
+     */
     void stopComponent(int type);
 
 protected:
-private:
-    ComponentIterator * compIterator_;
+
 signals:
     void signalTxPckt(Message * msg);
 public slots:

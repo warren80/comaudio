@@ -10,26 +10,10 @@ Dispatcher::Dispatcher(QObject *parent) :
 
 void Dispatcher::startComponent(Message * msg) {
     int id;
-    Component * pComponent;
-    if ((id = compIterator_->reserveID()) == -1) {
+    if ((id = compIterator_->createComponent(msg)) == -1) {
         //failed connection stuff tx a close packet message
         qDebug("Dispatcher::createComponent() max component limit hit");
         return;
-    }
-
-    switch (msg->payload->componentID) {
-    case AUDIOCOMPONENT:
-        pComponent = new ComponentAudio(msg->socketID);
-        break;
-    case FILECOMPONENT:
-        pComponent = new ComponentFile(msg->socketID);
-        break;
-    case TEXTCOMPONENT:
-        pComponent = new ComponentText(msg->socketID);
-        break;
-    case VOICECOMPONENT:
-        pComponent = new ComponentVoice(msg->socketID);
-        break;
     }
 }
 
