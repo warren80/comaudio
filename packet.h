@@ -1,14 +1,12 @@
 #ifndef PACKET_H
 #define PACKET_H
 
-#define BUFSIZE             1024
-
-#define UDP                 0x00
-#define TCP                 0x01
-#define AUDIOCOMPONENT      0x02
-#define FILECOMPONENT       0x04
-#define TEXTCOMPONENT       0x08
-#define VOICECOMPONENT      0x10
+#define UDP                 0
+#define TCP                 1
+#define AUDIOCOMPONENT      252
+#define FILECOMPONENT       253
+#define TEXTCOMPONENT       254
+#define VOICECOMPONENT      255
 
 enum ConnectMode {
     kUDP,       /**< UDP transfer mode. */
@@ -16,14 +14,6 @@ enum ConnectMode {
     kMulticast, /**< MultiCast Transfer.*/
 };
 
-/**
-* PacketType is 8 bits
-* bit[0] 0 = udp, 1 = tcp ie packetType & 0x01
-* bit[1] audio
-* bit[2] file
-* bit[3] text
-* bit[4] voice
-*/
 struct Packet {
     int length; //equal to size of componetID + data;
     unsigned char componentID;
@@ -33,6 +23,7 @@ struct Packet {
 struct Message {
     ConnectMode type; //
     int socketID;
+    char idAddr[16];
     Packet * payload;
 };
 

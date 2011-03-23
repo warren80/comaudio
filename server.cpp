@@ -8,28 +8,42 @@ Server::Server(int port) {
     dispatcher_ = new Dispatcher();
     //do some connects
     UDPServer_ = new Socket(UDP, port);
-    //do some connects
+    connect(UDPServer_,SIGNAL(signalPacketRecieved(Packet *)),
+            dispatcher_,SLOT(slotPacketRecieved(Packet *)));
+    //connect transmitter
     UDPServer_->moveToThread(UDPThread);
     UDPThread->start();
     UDPServer_->SetAsServer();
 
+
     TCPServer_ = new Socket(TCP, port);
-    //do some connects
+    connect(TCPServer_, SIGNAL(signalPacketRecieved(Packet *)),
+            dispatcher_,SLOT(slotPacketRecieved(Packet *)));
+    connect(TCPServer_, SIGNAL(signalSocketClosed(int)),
+            dispatcher_, SLOT(slotSocketClosed(int)));
+    //connect transmitter
+
     TCPServer_->moveToThread(TCPThread);
     TCPThread->start();
     TCPServer_->SetAsServer();
 
+
+    //connect(pSocket, SIGNAL(signalSocketClosed(int)), dispatcher_, SLOT(slotSocketClosed(int)));
+
 }
 
-void Server::slotMessageFromSocket(void * buf, int length) {
-    emit signalDispatcher(buf, length);
-}
 
-void Server::txMessage(void * buf, int length, int socketType, int socketDescriptor) {
-    if (socketType == UDP) {
-        UDPServer_->tx((MessageStruct *)buf, length);
-        return;
+void Server::slotTransmitMessage(Message * msg) {
+    switch(msg->type) {
+    case kUDP:
+        UDPServer_->tx(msg->payload);
+        break;
+    case kTCP:
+        TCPServer_->tx(msg->payload);
+        break;
+    case kMulticast:
+        //not coded in socket yet
+        break;
     }
-    TCPServer_->tx((MessageStruct *)buf, length, socketDescriptor);
 }
 

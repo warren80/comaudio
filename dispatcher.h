@@ -8,7 +8,7 @@
 #include "componentfile.h"
 #include "componenttext.h"
 #include "componentvoice.h"
-#include "thread.h"
+#include "ComponentIterator.h"
 
 
 /**
@@ -19,15 +19,11 @@
  * start/stop components will likly be called from the gui thread.
  *
  * All transmissions on the socket should be transmitted from
- * this dispatcher thread.  All recieves will be run in its own
- * recieve thread.
+ * dispatcher.
  *
  * How the clients will handle multiple connections tho i have no idea
- *here
+ * here
  * TODO
- * buffering transmissions maybe?  This may be done implicitly on our signal slot system.
- * may want to rework the design to do our own buffering inside the Socket class
- * and have trasmissions in their own thread not this one.
  *
  * @author Warren Voelkl
  */
@@ -39,15 +35,17 @@ public:
     Dispatcher(QObject *parent = 0);
     void startComponent(int type, int socketID);
     void stopComponent(int type);
+
 protected:
 private:
-    Socket * pSocket;
+    ComponentIterator compIterator_;
 signals:
-
+    void signalTxPckt(Message * msg);
 public slots:
-    void slotPacketRecieved(Packet *);
-    void slotPacketToTransmit(Message *);
+    void slotPacketRecieved(Packet * msg);
+    void slotPacketToTransmit(Message * msg);
     void slotSocketClosed(int socketID);
+
 };
 
 #endif // DISPATCHER_H

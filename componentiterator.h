@@ -1,5 +1,5 @@
-#ifndef COMPONENTITERATOR_H
-#define COMPONENTITERATOR_H
+#ifndef COMPONENTiTERATOR_H
+#define COMPONENTiTERATOR_H
 
 #include <QObject>
 #include <QMap>
@@ -13,17 +13,17 @@
 //a continuous loop.
 //Warren
 
-class componentIterator : public QObject
+class ComponentIterator : public QObject
 {
     Q_OBJECT
 public:
-    explicit componentIterator(QObject *parent = 0);
+    explicit ComponentIterator(QObject *parent = 0);
     QMap<Component, unsigned char> componentMap_;
 
     /**
      * Used to add a component to the iterator list
      */
-    //void addComponent(Component comp);
+    void addComponent(Component comp);
     /**
      * Used to remove a component from the iterator list
      * will also call the destructor of the component
@@ -41,4 +41,4 @@ signals:
 public slots:
 };
 
-#endif // COMPONENTITERATOR_H
+#endif // ComponentIterator_H
