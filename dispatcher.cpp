@@ -7,9 +7,13 @@ Dispatcher::Dispatcher(QObject *parent) :
     QObject(parent)
 {
     pSocket = new Socket(0,0);
+    connect(pSocket,SIGNAL(signalPacketRecieved(Packet *)),this,SLOT(slotPacketRecieved(Packet *)));
+    connect(pSocket, SIGNAL(signalSocketClosed(int)), this, SLOT(slotSocketClosed(int)));
+    void signalPacketRecieved(Packet p);
+    void signalSocketClosed(int socketID);
 }
 
-void Dispatcher::slotPacketRecieved(void * pckt) {
+void Dispatcher::slotPacketRecieved(Packet * pckt) {
     /*
     Packet *p = (Packet *) pckt;
     if (p->packetType & AUDIOCOMPONENT) {
@@ -45,8 +49,12 @@ void Dispatcher::startComponent(int type, int socketID) {
     }
 }
 
-void Dispatcher::slotPacketToTransmit(void*) {
+void Dispatcher::slotPacketToTransmit(Message *) {
     //todo code to transmit all transmits must be done in same thread
     //so this may have to emit something. to be in right thread
+}
+
+void Dispatcher::slotSocketClosed(int socketID) {
+
 }
 

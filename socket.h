@@ -212,7 +212,7 @@ private:
     int socketDescriptor_;
 
 signals:
-    void signalPacketRecieved(Packet p);
+    void signalPacketRecieved(Packet * p);
     void signalSocketClosed(int socketID);
     /**
     * Emitted if a client connects to the server.

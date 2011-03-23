@@ -45,8 +45,9 @@ private:
 signals:
 
 public slots:
-    void slotPacketRecieved(void *);
-    void slotPacketToTransmit(void*);
+    void slotPacketRecieved(Packet *);
+    void slotPacketToTransmit(Message *);
+    void slotSocketClosed(int socketID);
 };
 
 #endif // DISPATCHER_H
