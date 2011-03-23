@@ -15,4 +15,4 @@ ComAudio-*
 ComAudio.pro.user
 moc_*
 ui_*
-
+*.app
