@@ -54,27 +54,7 @@ public:
     * port - the port in which the socket will be bound to
     */
     Socket(int type, int port);
-    /**
-    * This method will create a socket that will be used by the client. This
-    * method will only be called if the user specified the application to be
-    * client.
-    *
-    * @author Warren Voelkl
-    * @arg str - the type of protocol to be used (TCP or UDP)
-    * @return 0 - if no error occurs
-    * -1 - if an error occurs
-    */
-    int SetAsClient(const char *str);
-    /**
-    * This method will create a socket that will be used by the server. This
-    * method will only be called if the user specified the application to be
-    * server.
-    *
-    * @author Warren Voelkl
-    * @return 0 - if no error occurs
-    * -1 - if an error occurs
-    */
-    int SetAsServer();
+
     /**
     * Call this method to send a Packet to the client.
     *
@@ -121,6 +101,28 @@ public:
     * @author Karl Castillo, Warren Voelkl
     */
     void closeSocket();
+public slots:
+    /**
+    * This method will create a socket that will be used by the client. This
+    * method will only be called if the user specified the application to be
+    * client.
+    *
+    * @author Warren Voelkl
+    * @arg str - the type of protocol to be used (TCP or UDP)
+    * @return 0 - if no error occurs
+    * -1 - if an error occurs
+    */
+    void SetAsClient(const char *str);
+    /**
+    * This method will create a socket that will be used by the server. This
+    * method will only be called if the user specified the application to be
+    * server.
+    *
+    * @author Warren Voelkl
+    * @return 0 - if no error occurs
+    * -1 - if an error occurs
+    */
+    void SetAsServer();
 private:
     /**
     * Call this method to create a TCP socket drescriptor.

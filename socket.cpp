@@ -42,21 +42,21 @@ Socket::Socket(int type, int port) {
     }
 }
 
-int Socket::SetAsServer() {
+void Socket::SetAsServer() {
     if (SetupSocket(0) != 1) {
         qDebug() << "SetAsServer(): SetupSocket";
-        return -1;
+        return;
     }
 
     if (socketType_ == UDP) {
         UDPServer();
-        return 1;
+        return;
     }
     if (socketType_ == TCP) {
         TCPServer();
-        return 1;
+        return;
     }
-    return -1;
+    return;
 }
 
 int Socket::TCPServer() {
@@ -222,16 +222,16 @@ int Socket::SetupSocket(const char * str) {
     return 1;
 }
 
-int Socket::SetAsClient(const char * str) {
+void Socket::SetAsClient(const char * str) {
     if (SetupSocket(str) == -1) {
-        return -1;
+        return;
     }
     switch(socketType_) {
     case UDP:
         if (bind(socketDescriptor_, (struct sockaddr *)&client_ ,
                  sizeof(client_)) == -1) {
             qDebug() << "SetAsClient(): failure to bind to port";
-            return -1;
+            return;
         }
         break;
     case TCP:
@@ -241,12 +241,12 @@ int Socket::SetAsClient(const char * str) {
             qDebug() << QString::number(errno).toLatin1().data();
             writeToLog(errorLog_, QString("\nSetAsClient(): connect - Errno(" + QString::number(errno)
                                           + " ~ " + QTime::currentTime().toString() + ")"));
-            return -1;
+            return;
         }
         break;
     }
 
-    return 1;
+    return;
 }
 
 void Socket::createTCPSocket() {
@@ -268,9 +268,11 @@ void Socket::createTCPSocket() {
 
 void Socket::createUDPSocket() {
     int arg = 1;
+
     if ((socketDescriptor_ = socket(AF_INET, SOCK_DGRAM, 0)) == -1) {
-        qDebug() << "createUDPSocket(): Cannot Create Socket!";
+        qDebug() << "createUDPSocket(): Cannot Create Socket!" ;
     }
+
     if (setsockopt (socketDescriptor_, SOL_SOCKET, SO_REUSEADDR, (const char *)&arg,
                     sizeof(arg)) == -1) {
         qDebug() << "createUDPSocket(): setsockopt";

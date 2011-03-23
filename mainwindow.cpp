@@ -43,7 +43,11 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->pauseButton, SIGNAL(pressed()), this, SLOT(pauseSong()));
     connect(ui->nextButton, SIGNAL(pressed()), this, SLOT(nextSong()));
 
-    initDispatcher();
+#ifdef _WIN32
+    WSADATA wsaData;
+    WSAStartup(MAKEWORD(2,2),&wsaData);
+#endif
+
 }
 
 /**
@@ -119,7 +123,7 @@ void MainWindow::appConnect() {
     } else {
         ui->statusText->setText("Server");
         setWindowTitle("Kidnapster - Server");
-        //appServer_ = new Server(settings_->port);
+        appServer_ = new Server(settings_->port);
     }
 
     settings_->port = ui->portBox->text().toInt();

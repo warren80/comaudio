@@ -5,6 +5,8 @@
 Server::Server(int port) {
     Thread * UDPThread = new Thread;
     Thread * TCPThread = new Thread;
+    UDPThread->start();
+    TCPThread->start();
     dispatcher_ = new Dispatcher();
     //do some connects
     UDPServer_ = new Socket(UDP, port);
@@ -18,14 +20,14 @@ Server::Server(int port) {
             dispatcher_, SLOT(slotSocketClosed(int)));
     connect(dispatcher_, SIGNAL(signalTxPckt(Message*)),
             this, SLOT(slotTransmitMessage(Message*)));
+    connect(this, SIGNAL(signalServerStart()),
+            UDPServer_, SLOT(SetAsServer()));
+    connect(this, SIGNAL(signalServerStart()),
+            TCPServer_, SLOT(SetAsServer()));
 
     UDPServer_->moveToThread(UDPThread);
     TCPServer_->moveToThread(TCPThread);
-
-    TCPThread->start();
-    TCPServer_->SetAsServer();
-    UDPThread->start();
-    UDPServer_->SetAsServer();
+    emit signalServerStart();
 }
 
 
