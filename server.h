@@ -4,6 +4,7 @@
 #include <QObject>
 #include "socket.h"
 #include "dispatcher.h"
+#include "logs.h"
 
 class Server : public QObject
 {

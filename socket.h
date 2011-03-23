@@ -7,6 +7,8 @@
 #include <QDebug>
 #include <QtGui>
 #include <QFile>
+
+#include "logs.h"
 #include "packet.h"
 
 #ifndef _WIN32

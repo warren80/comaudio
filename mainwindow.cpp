@@ -20,15 +20,28 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->serverAddrBox->setValidator(validIp);
     ui->portBox->setValidator(validPort);
 
-    //Connections
+    /**
+     * CONNECTIONS
+     */
+    //Chat
+    connect(ui->sendButton, SIGNAL(pressed()), this, SLOT(sendText()));
+
+    //Settings Tab
     connect(ui->connectButton, SIGNAL(pressed()), this, SLOT(appConnect()));
     connect(ui->disconnectButton, SIGNAL(pressed()), this, SLOT(appDisconnect()));
+
+    //Files Tab
     connect(ui->browseButton, SIGNAL(pressed()), this, SLOT(browseFile()));
     connect(ui->sendFileButton, SIGNAL(pressed()), this, SLOT(sendFile()));
-    connect(ui->sendButton, SIGNAL(pressed()), this, SLOT(sendText()));
     connect(ui->downloadSongButton, SIGNAL(pressed()), this, SLOT(downloadSong()));
     connect(ui->downloadCurrentSongButton, SIGNAL(pressed()), this, SLOT(downloadCurrentSong()));
     connect(ui->refreshServerFilesButton, SIGNAL(pressed()), this, SLOT(refreshFiles()));
+
+    //Audio Player
+    connect(ui->previousButton, SIGNAL(pressed()), this, SLOT(previousSong()));
+    connect(ui->playButton, SIGNAL(pressed()), this, SLOT(playSong()));
+    connect(ui->pauseButton, SIGNAL(pressed()), this, SLOT(pauseSong()));
+    connect(ui->nextButton, SIGNAL(pressed()), this, SLOT(nextSong()));
 
     initDispatcher();
 }
@@ -52,17 +65,20 @@ void MainWindow::initDispatcher() {
 void MainWindow::connected(bool connected) {
     ui->connectButton->setEnabled(!connected);
     ui->disconnectButton->setEnabled(connected);
+
+    //If client
     ui->typeScreen->setEnabled(settings_->isClient && connected);
     ui->sendButton->setEnabled(settings_->isClient && connected);
     ui->fileTab->setEnabled(settings_->isClient && connected);
+    ui->previousButton->setEnabled(settings_->isClient && connected);
+    ui->playButton->setEnabled(settings_->isClient && connected);
+    ui->pauseButton->setEnabled(settings_->isClient && connected);
+    ui->nextButton->setEnabled(settings_->isClient && connected);
 
-    if(connected) {
+    if(!connected) {
         if(settings_->isClient) {
-            ui->statusText->setText("Client");
-        } else {
-            ui->statusText->setText("Server");
+            delete player_;
         }
-    } else {
         delete settings_;
         ui->statusText->setText("Disconnected");
     }
@@ -79,18 +95,29 @@ void MainWindow::printF(const QString message) {
 /**
  * SLOTS
  */
+
+/**
+ * SETTINGS TAB
+ */
+
 //TODO: Connect
 void MainWindow::appConnect() {
     settings_ = new SETTINGS;
     qDebug("Connecting...");
 
     if((settings_->isClient = ui->client->isChecked())) {
+        player_ = new AudioPlayer();
+        ui->statusText->setText("Client");
         setWindowTitle("Kidnapster - Client");
         settings_->ipAddr = ui->serverAddrBox->text();
         settings_->alias = ui->aliasBox->text();
+        settings_->logChat = ui->logChatBox->isChecked();
+        qDebug(settings_->ipAddr.toLatin1().data());
+        qDebug(settings_->alias.toLatin1().data());
         qDebug() << settings_->ipAddr.toLatin1().data();
         qDebug() << settings_->alias.toLatin1().data();
     } else {
+        ui->statusText->setText("Server");
         setWindowTitle("Kidnapster - Server");
         //appServer_ = new Server(settings_->port);
     }
@@ -104,19 +131,20 @@ void MainWindow::appConnect() {
 //TODO: Close socket and delete socket/client/server objects
 void MainWindow::appDisconnect() {
     qDebug("Disconnecting");
+    if(settings_->logChat) {
+        chatLog_ = new Logs(QString("./logs/chat_log_" +
+                                    QString::number(QDateTime::currentMSecsSinceEpoch()) + ".log"),
+                            QDateTime::currentDateTime().toString());
+        chatLog_->writeToLog(ui->chatScreen->toPlainText());
+    }
+    ui->serverFilesView->clear();
     setWindowTitle("Kidnapster - Disconnected");
     connected(false);
 }
 
-void MainWindow::browseFile() {
-    QString fileNamePath = QFileDialog::getOpenFileName(this, "Open", QDir::homePath(), "Text (*.txt);;All(*.*)");
-    ui->pathBox->setText(fileNamePath);
-}
-
-//TODO: Send file to the server
-void MainWindow::sendFile() {
-
-}
+/**
+ * CHAT
+ */
 
 //TODO: Send text to the server
 void MainWindow::sendText() {
@@ -125,6 +153,25 @@ void MainWindow::sendText() {
     ui->typeScreen->clear();
     printF(settings_->alias + ":\n" + message);
 }
+
+void MainWindow::browseFile() {
+    QString fileNamePath = QFileDialog::getOpenFileName(this, "Open", QDir::homePath(), "Text (*.txt);;All(*.*)");
+    ui->pathBox->setText(fileNamePath);
+
+}
+
+//TODO: Send file to the server
+void MainWindow::sendFile() {
+    QString fileNamePath = ui->pathBox->text();
+
+    if(fileNamePath.length() != 0) {
+
+    }
+}
+
+/**
+ * FILE TAB
+ */
 
 /*
  * TODO:
@@ -150,10 +197,35 @@ void MainWindow::downloadCurrentSong() {
  *  2. Update list widget
  */
 void MainWindow::refreshFiles() {
-    QDir dir(QDir::homePath());
-    QStringList files = dir.entryList(QStringList("*.*"));
+    QDir dir("C:\\Users\\KCastillo\\Documents");
+    QString filter = ui->filterBox->text();
+    if(filter.length() == 0) {
+        filter = "*.*";
+    } else {
+        filter = "*." + filter;
+    }
+    QStringList files = dir.entryList(QStringList(filter));
 
     ui->serverFilesView->clear();
     ui->serverFilesView->addItems(files);
+}
+
+/**
+ * AUDIO PLAYER
+ */
+void MainWindow::previousSong() {
+
+}
+
+void MainWindow::playSong() {
+    player_->play();
+}
+
+void MainWindow::pauseSong() {
+    player_->pause();
+}
+
+void MainWindow::nextSong() {
+
 }
 
