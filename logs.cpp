@@ -1,9 +1,13 @@
 #include "logs.h"
 #include <QDateTime>
+#include <QDir>
 
 Logs::Logs(QString pathName, QString title):
         log_(pathName)
-{   
+{
+    if(!QDir("./logs").exists()) {
+        QDir().mkdir("./logs");
+    }
     if(!log_.open(QIODevice::WriteOnly)) {
         qDebug("Cannot open log");
     }

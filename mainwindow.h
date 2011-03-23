@@ -7,12 +7,14 @@
 #include "thread.h"
 #include "logs.h"
 #include "server.h"
+#include "audioplayer.h"
 
 typedef struct Settings {
-    Settings():ipAddr(""), alias(""), port(0), isClient(false){}
+    Settings():ipAddr(""), alias(""), port(0), logChat(false), isClient(false){}
     QString ipAddr;
     QString alias;
     int port;
+    bool logChat;
     bool isClient;
 }SETTINGS, *PSETTINGS;
 
@@ -31,9 +33,23 @@ public:
 private:
     Thread * dispatcherThread_;
     Ui::MainWindow *ui;
+    /**
+     * Structure that will hold all the settings parameters.
+     */
     PSETTINGS settings_;
+    /**
+     * A log object where the chat log will be saved.
+     */
     Logs *chatLog_;
+    /**
+     * The server object. This object is only created if the user wants
+     * the app to be a server.
+     */
     Server *appServer_;
+    /**
+     * The audio player that will play the .wav files.
+     */
+    AudioPlayer *player_;
 
     void initDispatcher();
     /**
@@ -118,6 +134,30 @@ private slots:
      * @author Karl Castillo
      */
     void refreshFiles();
+    /**
+     * Call this function to play the previous song that was being played.
+     *
+     * @author Karl Castillo
+     */
+    void previousSong();
+    /**
+     * Call this function to play the current song.
+     *
+     * @author Karl Castillo
+     */
+    void playSong();
+    /**
+     * Call this function to pause the current song.
+     *
+     * @author Karl Castillo
+     */
+    void pauseSong();
+    /**
+     * Call this function to play the next song.
+     *
+     * @author Karl Castillo
+     */
+    void nextSong();
 
 signals:
 };

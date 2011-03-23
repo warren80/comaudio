@@ -260,7 +260,7 @@
         <rect>
          <x>140</x>
          <y>60</y>
-         <width>151</width>
+         <width>171</width>
          <height>16</height>
         </rect>
        </property>
@@ -268,7 +268,7 @@
         <string notr="true">color: red;</string>
        </property>
        <property name="text">
-        <string>./logs/chat_log_(datetime).log</string>
+        <string>./logs/chat_log_(msAfterEpoch).log</string>
        </property>
       </widget>
      </widget>
@@ -613,7 +613,7 @@
       <property name="geometry">
        <rect>
         <x>260</x>
-        <y>220</y>
+        <y>280</y>
         <width>75</width>
         <height>23</height>
        </rect>
@@ -632,9 +632,35 @@
        </rect>
       </property>
      </widget>
+     <widget class="QLineEdit" name="filterBox">
+      <property name="geometry">
+       <rect>
+        <x>261</x>
+        <y>250</y>
+        <width>71</width>
+        <height>20</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="filterLabel">
+      <property name="geometry">
+       <rect>
+        <x>260</x>
+        <y>230</y>
+        <width>71</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Filter:</string>
+      </property>
+     </widget>
     </widget>
    </widget>
    <widget class="QPushButton" name="previousButton">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>330</x>
@@ -648,6 +674,9 @@
     </property>
    </widget>
    <widget class="QPushButton" name="playButton">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>420</x>
@@ -661,6 +690,9 @@
     </property>
    </widget>
    <widget class="QPushButton" name="nextButton">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>590</x>
@@ -674,6 +706,9 @@
     </property>
    </widget>
    <widget class="QPushButton" name="pauseButton">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>500</x>

@@ -34,6 +34,9 @@ public:
     void writeToLog(QString message);
 
 private:
+    /**
+     * The file where the log will be saved to.
+     */
     QFile log_;
 };
 
