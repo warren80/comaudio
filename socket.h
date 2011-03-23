@@ -172,15 +172,6 @@ private:
     void writeToEveryoneElse(int maxi, int client[FD_SETSIZE],
              int recieveSocketDescriptor, MessageStruct * mesg);
     /**
-    * This method is called to write a message to the log either in the error
-    * log or server log.
-    *
-    * @author Karl Castillo
-    * @arg log - the file descriptor of the log file
-    * logMesg - the message that is to be written to the file
-    */
-    void writeToLog(QFile *log, QString logMesg);
-    /**
     * The file descriptor of the server log.
     */
     QFile *log_;

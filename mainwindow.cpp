@@ -112,8 +112,6 @@ void MainWindow::appConnect() {
         settings_->ipAddr = ui->serverAddrBox->text();
         settings_->alias = ui->aliasBox->text();
         settings_->logChat = ui->logChatBox->isChecked();
-        qDebug(settings_->ipAddr.toLatin1().data());
-        qDebug(settings_->alias.toLatin1().data());
         qDebug() << settings_->ipAddr.toLatin1().data();
         qDebug() << settings_->alias.toLatin1().data();
     } else {
