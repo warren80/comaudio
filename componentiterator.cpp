@@ -5,7 +5,7 @@ componentIterator::componentIterator(QObject *parent) :
 {
 }
 
-//void addComponent(Component comp) {}
+void addComponent(Component comp) {}
 
 void removeComponent(unsigned char) {}
 

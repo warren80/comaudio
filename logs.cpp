@@ -20,7 +20,9 @@ void Logs::writeToLog(const char *error, int errNo) {
     errorMesg +=  " " + QDateTime::currentDateTime().toString();
     log_.open(QIODevice::Append);
     log_.write(errorMesg.toLatin1().data());
-    log_.write("Errno: " + errNo);
+    if(errNo != 0) {
+        log_.write("Errno: " + errNo);
+    }
     log_.close();
 }
 

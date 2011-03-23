@@ -6,7 +6,7 @@
 Dispatcher::Dispatcher(QObject *parent) :
     QObject(parent)
 {
-    pSocket = new SocketClass(0,0);
+    pSocket = new Socket(0,0);
 }
 
 void Dispatcher::slotPacketRecieved(void * pckt) {
@@ -29,7 +29,6 @@ void Dispatcher::slotPacketRecieved(void * pckt) {
 
 void Dispatcher::startComponent(int type, int socketID) {
     Component * pComponent;
-    Thread * t = new Thread();
     switch (type) {
     case AUDIOCOMPONENT:
         pComponent = new ComponentAudio(socketID);

@@ -29,7 +29,7 @@ SOURCES += main.cpp\
         socket.cpp \
         logs.cpp \
         server.cpp \
-    componentiterator.cpp
+        componentiterator.cpp
 
 HEADERS  += mainwindow.h \
         socket.h \
@@ -45,7 +45,7 @@ HEADERS  += mainwindow.h \
         audioplayer.h \
         logs.h \
         server.h \
-    componentiterator.h
+        componentiterator.h
 
 FORMS    += mainwindow.ui \
 

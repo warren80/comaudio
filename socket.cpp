@@ -13,7 +13,7 @@ typedef int socklen_t;
 #include <QDateTime>
 #include <errno.h>
 
-SocketClass::SocketClass(int type, int port) {
+Socket::Socket(int type, int port) {
     sPort_ = port;
     socketType_ = type;
     buflen_ = sizeof(MessageStruct);
@@ -42,7 +42,7 @@ SocketClass::SocketClass(int type, int port) {
     }
 }
 
-int SocketClass::SetAsServer() {
+int Socket::SetAsServer() {
     if (SetupSocket(0) != 1) {
         qDebug() << "SetAsServer(): SetupSocket";
         return -1;
@@ -59,7 +59,7 @@ int SocketClass::SetAsServer() {
     return -1;
 }
 
-int SocketClass::TCPServer() {
+int Socket::TCPServer() {
     int maxfd, maxi, nready, bytesToRead, n, i;
     socklen_t clientLength;
     int client[FD_SETSIZE];
@@ -121,11 +121,6 @@ int SocketClass::TCPServer() {
                                     + " (Connected: " + QTime::currentTime().toString()
                                     + ")"));
 
-           emit signalClientConnected(QString("\nIP: "
-                                              + QString(inet_ntoa(clientAddr.sin_addr))
-                                              + " (Connected: " + QTime::currentTime().toString()
-                                              + ")"));
-
             //some sort of emit here inet_ntoa(clientAddr.sin_addr);
             for (i = 0; i < FD_SETSIZE; ++i) {
                 if (client[i] < 0) {
@@ -169,23 +164,15 @@ int SocketClass::TCPServer() {
                 qDebug() << mesg->data;
                 qDebug() << QString::number(recieveSocketDescriptor).toLatin1().data();
 
-                //write to all but current fn
-                //
-                if (n != 0) {
-                    writeToEveryoneElse(maxi, client, recieveSocketDescriptor, mesg);
-                }
+                //emit packet that was recieved here
 
-                //write loop to all clients but this one
                 if (n == 0) //connection closed by client
                 {
                     writeToLog(log_, QString("\nIP: "
                                              + QString(inet_ntoa(clientAddr.sin_addr))
                                              + " (Disconnected: " + QTime::currentTime().toString()
                                              + ")"));
-                    emit signalClientDisconnected(QString("\nIP: "
-                                                          + QString(inet_ntoa(clientAddr.sin_addr))
-                                                          + " (Disconnected: " + QTime::currentTime().toString()
-                                                          + ")"));
+                    emit signalSocketClosed(recieveSocketDescriptor);
                     qDebug() << "TCPServer(): Connection disconnected %s" <<
                            inet_ntoa(clientAddr.sin_addr);
                     closesocket(recieveSocketDescriptor);
@@ -200,7 +187,7 @@ int SocketClass::TCPServer() {
     } //end of while loop
 }
 
-void SocketClass::writeToEveryoneElse(int maxi, int client[FD_SETSIZE], int recieveSocketDescriptor, MessageStruct * mesg) {
+void Socket::writeToEveryoneElse(int maxi, int client[FD_SETSIZE], int recieveSocketDescriptor, MessageStruct * mesg) {
     for(int j = 0; j < maxi + 1; j++) { //this loop still doesn't work right
         if(client[j] != -1 && client[j] != recieveSocketDescriptor) {
             tx(mesg, buflen_, client[j]);
@@ -208,19 +195,19 @@ void SocketClass::writeToEveryoneElse(int maxi, int client[FD_SETSIZE], int reci
     }
 }
 
-int SocketClass::UDPServer() {
-    MessageStruct * mesg = new MessageStruct;
+int Socket::UDPServer() {
+    //Packet p = new Packet();
     //need some sort of bind or accept i forget which
     while (true) {
-        if (rx(mesg) != -1) {
-            emit signalDataRecieved(mesg);
-        }
+        //if (rx(mesg) != -1) {
+        //    emit signalPacketRecieved(p);
+        //}
 
     }
     return 1;
 }
 
-int SocketClass::SetupSocket(const char * str) {
+int Socket::SetupSocket(const char * str) {
     struct hostent *hp;
     memset(&server_,0, sizeof(struct sockaddr_in));
     server_.sin_family = AF_INET;
@@ -243,7 +230,7 @@ int SocketClass::SetupSocket(const char * str) {
     return 1;
 }
 
-int SocketClass::SetAsClient(const char * str) {
+int Socket::SetAsClient(const char * str) {
     if (SetupSocket(str) == -1) {
         return -1;
     }
@@ -270,7 +257,7 @@ int SocketClass::SetAsClient(const char * str) {
     return 1;
 }
 
-void SocketClass::createTCPSocket() {
+void Socket::createTCPSocket() {
     int arg = 1;
     if ((socketDescriptor_ = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
             qDebug() << "createTCPSocket(): Cannot Create Socket";
@@ -287,7 +274,7 @@ void SocketClass::createTCPSocket() {
     return;
 }
 
-void SocketClass::createUDPSocket() {
+void Socket::createUDPSocket() {
     int arg = 1;
     if ((socketDescriptor_ = socket(AF_INET, SOCK_DGRAM, 0)) == -1) {
         qDebug() << "createUDPSocket(): Cannot Create Socket!";
@@ -298,7 +285,7 @@ void SocketClass::createUDPSocket() {
     }
 }
 
-int SocketClass::tx(MessageStruct * mesg, int length) {
+int Socket::tx(MessageStruct * mesg, int length) {
     int temp;
     switch (socketType_) {
     case TCP:
@@ -316,11 +303,11 @@ int SocketClass::tx(MessageStruct * mesg, int length) {
     }
 }
 
-int SocketClass::tx(MessageStruct * mesg) {
+int Socket::tx(MessageStruct * mesg) {
     return tx(mesg, sizeof(MessageStruct));
 }
 
-int SocketClass::tx(MessageStruct * mesg, int length, int socketDescriptor) {
+int Socket::tx(MessageStruct * mesg, int length, int socketDescriptor) {
     int temp;
     switch (socketType_) {
     case TCP:
@@ -339,7 +326,7 @@ int SocketClass::tx(MessageStruct * mesg, int length, int socketDescriptor) {
     }
 }
 
-int SocketClass::rx(MessageStruct * mesg) {
+int Socket::rx(MessageStruct * mesg) {
     int n = 0;
     int bytesToRead = buflen_;
     int length = sizeof(server_);
@@ -382,12 +369,12 @@ int SocketClass::rx(MessageStruct * mesg) {
     return n;
 }
 
-void SocketClass::closeSocket() {
+void Socket::closeSocket() {
     qDebug() << "Closing socket";
     qDebug() << QString::number(closesocket(socketDescriptor_)).toLatin1().data();
 }
 
-void SocketClass::writeToLog(QFile *log, QString logMesg) {
+void Socket::writeToLog(QFile *log, QString logMesg) {
     log->open(QIODevice::Append);
     log->write(logMesg.toLatin1().data());
     log->close();

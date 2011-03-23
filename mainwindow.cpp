@@ -111,9 +111,14 @@ void MainWindow::appConnect() {
         setWindowTitle("Kidnapster - Client");
         settings_->ipAddr = ui->serverAddrBox->text();
         settings_->alias = ui->aliasBox->text();
+<<<<<<< HEAD
         settings_->logChat = ui->logChatBox->isChecked();
         qDebug(settings_->ipAddr.toLatin1().data());
         qDebug(settings_->alias.toLatin1().data());
+=======
+        qDebug() << settings_->ipAddr.toLatin1().data();
+        qDebug() << settings_->alias.toLatin1().data();
+>>>>>>> a691663b8d9b7d2e656e276a84be90de64b9e0f4
     } else {
         ui->statusText->setText("Server");
         setWindowTitle("Kidnapster - Server");
@@ -121,7 +126,7 @@ void MainWindow::appConnect() {
     }
 
     settings_->port = ui->portBox->text().toInt();
-    qDebug(QString::number(settings_->port).toLatin1().data());
+    qDebug() << QString::number(settings_->port).toLatin1().data();
 
     connected(true);
 }
