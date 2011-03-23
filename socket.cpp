@@ -31,21 +31,21 @@ Socket::Socket(int type, int port) {
     }
 }
 
-int Socket::SetAsServer() {
+void Socket::SetAsServer() {
     if (SetupSocket(0) != 1) {
         qDebug() << "SetAsServer(): SetupSocket";
-        return -1;
+        return;
     }
 
     if (socketType_ == UDP) {
         UDPServer();
-        return 1;
+        return;
     }
     if (socketType_ == TCP) {
         TCPServer();
-        return 1;
+        return;
     }
-    return -1;
+    return;
 }
 
 int Socket::TCPServer() {
@@ -127,7 +127,7 @@ int Socket::TCPServer() {
                     bytesToRead -= n;
                 }
 
-                //emit data to server probably have to copy this info for use in another thread
+                createMessage(tempMesg, recieveSocketDescriptor); //sends pckt to rest of program
                 qDebug() << mesg->ipAddr;
                 qDebug() << mesg->data;
                 qDebug() << QString::number(recieveSocketDescriptor).toLatin1().data();
@@ -152,11 +152,10 @@ int Socket::TCPServer() {
 }
 
 int Socket::UDPServer() {
-    //Packet p = new Packet();
     //need some sort of bind or accept i forget which
     while (true) {
         //if (rx(mesg) != -1) {
-        //    emit signalPacketRecieved(p);
+        //    createMessage(buffer, ipAddr);
         //}
 
     }
@@ -184,16 +183,16 @@ int Socket::SetupSocket(const char * str) {
     return 1;
 }
 
-int Socket::SetAsClient(const char * str) {
+void Socket::SetAsClient(const char * str) {
     if (SetupSocket(str) == -1) {
-        return -1;
+        return;
     }
     switch(socketType_) {
     case UDP:
         if (bind(socketDescriptor_, (struct sockaddr *)&client_ ,
                  sizeof(client_)) == -1) {
             qDebug() << "SetAsClient(): failure to bind to port";
-            return -1;
+            return;
         }
         break;
     case TCP:
@@ -206,7 +205,7 @@ int Socket::SetAsClient(const char * str) {
         break;
     }
 
-    return 1;
+    return;
 }
 
 void Socket::createTCPSocket() {
@@ -224,9 +223,11 @@ void Socket::createTCPSocket() {
 
 void Socket::createUDPSocket() {
     int arg = 1;
+
     if ((socketDescriptor_ = socket(AF_INET, SOCK_DGRAM, 0)) == -1) {
-        qDebug() << "createUDPSocket(): Cannot Create Socket!";
+        qDebug() << "createUDPSocket(): Cannot Create Socket!" ;
     }
+
     if (setsockopt (socketDescriptor_, SOL_SOCKET, SO_REUSEADDR, (const char *)&arg,
                     sizeof(arg)) == -1) {
         qDebug() << "createUDPSocket(): setsockopt";
@@ -278,6 +279,11 @@ int Socket::tx(Packet * pckt, int SocketID) {
 
 int tx(Packet *pckt, char ipAddr[16]) {
     //this is for udp transmissions and it is deffinetly not done
+    return temp;
+}
+
+int Socket::tx(Packet *pckt, char *ipAddr) {
+    //this is for udp transmissions
     return 0;
 }
 
@@ -324,3 +330,13 @@ void Socket::closeSocket() {
     qDebug() << "Closing socket";
     qDebug() << QString::number(closesocket(socketDescriptor_)).toLatin1().data();
 }
+
+void Socket::createMessage(void * buffer, char * ipAddr) {
+    Message * msg = new Message();  //may want to add constructors to Message struct
+    emit Socket::signalPacketRecieved(msg);
+}
+
+void Socket::createMessage(void * buffer, int socketID) {
+
+}
+

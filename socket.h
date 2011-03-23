@@ -34,7 +34,7 @@
 *
 * This is a multicast socket that uses select for efficiency and performance.
 */
-
+//THIS NEEDS TO BE REMOVED using message and packet which are declared in packet.h
 struct MessageStruct {
     int mesgType; //0 text, 1 voice, 2 stream, 3 file
     char ipAddr[16];
@@ -54,27 +54,7 @@ public:
     * port - the port in which the socket will be bound to
     */
     Socket(int type, int port);
-    /**
-    * This method will create a socket that will be used by the client. This
-    * method will only be called if the user specified the application to be
-    * client.
-    *
-    * @author Warren Voelkl
-    * @arg str - the type of protocol to be used (TCP or UDP)
-    * @return 0 - if no error occurs
-    * -1 - if an error occurs
-    */
-    int SetAsClient(const char *str);
-    /**
-    * This method will create a socket that will be used by the server. This
-    * method will only be called if the user specified the application to be
-    * server.
-    *
-    * @author Warren Voelkl
-    * @return 0 - if no error occurs
-    * -1 - if an error occurs
-    */
-    int SetAsServer();
+
     /**
     * Call this method to send a Packet to the client.
     *
@@ -104,7 +84,7 @@ public:
     * @return 0 - if no error occurs
     * -1 - if an error occurs
     */
-    int tx(Packet *pckt, char ipAddr[16]);
+    int tx(Packet *pckt, char * ipAddr);
     /**
     * This is a blocked method and will only unblock if a message is received or
     * other socket operation is going on.
@@ -121,7 +101,41 @@ public:
     * @author Karl Castillo, Warren Voelkl
     */
     void closeSocket();
+public slots:
+    /**
+    * This method will create a socket that will be used by the client. This
+    * method will only be called if the user specified the application to be
+    * client.
+    *
+    * @author Warren Voelkl
+    * @arg str - the type of protocol to be used (TCP or UDP)
+    * @return 0 - if no error occurs
+    * -1 - if an error occurs
+    */
+    void SetAsClient(const char *str);
+    /**
+    * This method will create a socket that will be used by the server. This
+    * method will only be called if the user specified the application to be
+    * server.
+    *
+    * @author Warren Voelkl
+    * @return 0 - if no error occurs
+    * -1 - if an error occurs
+    */
+    void SetAsServer();
 private:
+    /**
+    * Create a TCP message and emit it
+    *
+    * @author Warren Voelkl
+    */
+    void createMessage(void * buffer, int socketID);
+    /**
+    * Create a UDP message and emit it
+    *
+    * @author Warren Voelkl
+    */
+    void createMessage(void * buffer, char * ipAddr);
     /**
     * Call this method to create a TCP socket drescriptor.
     *
@@ -208,7 +222,7 @@ private:
     char * createBuffer(Packet * pckt);
 
 signals:
-    void signalPacketRecieved(Packet * p);
+    void signalPacketRecieved(Message * msg);
     void signalSocketClosed(int socketID);
     /**
     * Emitted if a client connects to the server.

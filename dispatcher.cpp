@@ -5,42 +5,24 @@
 
 Dispatcher::Dispatcher(QObject *parent) :
     QObject(parent) {
+    compIterator_ = new ComponentIterator();
 }
 
-void Dispatcher::slotPacketRecieved(Packet * pckt) {
-    //pckt->componentID
-    /*
-    Packet *p = (Packet *) pckt;
-    if (p->packetType & AUDIOCOMPONENT) {
-        emit signalPacketToComponentAudio(pckt);
+void Dispatcher::startComponent(Message * msg) {
+    int id;
+    if ((id = compIterator_->createComponent(msg)) == -1) {
+        //failed connection stuff tx a close packet message
+        qDebug("Dispatcher::createComponent() max component limit hit");
+        return;
     }
-    if (p->packetType & VOICECOMPONENT) {
-        emit signalPacketToComponentVoice(pckt);
-    }
-    if (p->packetType & TEXTCOMPONENT) {
-        emit signalPacketToComponentText(pckt);
-    }
-    if (p->packetType & FILECOMPONENT) {
-        emit signalPacketToComponentFile(pckt);
-    }
-    */
 }
 
-void Dispatcher::startComponent(int type, int socketID) {
-    Component * pComponent;
-    switch (type) {
-    case AUDIOCOMPONENT:
-        pComponent = new ComponentAudio(socketID);
-        break;
-    case FILECOMPONENT:
-        pComponent = new ComponentFile(socketID);
-        break;
-    case TEXTCOMPONENT:
-        pComponent = new ComponentText(socketID);
-        break;
-    case VOICECOMPONENT:
-        pComponent = new ComponentVoice(socketID);
-        break;
+void Dispatcher::slotPacketRecieved(Message * msg) {
+    if (msg->payload->componentID > COMPONENTLIMIT) {
+        return startComponent(msg);
+    }
+    if (compIterator_->clientMessage(msg) == -1) {
+        qDebug("Dispatcher::slotPacketRecieved() component not found");
     }
 }
 

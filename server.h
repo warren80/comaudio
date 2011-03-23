@@ -16,9 +16,11 @@ private:
     Socket * TCPServer_;
     Dispatcher * dispatcher_;
 signals:
+    void signalServerStart();
 public slots:
     void slotTransmitMessage(Message * msg);
     //void slotMessageFromSocket(Packet * packet);
+
 };
 
 #endif // SERVER_H
