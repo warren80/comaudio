@@ -5,6 +5,7 @@
 
 #include <QMainWindow>
 #include "thread.h"
+#include "logs.h"
 
 typedef struct Settings {
     Settings():ipAddr(""), alias(""), port(0), isClient(false){}
@@ -30,6 +31,7 @@ private:
     Thread * dispatcherThread_;
     Ui::MainWindow *ui;
     PSETTINGS settings_;
+    Logs *chatLog_;
 
     void initDispatcher();
     /**

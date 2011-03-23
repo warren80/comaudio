@@ -90,16 +90,25 @@
     </property>
    </widget>
    <widget class="QTabWidget" name="tabWidget">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>320</x>
       <y>0</y>
       <width>351</width>
-      <height>391</height>
+      <height>221</height>
      </rect>
     </property>
     <property name="autoFillBackground">
      <bool>false</bool>
+    </property>
+    <property name="tabPosition">
+     <enum>QTabWidget::North</enum>
+    </property>
+    <property name="tabShape">
+     <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
      <number>0</number>
@@ -219,7 +228,7 @@
         <rect>
          <x>140</x>
          <y>20</y>
-         <width>81</width>
+         <width>101</width>
          <height>16</height>
         </rect>
        </property>
@@ -227,7 +236,7 @@
         <string notr="true">color: red;</string>
        </property>
        <property name="text">
-        <string>./logs/error_log</string>
+        <string>./logs/error_log.log</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_2">
@@ -235,7 +244,7 @@
         <rect>
          <x>140</x>
          <y>40</y>
-         <width>51</width>
+         <width>71</width>
          <height>16</height>
         </rect>
        </property>
@@ -243,7 +252,7 @@
         <string notr="true">color: red;</string>
        </property>
        <property name="text">
-        <string>./logs/log</string>
+        <string>./logs/log.log</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_3">
@@ -259,7 +268,7 @@
         <string notr="true">color: red;</string>
        </property>
        <property name="text">
-        <string>./logs/chat_log_(current date time)</string>
+        <string>./logs/chat_log_(datetime).log</string>
        </property>
       </widget>
      </widget>

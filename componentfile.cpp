@@ -36,7 +36,7 @@ void ComponentFile::setupFileTransfer(QString fileNamePath) {
     file->close();
 }
 
-void ComponentFile::saveFile(QList<char *> mesg) {
+void ComponentFile::saveFile(QList<char*> mesg) {
     QFile *file = new QFile("test.txt");
     QListIterator<char*> iterator(mesg);
 
@@ -46,7 +46,7 @@ void ComponentFile::saveFile(QList<char *> mesg) {
     }
 
     while(iterator.hasNext()) {
-        file->write(iterator.next(), 1024);
+        file->write(iterator.peekNext(), qstrlen(iterator.next()));
     }
 
     file->close();

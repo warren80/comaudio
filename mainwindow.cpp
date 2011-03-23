@@ -11,6 +11,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     QValidator *validPort = new QRegExpValidator(QRegExp("^\\d*$"), this);
     QValidator *validIp = new QRegExpValidator(QRegExp("^\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}$"), this);
+
     ui->setupUi(this);
 
     //Setting regex validation
@@ -76,6 +77,7 @@ void MainWindow::printF(const QString message) {
 //TODO: Create socket and connect
 void MainWindow::appConnect() {
     settings_ = new SETTINGS;
+    qDebug("Connecting...");
 
     if((settings_->isClient = ui->client->isChecked())) {
         setWindowTitle("Kidnapster - Client");
@@ -95,6 +97,7 @@ void MainWindow::appConnect() {
 
 //TODO: Close socket and delete socket/client/server objects
 void MainWindow::appDisconnect() {
+    qDebug("Disconnecting");
     setWindowTitle("Kidnapster - Disconnected");
     connected(false);
 }
