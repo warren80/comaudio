@@ -104,7 +104,7 @@ public:
     * @return 0 - if no error occurs
     * -1 - if an error occurs
     */
-    int tx(Packet *pckt, char ipAddr[16]);
+    int tx(Packet *pckt, char * ipAddr);
     /**
     * This is a blocked method and will only unblock if a message is received or
     * other socket operation is going on.

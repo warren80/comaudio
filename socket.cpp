@@ -318,10 +318,12 @@ int Socket::tx(Packet * pckt, int SocketID) {
         writeToLog(errorLog_, QString("\ntx(): send - Errno(" + QString::number(errno)
                                       + " ~ " + QTime::currentTime().toString() + ")"));
     }
+    return temp;
 }
 
-int tx(Packet *pckt, char ipAddr[16]) {
-    //this is for udp transmissions and it is deffinetly not done
+int Socket::tx(Packet *pckt, char *ipAddr) {
+    //this is for udp transmissions
+    return 0;
 }
 
 int Socket::rx(MessageStruct * mesg) {
