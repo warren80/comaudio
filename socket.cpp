@@ -42,17 +42,20 @@ SocketClass::SocketClass(int type, int port) {
 }
 
 int SocketClass::SetAsServer() {
-    if (socketType_ == UDP) {
-        qDebug("SetAsServer(): UDP server not created");
-        return -1;
-    }
     if (SetupSocket(0) != 1) {
         qDebug("SetAsServer(): SetupSocket");
         return -1;
     }
 
-    TCPServer();
-    return 1;
+    if (socketType_ == UDP) {
+        UDPServer();
+        return 1;
+    }
+    if (socketType_ == TCP) {
+        TCPServer();
+        return 1;
+    }
+    return -1;
 }
 
 int SocketClass::TCPServer() {
@@ -206,6 +209,7 @@ void SocketClass::writeToEveryoneElse(int maxi, int client[FD_SETSIZE], int reci
 
 int SocketClass::UDPServer() {
     MessageStruct * mesg = new MessageStruct;
+    //need some sort of bind or accept i forget which
     while (true) {
         if (rx(mesg) != -1) {
             emit signalDataRecieved(mesg);
@@ -337,7 +341,7 @@ int SocketClass::tx(MessageStruct * mesg, int length, int socketDescriptor) {
 int SocketClass::rx(MessageStruct * mesg) {
     int n = 0;
     int bytesToRead = buflen_;
-
+    int length = sizeof(server_);
     while((n != buflen_)) {
         switch (socketType_) {
         case TCP:
@@ -355,7 +359,7 @@ int SocketClass::rx(MessageStruct * mesg) {
             break;
         case UDP:
             //this line needs to be fixed
-            //n = recvfrom(socketDescriptor_, (char *) mesg, bytesToRead, 0, (struct sockaddr *) &server_, sizeof(server_));
+            n = recvfrom(socketDescriptor_, (char *) mesg, bytesToRead, 0, (struct sockaddr *) &server_, &length);
             qDebug(mesg->data);
             if (n == -1) {
                 qDebug ("Rx(): recv(): error");
