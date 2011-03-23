@@ -10,6 +10,12 @@
 #define TEXTCOMPONENT       0x08
 #define VOICECOMPONENT      0x10
 
+enum ConnectMode {
+    kUDP,       /**< UDP transfer mode. */
+    kTCP,       /**< TCP transfer mode. */
+    kMulticast, /**< MultiCast Transfer.*/
+};
+
 /**
 * PacketType is 8 bits
 * bit[0] 0 = udp, 1 = tcp ie packetType & 0x01
@@ -19,9 +25,15 @@
 * bit[4] voice
 */
 struct Packet {
-    unsigned char packetType;
-    unsigned char data [BUFSIZE - 1];
+    int length; //equal to size of componetID + data;
+    unsigned char componentID;
+    char * data;
 };
 
+struct Message {
+    ConnectMode type; //
+    int socketID;
+    Packet * payload;
+};
 
 #endif // PACKET_H

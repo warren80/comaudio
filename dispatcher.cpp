@@ -10,6 +10,7 @@ Dispatcher::Dispatcher(QObject *parent) :
 }
 
 void Dispatcher::slotPacketRecieved(void * pckt) {
+    /*
     Packet *p = (Packet *) pckt;
     if (p->packetType & AUDIOCOMPONENT) {
         emit signalPacketToComponentAudio(pckt);
@@ -23,6 +24,7 @@ void Dispatcher::slotPacketRecieved(void * pckt) {
     if (p->packetType & FILECOMPONENT) {
         emit signalPacketToComponentFile(pckt);
     }
+    */
 
 }
 
