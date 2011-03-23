@@ -8,7 +8,7 @@ class ComponentText : public Component
 {
     Q_OBJECT
 public:
-    ComponentText();
+    ComponentText(int socketID);
     /**
      * Call this function to send the message the user typed into the
      * chat input box.

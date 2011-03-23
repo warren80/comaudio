@@ -25,45 +25,23 @@ void Dispatcher::slotPacketRecieved(void * pckt) {
         emit signalPacketToComponentFile(pckt);
     }
     */
-
 }
 
-void Dispatcher::startComponent(int type) {
+void Dispatcher::startComponent(int type, int socketID) {
     Component * pComponent;
     Thread * t = new Thread();
-    t->start();
     switch (type) {
     case AUDIOCOMPONENT:
-        pComponent = new ComponentAudio();
-        connect(this,SIGNAL(signalStartComponentAudio()),pComponent, SLOT(slotStart()));
-        connect(this,SIGNAL(signalPacketToComponentAudio()),pComponent, SLOT(slotPacketReceived(void*)));
-        connect(pComponent, SIGNAL(signalTxPckt(void*)), this, SLOT(slotPacketToTransmit(void*)));
-        pComponent->moveToThread(t);
-        emit signalStartComponentAudio();
+        pComponent = new ComponentAudio(socketID);
         break;
     case FILECOMPONENT:
-        pComponent = new ComponentFile();
-        connect(this,SIGNAL(signalStartComponentFile()),pComponent, SLOT(slotStart()));
-        connect(this,SIGNAL(signalPacketToComponentFile()),pComponent, SLOT(slotPacketReceived(void*)));
-        connect(pComponent, SIGNAL(signalTxPckt(void*)), this, SLOT(slotPacketToTransmit(void*)));
-        pComponent->moveToThread(t);
-        emit signalStartComponentFile();
+        pComponent = new ComponentFile(socketID);
         break;
     case TEXTCOMPONENT:
-        pComponent = new ComponentText();
-        connect(this,SIGNAL(signalStartComponentText()),pComponent, SLOT(slotStart()));
-        connect(this,SIGNAL(signalPacketToComponenText()),pComponent, SLOT(slotPacketReceived(void*)));
-        connect(pComponent, SIGNAL(signalTxPckt(void*)), this, SLOT(slotPacketToTransmit(void*)));
-        pComponent->moveToThread(t);
-        emit signalStartComponentText();
+        pComponent = new ComponentText(socketID);
         break;
     case VOICECOMPONENT:
-        pComponent = new ComponentVoice();
-        connect(this,SIGNAL(signalStartComponentVoice()),pComponent, SLOT(slotStart()));
-        connect(this,SIGNAL(signalPacketToComponentVoice()),pComponent, SLOT(slotPacketReceived(void*)));
-        connect(pComponent, SIGNAL(signalTxPckt(void*)), this, SLOT(slotPacketToTransmit(void*)));
-        pComponent->moveToThread(t);
-        emit signalStartComponentVoice();
+        pComponent = new ComponentVoice(socketID);
         break;
     }
 }

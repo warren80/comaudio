@@ -36,26 +36,13 @@ class Dispatcher : public QObject
 {
     Q_OBJECT
 public:
-    explicit Dispatcher(QObject *parent = 0);
-    void startComponent(int type);
+    Dispatcher(QObject *parent = 0);
+    void startComponent(int type, int socketID);
     void stopComponent(int type);
 protected:
 private:
     SocketClass * pSocket;
 signals:
-    void signalStartComponentAudio();
-    void signalStopComponentAudio();
-    void signalStartComponentFile();
-    void signalStopComponentFile();
-    void signalStartComponentText();
-    void signalStopComponentText();
-    void signalStartComponentVoice();
-    void signalStopComponentVoice();
-
-    void signalPacketToComponentAudio(void *);
-    void signalPacketToComponentFile(void *);
-    void signalPacketToComponentText(void *);
-    void signalPacketToComponentVoice(void *);
 
 public slots:
     void slotPacketRecieved(void *);

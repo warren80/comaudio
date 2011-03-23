@@ -8,13 +8,14 @@ class Component : public QObject
 {
     Q_OBJECT
 public:
-    Component();
+    Component(int socketID);
 
 protected:
     int port_;
     Logs *errorLog_;
     Logs *chatLog_;
     Logs *activityLog_;
+    int socketID_;
 
 signals:
     emit void signalTxPckt(void *);

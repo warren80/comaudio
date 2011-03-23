@@ -3,7 +3,7 @@
 /**
  * CONSTRUCTOR
  */
-ComponentText::ComponentText() {
+ComponentText::ComponentText(int socketID) : Component(socketID) {
 
 }
 

@@ -8,7 +8,7 @@ class ComponentAudio : public Component
 {
     Q_OBJECT
 public:
-    ComponentAudio();
+    ComponentAudio(int socketID);
 public slots:
     virtual void slotStart();
 };
