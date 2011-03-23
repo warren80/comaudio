@@ -1,7 +1,7 @@
 #include "componentaudio.h"
 
-ComponentAudio::ComponentAudio()
-{
+ComponentAudio::ComponentAudio(int socketID) : Component(socketID) {
+
 }
 
 void ComponentAudio::slotStart() {

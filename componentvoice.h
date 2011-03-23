@@ -8,7 +8,7 @@ class ComponentVoice : public Component
 {
     Q_OBJECT
 public:
-    ComponentVoice();
+    ComponentVoice(int socketID);
 public slots:
     virtual void slotStart();
 };

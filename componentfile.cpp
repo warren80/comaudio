@@ -6,7 +6,7 @@
 /**
  * CONSTRUCTOR
  */
-ComponentFile::ComponentFile()
+ComponentFile::ComponentFile(int socketID) : Component(socketID)
 {
 }
 

@@ -8,7 +8,7 @@ class ComponentFile : public Component
 {
     Q_OBJECT
 public:
-    ComponentFile();
+    ComponentFile(int socketID);
 
 private:
     /**
