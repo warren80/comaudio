@@ -88,15 +88,15 @@ void MainWindow::appConnect() {
         setWindowTitle("Kidnapster - Client");
         settings_->ipAddr = ui->serverAddrBox->text();
         settings_->alias = ui->aliasBox->text();
-        qDebug(settings_->ipAddr.toLatin1().data());
-        qDebug(settings_->alias.toLatin1().data());
+        qDebug() << settings_->ipAddr.toLatin1().data();
+        qDebug() << settings_->alias.toLatin1().data();
     } else {
         setWindowTitle("Kidnapster - Server");
         //appServer_ = new Server(settings_->port);
     }
 
     settings_->port = ui->portBox->text().toInt();
-    qDebug(QString::number(settings_->port).toLatin1().data());
+    qDebug() << QString::number(settings_->port).toLatin1().data();
 
     connected(true);
 }

@@ -11,8 +11,8 @@ class Server : public QObject
 public:
     Server(int port);
 private:
-    SocketClass * UDPServer_;
-    SocketClass * TCPServer_;
+    Socket * UDPServer_;
+    Socket * TCPServer_;
     Dispatcher * dispatcher_;
 signals:
     void signalDispatcher(void *, int length);

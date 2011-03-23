@@ -41,7 +41,7 @@ public:
     void stopComponent(int type);
 protected:
 private:
-    SocketClass * pSocket;
+    Socket * pSocket;
 signals:
 
 public slots:

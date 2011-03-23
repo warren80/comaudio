@@ -6,7 +6,7 @@
 Dispatcher::Dispatcher(QObject *parent) :
     QObject(parent)
 {
-    pSocket = new SocketClass(0,0);
+    pSocket = new Socket(0,0);
 }
 
 void Dispatcher::slotPacketRecieved(void * pckt) {

@@ -7,13 +7,13 @@ Server::Server(int port) {
     Thread * TCPThread = new Thread;
     dispatcher_ = new Dispatcher();
     //do some connects
-    UDPServer_ = new SocketClass(UDP, port);
+    UDPServer_ = new Socket(UDP, port);
     //do some connects
     UDPServer_->moveToThread(UDPThread);
     UDPThread->start();
     UDPServer_->SetAsServer();
 
-    TCPServer_ = new SocketClass(TCP, port);
+    TCPServer_ = new Socket(TCP, port);
     //do some connects
     TCPServer_->moveToThread(TCPThread);
     TCPThread->start();

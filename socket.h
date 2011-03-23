@@ -42,7 +42,7 @@ struct MessageStruct {
     char data[BUFSIZE - IPADDRSIZE - ALIASSIZE];
 };
 
-class SocketClass : public QObject {
+class Socket : public QObject {
     Q_OBJECT
 public:
     /**
@@ -53,7 +53,7 @@ public:
     * @arg type - the type of service (client or server)
     * port - the port in which the socket will be bound to
     */
-    SocketClass(int type, int port);
+    Socket(int type, int port);
     /**
     * This method will create a socket that will be used by the client. This
     * method will only be called if the user specified the application to be
