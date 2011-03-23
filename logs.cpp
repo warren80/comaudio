@@ -3,8 +3,10 @@
 
 Logs::Logs(QString pathName, QString title):
         log_(pathName)
-{
-    log_.open(QIODevice::WriteOnly);
+{   
+    if(!log_.open(QIODevice::WriteOnly)) {
+        qDebug("Cannot open log");
+    }
     log_.write(title.toLatin1());
     log_.close();
 }

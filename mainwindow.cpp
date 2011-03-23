@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QFileDialog>
+#include <QFileSystemModel>
+#include <QObjectList>
 
 /**
  * CONSTRUCTOR
@@ -24,6 +26,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->browseButton, SIGNAL(pressed()), this, SLOT(browseFile()));
     connect(ui->sendFileButton, SIGNAL(pressed()), this, SLOT(sendFile()));
     connect(ui->sendButton, SIGNAL(pressed()), this, SLOT(sendText()));
+    connect(ui->downloadSongButton, SIGNAL(pressed()), this, SLOT(downloadSong()));
+    connect(ui->downloadCurrentSongButton, SIGNAL(pressed()), this, SLOT(downloadCurrentSong()));
+    connect(ui->refreshServerFilesButton, SIGNAL(pressed()), this, SLOT(refreshFiles()));
 
     initDispatcher();
 }
@@ -74,7 +79,7 @@ void MainWindow::printF(const QString message) {
 /**
  * SLOTS
  */
-//TODO: Create socket and connect
+//TODO: Connect
 void MainWindow::appConnect() {
     settings_ = new SETTINGS;
     qDebug("Connecting...");
@@ -87,6 +92,7 @@ void MainWindow::appConnect() {
         qDebug(settings_->alias.toLatin1().data());
     } else {
         setWindowTitle("Kidnapster - Server");
+        //appServer_ = new Server(settings_->port);
     }
 
     settings_->port = ui->portBox->text().toInt();
@@ -116,6 +122,38 @@ void MainWindow::sendFile() {
 void MainWindow::sendText() {
     QString message = ui->typeScreen->toPlainText();
 
+    ui->typeScreen->clear();
+    printF(settings_->alias + ":\n" + message);
 }
 
+/*
+ * TODO:
+ *  1. Send request
+ */
+void MainWindow::downloadSong() {
+    QString songName = ui->serverFilesView->currentItem()->text();
+
+}
+
+/*
+ * TODO:
+ *  1. Send Request
+ */
+void MainWindow::downloadCurrentSong() {
+    QString songName = ui->currentSongText->text();
+
+}
+
+/*
+ * TODO:
+ *  1. Send request to update files
+ *  2. Update list widget
+ */
+void MainWindow::refreshFiles() {
+    QDir dir(QDir::homePath());
+    QStringList files = dir.entryList(QStringList("*.*"));
+
+    ui->serverFilesView->clear();
+    ui->serverFilesView->addItems(files);
+}
 

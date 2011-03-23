@@ -6,6 +6,7 @@
 #include <QMainWindow>
 #include "thread.h"
 #include "logs.h"
+#include "server.h"
 
 typedef struct Settings {
     Settings():ipAddr(""), alias(""), port(0), isClient(false){}
@@ -32,6 +33,7 @@ private:
     Ui::MainWindow *ui;
     PSETTINGS settings_;
     Logs *chatLog_;
+    Server *appServer_;
 
     void initDispatcher();
     /**
@@ -44,8 +46,15 @@ private:
      */
     void connected(bool connected);
     /**
+     * Call this function to get the list of available music files in the server and show them
+     * in the file list view.
+     *
+     * @author Karl Castillo
+     */
+    void getFileList();
+    /**
      * A wrapper function that should be called to print a message on to the chat screen.
-     * This function has 2 versions:
+     * This method has 2 versions:
      *  - printF(const char *message);
      *  - printF(const QString message);
      *
@@ -91,6 +100,24 @@ private slots:
      * @author Karl Castillo
      */
     void sendText();
+    /**
+     * Call this function to download a selected song.
+     *
+     * @author Karl Castillo
+     */
+    void downloadSong();
+    /**
+     * Call this function to download the current song that is playing.
+     *
+     * @author Karl Castillo
+     */
+    void downloadCurrentSong();
+    /**
+     * Call this function to refresh the server files list.
+     *
+     * @author Karl Castillo
+     */
+    void refreshFiles();
 
 signals:
 };

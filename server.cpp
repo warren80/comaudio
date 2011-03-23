@@ -1,3 +1,4 @@
+
 #include "server.h"
 #include "thread.h"
 
@@ -17,7 +18,6 @@ Server::Server(int port) {
     TCPServer_->moveToThread(TCPThread);
     TCPThread->start();
     TCPServer_->SetAsServer();
-
 
 }
 
