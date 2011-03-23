@@ -34,7 +34,7 @@
 *
 * This is a multicast socket that uses select for efficiency and performance.
 */
-
+//THIS NEEDS TO BE REMOVED using message and packet which are declared in packet.h
 struct MessageStruct {
     int mesgType; //0 text, 1 voice, 2 stream, 3 file
     char ipAddr[16];
@@ -124,6 +124,18 @@ public slots:
     */
     void SetAsServer();
 private:
+    /**
+    * Create a TCP message and emit it
+    *
+    * @author Warren Voelkl
+    */
+    void createMessage(void * buffer, int socketID);
+    /**
+    * Create a UDP message and emit it
+    *
+    * @author Warren Voelkl
+    */
+    void createMessage(void * buffer, char * ipAddr);
     /**
     * Call this method to create a TCP socket drescriptor.
     *
@@ -219,7 +231,7 @@ private:
     char * createBuffer(Packet * pckt);
 
 signals:
-    void signalPacketRecieved(Packet * p);
+    void signalPacketRecieved(Message * msg);
     void signalSocketClosed(int socketID);
     /**
     * Emitted if a client connects to the server.

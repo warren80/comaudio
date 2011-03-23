@@ -12,10 +12,10 @@ Server::Server(int port) {
     UDPServer_ = new Socket(UDP, port);
     TCPServer_ = new Socket(TCP, port);
 
-    connect(UDPServer_,SIGNAL(signalPacketRecieved(Packet *)),
-            dispatcher_,SLOT(slotPacketRecieved(Packet *)));
-    connect(TCPServer_, SIGNAL(signalPacketRecieved(Packet *)),
-            dispatcher_,SLOT(slotPacketRecieved(Packet *)));
+    connect(UDPServer_,SIGNAL(signalPacketRecieved(Message *)),
+            dispatcher_,SLOT(slotPacketRecieved(Message *)));
+    connect(TCPServer_, SIGNAL(signalPacketRecieved(Message *)),
+            dispatcher_,SLOT(slotPacketRecieved(Message *)));
     connect(TCPServer_, SIGNAL(signalSocketClosed(int)),
             dispatcher_, SLOT(slotSocketClosed(int)));
     connect(dispatcher_, SIGNAL(signalTxPckt(Message*)),

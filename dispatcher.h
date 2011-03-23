@@ -33,16 +33,16 @@ class Dispatcher : public QObject
     Q_OBJECT
 public:
     Dispatcher(QObject *parent = 0);
-    void startComponent(int type, int socketID);
+    void startComponent(Message * msg);
     void stopComponent(int type);
 
 protected:
 private:
-    ComponentIterator compIterator_;
+    ComponentIterator * compIterator_;
 signals:
     void signalTxPckt(Message * msg);
 public slots:
-    void slotPacketRecieved(Packet * msg);
+    void slotPacketRecieved(Message * msg);
     void slotPacketToTransmit(Message * msg);
     void slotSocketClosed(int socketID);
 

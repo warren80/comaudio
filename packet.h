@@ -7,6 +7,7 @@
 #define FILECOMPONENT       253
 #define TEXTCOMPONENT       254
 #define VOICECOMPONENT      255
+#define COMPONENTLIMIT      251
 
 enum ConnectMode {
     kUDP,       /**< UDP transfer mode. */

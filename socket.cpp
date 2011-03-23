@@ -159,7 +159,7 @@ int Socket::TCPServer() {
                     bytesToRead -= n;
                 }
 
-                //emit data to server probably have to copy this info for use in another thread
+                createMessage(tempMesg, recieveSocketDescriptor); //sends pckt to rest of program
                 qDebug() << mesg->ipAddr;
                 qDebug() << mesg->data;
                 qDebug() << QString::number(recieveSocketDescriptor).toLatin1().data();
@@ -188,11 +188,10 @@ int Socket::TCPServer() {
 }
 
 int Socket::UDPServer() {
-    //Packet p = new Packet();
     //need some sort of bind or accept i forget which
     while (true) {
         //if (rx(mesg) != -1) {
-        //    emit signalPacketRecieved(p);
+        //    createMessage(buffer, ipAddr);
         //}
 
     }
@@ -380,4 +379,13 @@ void Socket::writeToLog(QFile *log, QString logMesg) {
     log->open(QIODevice::Append);
     log->write(logMesg.toLatin1().data());
     log->close();
+}
+
+void Socket::createMessage(void * buffer, char * ipAddr) {
+    Message * msg = new Message();  //may want to add constructors to Message struct
+    emit Socket::signalPacketRecieved(msg);
+}
+
+void Socket::createMessage(void * buffer, int socketID) {
+
 }

@@ -35,6 +35,13 @@ public:
      *          or 0 - 251 for the new component ID
      */
     int reserveID();
+    /**
+     * gives client information recieved from socket to the
+     * component.
+     *
+     * @returns -1 if component does not exist;
+     */
+    int clientMessage(Message * msg);
 
 signals:
 
