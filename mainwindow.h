@@ -55,6 +55,10 @@ private:
      * The microphone object that will recordthe user's voice.
      */
     Microphone *mic_;
+    /**
+     * The thread that will hold the microphone process.
+     */
+    Thread *micThread_;
 
     void initDispatcher();
     /**
@@ -163,6 +167,13 @@ private slots:
      * @author Karl Castillo
      */
     void nextSong();
+    /**
+     * Call this function to send the voice recordings to the server.
+     *
+     * @author Karl Castillo
+     * @arg mesg - the voice chat message that will be sent.
+     */
+    void sendVoice(const char *mesg);
 
 signals:
 };
