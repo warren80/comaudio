@@ -1,20 +1,15 @@
 #ifndef SERVER_H
 #define SERVER_H
 
-#include <QObject>
 #include "socket.h"
 #include "dispatcher.h"
-#include "logs.h"
 
-class Server : public QObject
+class Server
 {
-    Q_OBJECT
 public:
     Server(int port);
 private:
-    Socket * UDPServer_;
-    Socket * TCPServer_;
-    Dispatcher * dispatcher_;
+    Socket socket_; /**< The socket information for the server. */
 signals:
     void signalServerStart();
 public slots:

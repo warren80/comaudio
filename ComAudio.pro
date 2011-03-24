@@ -30,7 +30,7 @@ SOURCES += main.cpp\
         logs.cpp \
         server.cpp \
         componentiterator.cpp \
-    microphone.cpp
+        microphone.cpp
 
 HEADERS  += mainwindow.h \
         socket.h \
@@ -47,7 +47,7 @@ HEADERS  += mainwindow.h \
         logs.h \
         server.h \
         componentiterator.h \
-    microphone.h
+        microphone.h
 
 FORMS    += mainwindow.ui \
 
