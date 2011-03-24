@@ -200,7 +200,7 @@ void Socket::SetAsClient(const char * str) {
                       sizeof(server_)) == -1) {
             qDebug() << "SetAsClient(): failure to connect to port";
             qDebug() << QString::number(errno).toLatin1().data();
-            return -1;
+            return;
         }
         break;
     }
@@ -279,7 +279,7 @@ int Socket::tx(Packet * pckt, int SocketID) {
 
 int tx(Packet *pckt, char ipAddr[16]) {
     //this is for udp transmissions and it is deffinetly not done
-    return temp;
+    return 0;
 }
 
 int Socket::tx(Packet *pckt, char *ipAddr) {
