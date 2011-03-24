@@ -4,9 +4,9 @@ Microphone::Microphone() {
     QAudioDeviceInfo info = QAudioDeviceInfo::defaultInputDevice();
 
     format_ =  new QAudioFormat();
-    format_->setFrequency(8000);
+    format_->setFrequency(32000);
     format_->setChannels(1);
-    format_->setSampleSize(8);
+    format_->setSampleSize(32);
     format_->setCodec("audio/pcm");
     format_->setByteOrder(QAudioFormat::LittleEndian);
     format_->setSampleType(QAudioFormat::UnSignedInt);
@@ -20,34 +20,62 @@ Microphone::Microphone() {
     mic_ = new QAudioInput(*format_);
     echo_ = new QAudioOutput(*format_);
     recordFile_ = new QBuffer();
+    echoFile_ = new QBuffer();
 
     connect(mic_, SIGNAL(notify()), this, SLOT(status()));
     connect(mic_, SIGNAL(stateChanged(QAudio::State)), this, SLOT(stateInput(QAudio::State)));
-    connect(echo_, SIGNAL(stateChanged(QAudio::State)), this, SLOT(stateOutput(QAudio::State)));
 }
 
 Microphone::~Microphone() {
 }
 
 void Microphone::startRecording() {
-    recordFile_->open(QIODevice::WriteOnly|QIODevice::Append);
+    recordFile_->open(QIODevice::ReadWrite);
+    //echoFile_->open(QIODevice::ReadWrite);
     mic_->start(recordFile_);
-    mic_->setNotifyInterval(100);
+    //echo_->start(echoFile_);
+    input_ = recordFile_;
+    //output_ = echoFile_;
+
+    connect(input_, SIGNAL(bytesWritten(qint64)), this, SLOT(dataWritten(qint64)));
+    connect(input_, SIGNAL(readyRead()), this, SLOT(readData()));
 }
 
 void Microphone::stopRecording() {
     mic_->stop();
-    echo_->stop();
+    recordFile_->close();
+    recordFile_->open(QIODevice::ReadOnly);
+    echo_->start(recordFile_);
+    //echo_->stop();
+    //recordFile_->close();
+    //echoFile_->close();
 }
 
 /**
  * SLOTS
  */
-void Microphone::status() {
-    QBuffer *temp = new QBuffer(recordFile_);
-    qDebug() << temp->read(1024).data();
+void Microphone::readData() {
+    qint64 size = input_->size();
 
-    emit sendVoice(temp->read(1024).data());
+    //qDebug() << "Ready: " << QString::number(size);
+
+    if(size <= 0) {
+        qDebug() << "Returning";
+        return;
+    }
+
+    input_->seek(0);
+    ba_ = input_->readAll();
+
+    //qDebug() << "[1] ba size: " << QString::number(ba_.size());
+}
+
+void Microphone::dataWritten(qint64 x) {
+    qDebug() << "Written: " << QString::number(x);
+}
+
+void Microphone::status() {
+
 }
 
 void Microphone::stateInput(QAudio::State state) {
@@ -63,23 +91,6 @@ void Microphone::stateInput(QAudio::State state) {
         break;
     case 3:
         qDebug() << "Input - Idle State";
-        break;
-    }
-}
-
-void Microphone::stateOutput(QAudio::State state) {
-    switch(state) {
-    case 0:
-        qDebug() << "Output - Active State";
-        break;
-    case 1:
-        qDebug() << "Output - Suspend State";
-        break;
-    case 2:
-        qDebug() << "Output - Stopped State";
-        break;
-    case 3:
-        qDebug() << "Output - Idle State";
         break;
     }
 }

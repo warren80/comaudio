@@ -16,6 +16,10 @@ public:
 
 private:
     QBuffer *recordFile_;
+    QBuffer *echoFile_;
+    QByteArray ba_;
+    QIODevice *input_;
+    QIODevice *output_;
     QAudioInput *mic_;
     QAudioOutput *echo_;
     QTimer *recordTimer_;
@@ -26,7 +30,8 @@ public slots:
 private slots:
     void status();
     void stateInput(QAudio::State state);
-    void stateOutput(QAudio::State state);
+    void readData();
+    void dataWritten(qint64 x);
 
 signals:
     void sendVoice(const char *mesg);
