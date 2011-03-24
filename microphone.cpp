@@ -1,83 +1,85 @@
 #include "microphone.h"
 
 Microphone::Microphone() {
-    QAudioFormat format;
     QAudioDeviceInfo info = QAudioDeviceInfo::defaultInputDevice();
 
-    format.setFrequency(8000);
-    format.setChannels(1);
-    format.setSampleSize(8);
-    format.setCodec("audio/pcm");
-    format.setByteOrder(QAudioFormat::LittleEndian);
-    format.setSampleType(QAudioFormat::UnSignedInt);
+    format_ =  new QAudioFormat();
+    format_->setFrequency(8000);
+    format_->setChannels(1);
+    format_->setSampleSize(8);
+    format_->setCodec("audio/pcm");
+    format_->setByteOrder(QAudioFormat::LittleEndian);
+    format_->setSampleType(QAudioFormat::UnSignedInt);
 
-    if(!info.isFormatSupported(format)) {
+    if(!info.isFormatSupported(*format_)) {
         qDebug() << "Not acceptable format";
-        format = info.nearestFormat(format);
+        *format_ = info.nearestFormat(*format_);
         return;
     }
 
-    recordFile_ = new QFile("recording.raw");
-    mic_ = new QAudioInput(format);
-
-    recordFile_->open(QIODevice::WriteOnly);
-    recordFile_->write("");
-    recordFile_->close();
+    mic_ = new QAudioInput(*format_);
+    echo_ = new QAudioOutput(*format_);
+    recordFile_ = new QBuffer();
 
     connect(mic_, SIGNAL(notify()), this, SLOT(status()));
-    connect(mic_, SIGNAL(stateChanged(QAudio::State)), this, SLOT(state(QAudio::State)));
+    connect(mic_, SIGNAL(stateChanged(QAudio::State)), this, SLOT(stateInput(QAudio::State)));
+    connect(echo_, SIGNAL(stateChanged(QAudio::State)), this, SLOT(stateOutput(QAudio::State)));
 }
 
 Microphone::~Microphone() {
-
 }
 
 void Microphone::startRecording() {
     recordFile_->open(QIODevice::WriteOnly|QIODevice::Append);
-    mic_->setNotifyInterval(1000);
     mic_->start(recordFile_);
+    mic_->setNotifyInterval(100);
 }
 
 void Microphone::stopRecording() {
     mic_->stop();
-    recordFile_->close();
-
-    /*
-    QAudioFormat format;
-
-    format.setFrequency(8000);
-    format.setChannels(1);
-    format.setSampleSize(8);
-    format.setCodec("audio/pcm");
-    format.setByteOrder(QAudioFormat::LittleEndian);
-    format.setSampleType(QAudioFormat::UnSignedInt);
-
-    QAudioOutput *echo_ = new QAudioOutput(format);
-    recordFile_->open(QIODevice::ReadOnly);
-    echo_->start(recordFile_);
-    */
+    echo_->stop();
 }
 
 /**
  * SLOTS
  */
 void Microphone::status() {
+    QBuffer *temp = new QBuffer(recordFile_);
+    qDebug() << temp->read(1024).data();
 
+    emit sendVoice(temp->read(1024).data());
 }
 
-void Microphone::state(QAudio::State state) {
+void Microphone::stateInput(QAudio::State state) {
     switch(state) {
     case 0:
-        qDebug() << "Active State";
+        qDebug() << "Input - Active State";
         break;
     case 1:
-        qDebug() << "Suspend State";
+        qDebug() << "Input - Suspend State";
         break;
     case 2:
-        qDebug() << "Stopped State";
+        qDebug() << "Input - Stopped State";
         break;
     case 3:
-        qDebug() << "Idle State";
+        qDebug() << "Input - Idle State";
+        break;
+    }
+}
+
+void Microphone::stateOutput(QAudio::State state) {
+    switch(state) {
+    case 0:
+        qDebug() << "Output - Active State";
+        break;
+    case 1:
+        qDebug() << "Output - Suspend State";
+        break;
+    case 2:
+        qDebug() << "Output - Stopped State";
+        break;
+    case 3:
+        qDebug() << "Output - Idle State";
         break;
     }
 }

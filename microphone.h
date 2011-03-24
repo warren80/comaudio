@@ -15,14 +15,21 @@ public:
     void stopRecording();
 
 private:
-    QFile *recordFile_;
+    QBuffer *recordFile_;
     QAudioInput *mic_;
+    QAudioOutput *echo_;
+    QTimer *recordTimer_;
+    QAudioFormat *format_;
 
 public slots:
 
 private slots:
     void status();
-    void state(QAudio::State state);
+    void stateInput(QAudio::State state);
+    void stateOutput(QAudio::State state);
+
+signals:
+    void sendVoice(const char *mesg);
 };
 
 #endif // MICROPHONE_H

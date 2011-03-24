@@ -82,7 +82,7 @@ void MainWindow::connected(bool connected) {
     if(!connected) {
         if(settings_->isClient) {
             mic_->stopRecording();
-            delete mic_;
+            mic_->deleteLater();
             delete player_;
         }
         delete settings_;
@@ -114,6 +114,10 @@ void MainWindow::appConnect() {
     if((settings_->isClient = ui->client->isChecked())) {
         player_ = new AudioPlayer();
         mic_ = new Microphone();
+        micThread_ = new Thread();
+
+        micThread_->start();
+        mic_->moveToThread(micThread_);
 
         mic_->startRecording();
         ui->statusText->setText("Client");
@@ -123,6 +127,8 @@ void MainWindow::appConnect() {
         settings_->logChat = ui->logChatBox->isChecked();
         qDebug() << settings_->ipAddr.toLatin1().data();
         qDebug() << settings_->alias.toLatin1().data();
+
+        connect(mic_, SIGNAL(sendVoice(const char*)), this, SLOT(sendVoice(const char*)));
     } else {
         ui->statusText->setText("Server");
         setWindowTitle("Kidnapster - Server");
@@ -144,6 +150,7 @@ void MainWindow::appDisconnect() {
                             QDateTime::currentDateTime().toString());
         chatLog_->writeToLog(ui->chatScreen->toPlainText());
     }
+    ui->chatScreen->clear();
     ui->serverFilesView->clear();
     setWindowTitle("Kidnapster - Disconnected");
     connected(false);
@@ -234,5 +241,12 @@ void MainWindow::pauseSong() {
 
 void MainWindow::nextSong() {
 
+}
+
+/**
+ * VOICE
+ */
+void MainWindow::sendVoice(const char *mesg) {
+    //transmit!!!
 }
 
