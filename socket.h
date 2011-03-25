@@ -1,21 +1,7 @@
 #ifndef SOCKET_H
 #define SOCKET_H
 
-#include <QString>
-
-#include <stdio.h>
-#include <QDebug>
-#include <QtGui>
-#include <QFile>
-
-#include "logs.h"
-#include "packet.h"
-
 #ifndef _WIN32
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netdb.h>
-#include <netinet/in.h>
 #include <arpa/inet.h>
 #endif
 
@@ -23,210 +9,115 @@
 #include <winsock2.h>
 #endif
 
-#define BUFSIZE 1024
-#define IPADDRSIZE 16
-#define ALIASSIZE 32
-#define LENGTHSIZE 4
-
 /**
-* A generic socket class where the socket will be created or destroyed. This is
-* also where messages are to be transmitted or received.
-*
-* This is a multicast socket that uses select for efficiency and performance.
-*/
-//THIS NEEDS TO BE REMOVED using message and packet which are declared in packet.h
-struct MessageStruct {
-    int mesgType; //0 text, 1 voice, 2 stream, 3 file
-    char ipAddr[16];
-    char alias[32];
-    char data[BUFSIZE - IPADDRSIZE - ALIASSIZE];
+  Which mode the socket operates in.
+  @author Nick Huber
+  */
+enum NetMode {
+    kTCP = SOCK_STREAM,   /**< UDP Socket. */
+    kUDP = SOCK_DGRAM,    /**< TCP Socket. */
 };
 
-class Socket : public QObject {
-    Q_OBJECT
+/**
+  Wrapper class for the standard function calls making use of sockets.
+
+  @author Nick Huber
+  */
+class Socket {
 public:
-    /**
-    * The socket class constructor where some variables are initialized. Some
-    * connections are also done here.
-    *
-    * @author Karl Castillo, Warren Voelkl
-    * @arg type - the type of service (client or server)
-    * port - the port in which the socket will be bound to
-    */
-    Socket(int type, int port);
 
     /**
-    * Call this method to send a Packet to the client.
-    *
-    * @author Warren Voelkl
-    * @arg pckt - the struct that will be transmitted
-    * @return 0 - if no error occurs
-    * -1 - if an error occurs
-    */
-    int tx(Packet *pckt);
+      Constructor for a Socket based on a connection mode.
+
+      @throws QString Unable to create a socket.
+      @param mode TCP or UDP socket.
+      @author Nick Huber
+      */
+    explicit Socket(NetMode mode);
+
     /**
-    * An overload of the tx method.
-    *
-    * @author Warren Voelkl
-    * @arg mesg - the struct that will be trasmitted
-    * length - the length of the struct to be transmitted
-    * @return 0 - if no error occurs
-    * -1 - if an error occurs
-    */
-    int tx(Packet *pckt, int socketID);
+      Constructor for a given socket desrictor and peer (sockaddr_in) information.
+
+      @param socket Socket descriptor.
+      @param mode Whether the socket is for TCP or UDP.
+      @param peer sockaddr_in for destination information.
+      @author Nick Huber
+      */
+    Socket(int socket, NetMode mode, sockaddr_in peer) : socket_(socket), mode_(mode), peer_(peer) {}
+
     /**
-    * An overload of the tx method.
-    *
-    * @author Karl Castillo
-    * @arg mesg - the struct that will be trasmitted
-    * length - the length of the struct to be transmitted
-    * socketDescriptor - the socket where the struct is to be transmitted
-    * @return 0 - if no error occurs
-    * -1 - if an error occurs
-    */
-    int tx(Packet *pckt, char * ipAddr);
+      Destructor for the socket. Calls shutdown and close on the file descriptor.
+      */
+    ~Socket();
+
     /**
-    * This is a blocked method and will only unblock if a message is received or
-    * other socket operation is going on.
-    *
-    * @author Karl Castillo, Warren Voelkl
-    * @arg mesg - the struct where the message received will be stored
-    * @return 0 - if no error occurs
-    * -1 - if an error occurs
-    */
-    int rx(MessageStruct *mesg);
+      Bind the socket to all incoming address
+
+      @throws QString Unable to bind a socket.
+      @param port Port to bind to in network byte ordering.
+      @author Nick Huber
+      */
+    void bind(int port);
+
     /**
-    * Call this method to close the socket descriptor.
-    *
-    * @author Karl Castillo, Warren Voelkl
-    */
-    void closeSocket();
-public slots:
+      Make socket willing to listen to new connections, with the specified
+      backlog.
+
+      @throws QString Unable to
+      @param backlog The number of connections to queue.
+      @author Nick Huber
+      */
+    void listen(int backlog);
+
     /**
-    * This method will create a socket that will be used by the client. This
-    * method will only be called if the user specified the application to be
-    * client.
-    *
-    * @author Warren Voelkl
-    * @arg str - the type of protocol to be used (TCP or UDP)
-    * @return 0 - if no error occurs
-    * -1 - if an error occurs
-    */
-    void SetAsClient(const char *str);
+      Read length bytes into buffer from the socket. Returns -1 if this Socket is
+      a UDP socket.
+
+      @param buffer Pre-allocated buffer of size length.
+      @param length Number of bytes to receive.
+      @return Number of bytes received.
+      @author Nick Huber
+      */
+    int receive(char* buffer, int length) const;
+
     /**
-    * This method will create a socket that will be used by the server. This
-    * method will only be called if the user specified the application to be
-    * server.
-    *
-    * @author Warren Voelkl
-    * @return 0 - if no error occurs
-    * -1 - if an error occurs
-    */
-    void SetAsServer();
+      Transmit length bytes from buffer to the socket. Will transfer data to the
+      peer this socket is associated with in the UDP scenario.
+
+      @param buffer Bytes to transmit.
+      @param length Number of bytes to transmit.
+      @return Number of bytes transmitted.
+      @author Nick Huber
+      */
+    int transmit(char* buffer, int length) const;
+
+    /**
+      Accept and create a new socket from the accepted connection.
+
+      @return New socket for the accepted connection.
+      @author Nick Huber
+      */
+    Socket accept() const;
+
+    /**
+      Connect to the address specified. Returns immediatly with -1 on UDP.
+
+      @param adddress IP address in network byte ordering.
+      @param port Port # of the server in network byte ordering.
+      */
+    bool connect(in_addr_t address, uint16_t port) const;
+
+    /**
+      Conversion operator for Socket, acts as a c-style socket descriptor.
+      @return The socket descriptor.
+      */
+    operator const int() const { return socket_; }
+
 private:
-    /**
-    * Create a TCP message and emit it
-    *
-    * @author Warren Voelkl
-    */
-    void createMessage(void * buffer, int socketID);
-    /**
-    * Create a UDP message and emit it
-    *
-    * @author Warren Voelkl
-    */
-    void createMessage(void * buffer, char * ipAddr);
-    /**
-    * Call this method to create a TCP socket drescriptor.
-    *
-    * @author Warren Voelkl
-    */
-    void createTCPSocket();
-    /**
-    * Call this method to create a UDP socket descriptor.
-    *
-    * @author Warren Voelkl
-    */
-    void createUDPSocket();
-    /**
-    * Call this method to start listening for clients as a TCP server. This will
-    * be a multicast server that makes use of select.
-    *
-    * @author Karl Castillo, Warren Voelkl
-    * @return 0 - if no error occurs
-    * -1 - if an error occurs
-    */
-    int TCPServer();
-    /**
-    * Not implemented.
-    */
-    int UDPServer();
-    /**
-    * Call this method to setup the socket descriptor.
-    *
-    * @author Warren Voelkl
-    * @arg str - determines whether the socket is for a server or for a client
-    * @return 0 - if no error occurs
-    * -1 - if an error occurs
-    */
-    int SetupSocket(const char *str);
-    /**
-    * This method is called to send the message received by the server to the
-    * other clients.
-    *
-    * @author Warren Voelkl
-    * @arg maxi - the max index of the client array
-    * client - the array of clients
-    * recieveSocketDescriptor - the socket descriptor of the client that
-    * sent the message
-    * mesg - the struct that is to be sent to the clients
-    */
-    void writeToEveryoneElse(int maxi, int client[FD_SETSIZE],
-             int recieveSocketDescriptor, MessageStruct * mesg);
-    /**
-    * The file descriptor of the server log.
-    */
-    QFile *log_;
-    /**
-    * The file descriptor of the error log.
-    */
-    QFile *errorLog_;
-    /**
-    * The length of the struct that will be sent.
-    */
-    int buflen_;
-    /**
-    * The type of socket (TCP or UDP).
-    */
-    int socketType_;
-    /**
-    * The port where the socket will be bound to.
-    */
-    int sPort_;
-    /**
-    * The sockaddrs for the client and server.
-    */
-    struct sockaddr_in client_, server_;
-    /**
-    * The length of the server sockaddr.
-    */
-    int serverLength_;
-    /**
-    * The socket descriptor of the application.
-    */
-    int socketDescriptor_;
+    int socket_;        /**< Socket file descriptor. */
+    NetMode mode_;      /**< Network mode this socket works in. */
+    sockaddr_in peer_;  /**< Information about the peer for this socket. */
 
-    /**
-     * Creates a buffer for transmission from a packet
-     */
-    char * createBuffer(Packet * pckt);
-
-signals:
-    void signalPacketRecieved(Message * msg);
-    void signalSocketClosed(int socketID);
-    /**
-    * Emitted if a client connects to the server.
-    */
 };
 
 #endif

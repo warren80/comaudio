@@ -9,11 +9,11 @@
 #define VOICECOMPONENT      255
 #define COMPONENTLIMIT      250
 
-enum ConnectMode {
-    kUDP,       /**< UDP transfer mode. */
-    kTCP,       /**< TCP transfer mode. */
-    kMulticast, /**< MultiCast Transfer.*/
-};
+//enum ConnectMode {
+//    kUDP,       /**< UDP transfer mode. */
+//    kTCP,       /**< TCP transfer mode. */
+//    kMulticast, /**< MultiCast Transfer.*/
+//};
 
 struct Packet {
     int length; //equal to size of componetID + data;
@@ -22,7 +22,7 @@ struct Packet {
 };
 
 struct Message {
-    ConnectMode type; //
+//    ConnectMode type; //
     int socketID;
     char idAddr[16];
     Packet * payload;
