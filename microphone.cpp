@@ -5,22 +5,23 @@
  */
 Microphone::Microphone() {
     QAudioDeviceInfo info = QAudioDeviceInfo::defaultInputDevice();
+    QAudioFormat *format =  new QAudioFormat();
 
-    format_ =  new QAudioFormat();
-    format_->setFrequency(32000);
-    format_->setChannels(1);
-    format_->setSampleSize(32);
-    format_->setCodec("audio/pcm");
-    format_->setByteOrder(QAudioFormat::LittleEndian);
-    format_->setSampleType(QAudioFormat::UnSignedInt);
+    //Setting audio format
+    format->setFrequency(32000);
+    format->setChannels(1);
+    format->setSampleSize(32);
+    format->setCodec("audio/pcm");
+    format->setByteOrder(QAudioFormat::LittleEndian);
+    format->setSampleType(QAudioFormat::UnSignedInt);
 
-    if(!info.isFormatSupported(*format_)) {
+    if(!info.isFormatSupported(*format)) {
         qDebug() << "Not acceptable format";
-        *format_ = info.nearestFormat(*format_);
+        *format = info.nearestFormat(*format);
         return;
     }
 
-    mic_ = new QAudioInput(*format_);
+    mic_ = new QAudioInput(*format);
     recordFile_ = new QBuffer();
 }
 

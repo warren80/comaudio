@@ -45,10 +45,6 @@ private:
      * The input device that will capture the raw data.
      */
     QAudioInput *mic_;
-    /**
-     * The audio format of the data that will be captured.
-     */
-    QAudioFormat *format_;
 
 public slots:
 
