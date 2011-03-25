@@ -55,9 +55,6 @@ void Microphone::readData() {
 
     input_->seek(0);
     ba_ = input_->read(size);
-    if(ba_.isEmpty()) {
-        qDebug() << "ba is empty";
-    }
 
     emit sendVoice(ba_.constData());
     ba_.clear();
