@@ -3,7 +3,7 @@
 
 #ifndef _WIN32
 #include <arpa/inet.h>
-#define CLOSESOCKEt close
+#define CLOSESOCKET close
 #endif
 
 #ifdef _WIN32
