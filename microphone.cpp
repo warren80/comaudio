@@ -1,5 +1,8 @@
 #include "microphone.h"
 
+/**
+ * CONSTRUCTOR
+ */
 Microphone::Microphone() {
     QAudioDeviceInfo info = QAudioDeviceInfo::defaultInputDevice();
 
@@ -18,22 +21,17 @@ Microphone::Microphone() {
     }
 
     mic_ = new QAudioInput(*format_);
-    echo_ = new QAudioOutput(*format_);
     recordFile_ = new QBuffer();
-
-    connect(mic_, SIGNAL(notify()), this, SLOT(status()));
-    connect(mic_, SIGNAL(stateChanged(QAudio::State)), this, SLOT(stateInput(QAudio::State)));
 }
 
-Microphone::~Microphone() {
-}
-
+/**
+ * HELPERS
+ */
 void Microphone::startRecording() {
     recordFile_->open(QIODevice::ReadWrite);
     mic_->start(recordFile_);
     input_ = recordFile_;
 
-    connect(input_, SIGNAL(bytesWritten(qint64)), this, SLOT(dataWritten(qint64)));
     connect(input_, SIGNAL(readyRead()), this, SLOT(readData()));
 }
 
@@ -51,10 +49,7 @@ void Microphone::stopRecording() {
 void Microphone::readData() {
     qint64 size = input_->size();
 
-    //qDebug() << "Ready: " << QString::number(size);
-
     if(size <= 0) {
-        qDebug() << "Returning";
         return;
     }
 
@@ -64,41 +59,6 @@ void Microphone::readData() {
         qDebug() << "ba is empty";
     }
 
-    /*
-    for(int i = 0; i < ba_.size(); i++) {
-        qDebug("%0X", ba_.at(i));
-    }
-    */
-
     emit sendVoice(ba_.constData());
-    qDebug() << ba_.constData();
     ba_.clear();
-
-    //qDebug() << "[1] ba.data size: " << QString::number(qstrlen(ba_->constData()));
-    //qDebug() << "[1] ba size: " << QString::number(ba_->size());
-}
-
-void Microphone::dataWritten(qint64 x) {
-    //qDebug() << "Written: " << QString::number(x);
-}
-
-void Microphone::status() {
-
-}
-
-void Microphone::stateInput(QAudio::State state) {
-    switch(state) {
-    case 0:
-        qDebug() << "Input - Active State";
-        break;
-    case 1:
-        qDebug() << "Input - Suspend State";
-        break;
-    case 2:
-        qDebug() << "Input - Stopped State";
-        break;
-    case 3:
-        qDebug() << "Input - Idle State";
-        break;
-    }
 }
