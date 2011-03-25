@@ -16,3 +16,10 @@ ComAudio.pro.user
 moc_*
 ui_*
 *.app
+bin/
+obj/
+docs/
+ui/
+moc/
+*.Debug
+*.Release
