@@ -27,7 +27,11 @@ public:
 
 protected:
     /**
-      Overwritten run method from QThread, select server runs from here
+      Overwritten run method from QThread, TCP select server runs from here.
+
+      @note Do not run this directly, call QThead::start() instead.
+
+      @author Nick Huber
       */
     void run();
 

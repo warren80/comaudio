@@ -40,6 +40,9 @@ void Socket::bind(int port) {
 }
 
 void Socket::listen(int backlog) {
+    if (mode_ != kTCP) {
+        return;
+    }
     if (::listen(socket_, backlog) == -1) {
         QString exception("error listening on server socket: ");
         exception.append(strerror(errno));
@@ -50,20 +53,32 @@ void Socket::listen(int backlog) {
 int Socket::receive(char* buffer, int length) const {
     int read = 0;
 
-    while ((read = recv(socket_, buffer, length, 0)) != -1) {
-       buffer += read;
-       length -= read;
+    if (mode_ == kTCP) {
+        while ((read = recv(socket_, buffer, length, 0)) != -1) {
+           buffer += read;
+           length -= read;
 
-       if (length == 0) {
-           break;
+           if (length == 0) {
+               break;
+           }
        }
-   }
+    } else if (mode_ == kUDP) {
+        read = recvfrom(socket_, buffer, length, 0, NULL, NULL);
+    }
+
 
    return read;
 }
 
 int Socket::transmit(char *buffer, int length) const {
-    return send(socket_, buffer, length, 0);
+    if (mode_ == kTCP) {
+        return send(socket_, buffer, length, 0);
+    } else if (mode_ == kUDP) {
+        return sendto(socket_, buffer, length, 0, (const sockaddr*) &peer_, sizeof(peer_));
+    } else {
+        return -1;
+    }
+
 }
 
 Socket Socket::accept() {

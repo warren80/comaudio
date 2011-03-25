@@ -27,7 +27,7 @@ class Socket {
 public:
 
     /**
-      Constructor for the Socket based on a connection mode.
+      Constructor for a Socket based on a connection mode.
 
       @throws QString Unable to create a socket.
       @param mode TCP or UDP socket.
@@ -36,14 +36,14 @@ public:
     explicit Socket(NetMode mode);
 
     /**
-      Constructor for a given socket desrictor and socaddr_in information.
+      Constructor for a given socket desrictor and peer (sockaddr_in) information.
 
       @param socket Socket descriptor.
       @param mode Whether the socket is for TCP or UDP.
-      @param info sockaddr_in information.
+      @param peer sockaddr_in for destination information.
       @author Nick Huber
       */
-    Socket(int socket, NetMode mode, sockaddr_in info) : socket_(socket), mode_(mode), information_(info) {}
+    Socket(int socket, NetMode mode, sockaddr_in peer) : socket_(socket), mode_(mode), peer_(peer) {}
 
     /**
       Destructor for the socket. Calls shutdown and close on the file descriptor.
@@ -54,7 +54,7 @@ public:
       Bind the socket to all incoming address
 
       @throws QString Unable to bind a socket.
-      @param port The port to bind to.
+      @param port Port to bind to.
       @author Nick Huber
       */
     void bind(int port);
@@ -70,20 +70,22 @@ public:
     void listen(int backlog);
 
     /**
-      Read length bytes into buffer from the socket.
+      Read length bytes into buffer from the socket. Returns -1 if this Socket is
+      a UDP socket.
 
-      @param buffer pre-allocated buffer of size length.
-      @param length number of bytes to receive.
+      @param buffer Pre-allocated buffer of size length.
+      @param length Number of bytes to receive.
       @return Number of bytes received.
       @author Nick Huber
       */
     int receive(char* buffer, int length) const;
 
     /**
-      Transmit length bytes from buffer to the socket.
+      Transmit length bytes from buffer to the socket. Will transfer data to the
+      peer this socket is associated with in the UDP scenario.
 
-      @param buffer bytes to transmit.
-      @param length number of bytes to transmit.
+      @param buffer Bytes to transmit.
+      @param length Number of bytes to transmit.
       @return Number of bytes transmitted.
       @author Nick Huber
       */
@@ -104,9 +106,9 @@ public:
     operator const int() const { return socket_; }
 
 private:
-    int socket_;
-    NetMode mode_;
-    sockaddr_in information_;
+    int socket_;        /**< Socket file descriptor. */
+    NetMode mode_;      /**< Network mode this socket works in. */
+    sockaddr_in peer_;  /**< Information about the peer for this socket. */
 
 };
 
