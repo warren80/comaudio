@@ -36,7 +36,7 @@ void Microphone::startRecording() {
 }
 
 void Microphone::stopRecording() {
-    QAudioOutput *temp = new QAudioOutput(*format_);
+    //QAudioOutput *temp = new QAudioOutput(*format_);
     mic_->stop();
     recordFile_->close();
     //recordFile_->open(QIODevice::ReadOnly);
