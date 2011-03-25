@@ -42,12 +42,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->playButton, SIGNAL(pressed()), this, SLOT(playSong()));
     connect(ui->pauseButton, SIGNAL(pressed()), this, SLOT(pauseSong()));
     connect(ui->nextButton, SIGNAL(pressed()), this, SLOT(nextSong()));
-
-#ifdef _WIN32
-    WSADATA wsaData;
-    WSAStartup(MAKEWORD(2,2),&wsaData);
-#endif
-
 }
 
 /**
