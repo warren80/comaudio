@@ -3,14 +3,12 @@
 
 #ifndef _WIN32
 #include <arpa/inet.h>
-#define CLOSESOCKET(x) close(x)
 #endif
 
 #ifdef _WIN32
 #include <winsock2.h>
 typedef unsigned int in_addr_t;
 typedef int socklen_t;
-#define CLOSESOCKET(x) closesocket(x)
 #endif
 
 /**
