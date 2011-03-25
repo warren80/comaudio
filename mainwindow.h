@@ -7,6 +7,7 @@
 #include "thread.h"
 #include "logs.h"
 #include "server.h"
+#include "client.h"
 #include "audioplayer.h"
 #include "microphone.h"
 
@@ -47,6 +48,11 @@ private:
      * the app to be a server.
      */
     Server *appServer_;
+    /**
+     * The client object. this object is only created if the user wants
+     * the app to be a client.
+     */
+    Client *appClient_;
     /**
      * The audio player that will play the .wav files.
      */

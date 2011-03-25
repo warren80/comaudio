@@ -4,7 +4,9 @@
 
 Server::Server(int port, int backlog) : socket_(Socket(kTCP)), running_(false) {
 
+    qDebug() << "Server starting...";
     socket_.bind(port);
+    qDebug() << "Listening for clients.";
     socket_.listen(backlog);
 }
 

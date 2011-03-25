@@ -127,14 +127,16 @@ void MainWindow::appConnect() {
         settings_->ipAddr = ui->serverAddrBox->text();
         settings_->alias = ui->aliasBox->text();
         settings_->logChat = ui->logChatBox->isChecked();
-        qDebug() << settings_->ipAddr.toLatin1().data();
-        qDebug() << settings_->alias.toLatin1().data();
+
+        appClient_ = new Client();
+        appClient_->start();
 
         connect(mic_, SIGNAL(sendVoice(const char*)), this, SLOT(sendVoice(const char*)));
     } else {
         ui->statusText->setText("Server");
         setWindowTitle("Kidnapster - Server");
         appServer_ = new Server(settings_->port);
+        appServer_->start();
     }
 
     settings_->port = ui->portBox->text().toInt();
