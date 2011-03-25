@@ -16,13 +16,10 @@ public:
 
 private:
     QBuffer *recordFile_;
-    QBuffer *echoFile_;
     QByteArray ba_;
     QIODevice *input_;
-    QIODevice *output_;
     QAudioInput *mic_;
     QAudioOutput *echo_;
-    QTimer *recordTimer_;
     QAudioFormat *format_;
 
 public slots:

@@ -108,7 +108,7 @@ void MainWindow::printF(const QString message) {
 
 //TODO: Connect
 void MainWindow::appConnect() {
-    settings_ = new SETTINGS;
+    settings_ = new SETTINGS();
     qDebug("Connecting...");
 
     if((settings_->isClient = ui->client->isChecked())) {
@@ -249,6 +249,7 @@ void MainWindow::nextSong() {
  * VOICE
  */
 void MainWindow::sendVoice(const char *mesg) {
+    //printF(mesg);
     //transmit!!!
 }
 
