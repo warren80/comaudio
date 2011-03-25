@@ -34,37 +34,14 @@ public:
 
 private:
     Thread * dispatcherThread_;
-    Ui::MainWindow *ui;
-    /**
-     * Structure that will hold all the settings parameters.
-     */
-    Settings* settings_;
-    /**
-     * A log object where the chat log will be saved.
-     */
-    Logs *chatLog_;
-    /**
-     * The server object. This object is only created if the user wants
-     * the app to be a server.
-     */
-    Server *appServer_;
-    /**
-     * The client object. this object is only created if the user wants
-     * the app to be a client.
-     */
-    Client *appClient_;
-    /**
-     * The audio player that will play the .wav files.
-     */
-    AudioPlayer *player_;
-    /**
-     * The microphone object that will recordthe user's voice.
-     */
-    Microphone *mic_;
-    /**
-     * The thread that will hold the microphone process.
-     */
-    Thread *micThread_;
+    Ui::MainWindow *ui;   /**< Qt form UI. */
+    Settings* settings_;  /**< Current settings for the window. */
+    Logs *chatLog_;       /**< Chat log. */
+    Server *appServer_;   /**< For when the application is running as server. */
+    Client *appClient_;   /**< For when the application is running as client. */
+    AudioPlayer *player_; /**< Audioplayer for PCM audio. */
+    Microphone *mic_;     /**< Recording device for user's voice through a mic. */
+    Thread *micThread_;   /**< Thread the mic runs on */
 
     void initDispatcher();
     /**
