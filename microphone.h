@@ -45,6 +45,7 @@ private:
      * The input device that will capture the raw data.
      */
     QAudioInput *mic_;
+    qint64 dataWritten_;
 
 public slots:
 
@@ -56,6 +57,7 @@ private slots:
      * @author Karl Castillo
      */
     void readData();
+    void bytesWritten(qint64 data);
 
 signals:
     /**
