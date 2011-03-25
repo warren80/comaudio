@@ -3,10 +3,12 @@
 
 #ifndef _WIN32
 #include <sys/socket.h>
+#define CLOSESOCKET(x) close(x)
 #endif
 
 #ifdef _WIN32
 #define SHUT_RDWR 2
+#define CLOSESOCKET(x) closesocket(x)
 #endif
 
 #include "socket.h"
