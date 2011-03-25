@@ -10,11 +10,11 @@ Server::Server(int port) : socket_(Socket(kTCP)), running_(false) {
 
 void Server::run() {
     int numReady;
-    int largestDescriptor = socket_;
-    int newClientSocket;
+    int largest = socket_;
+    int connected;
     QVector<Socket*> clients;
-    socklen_t client_len;
-    sockaddr_in client_addr;
+    socklen_t infoSize;
+    sockaddr_in info;
     fd_set rset;
     fd_set allset;
 
@@ -22,8 +22,8 @@ void Server::run() {
     FD_SET(socket_, &allset);
 
     while (running_) {
-        rset = allset;               // structure assignment
-        numReady = select(largestDescriptor + 1, &rset, NULL, NULL, NULL);
+        rset = allset; // check all currenet sockets
+        numReady = select(largest + 1, &rset, NULL, NULL, NULL);
 
         // check if return was from server shutting down and close all current
         // connections and return if it was.
@@ -35,33 +35,32 @@ void Server::run() {
             return;
         }
 
+        // check for a new connection
         if (FD_ISSET(socket_, &rset)) {
-            client_len = sizeof(client_addr);
+            infoSize = sizeof(info);
 
-            if ((newClientSocket = accept(socket_, (sockaddr*) &client_addr, &client_len)) == -1) {
+            if ((connected = accept(socket_, (sockaddr*) &info, &infoSize)) == -1) {
                 //qDebug() << "accept error:" << strerror(errno);
                 return; // TODO: inform main window of failure.
             } else {
-                clients.append(new Socket(newClientSocket, kTCP, client_addr));
+                clients.append(new Socket(connected, kTCP, info));
             }
 
             if (clients.size() == FD_SETSIZE) {
-                qDebug() << "Too many clients";
+                // TODO: Handle too many connections (low priority)
             }
 
-            FD_SET(newClientSocket, &allset);      // add new descriptor to set
+            FD_SET(connected, &allset);      // add new descriptor to set
 
             // ensure the largest descriptor is still used.
-            if (newClientSocket > largestDescriptor) {
-                largestDescriptor = newClientSocket;
-            }
+            largest = connected > largest ? connected : largest;
 
             if (--numReady <= 0) {
                 continue;	// no more readable descriptors
             }
         }
 
-        // check the connected descriptors for data
+        // check the connected sockets for activity
         for (int i = 0; i < clients.size(); i++) {
             if (FD_ISSET(*clients[i], &rset)) {
                 int msgSize;
