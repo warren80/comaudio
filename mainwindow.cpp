@@ -102,7 +102,7 @@ void MainWindow::printF(const QString message) {
 
 //TODO: Connect
 void MainWindow::appConnect() {
-    settings_ = new SETTINGS();
+    settings_ = new Settings();
     qDebug("Connecting...");
 
     if((settings_->isClient = ui->client->isChecked())) {

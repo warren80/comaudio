@@ -11,14 +11,14 @@
 #include "audioplayer.h"
 #include "microphone.h"
 
-typedef struct Settings {
+struct Settings {
     Settings():ipAddr(""), alias(""), port(0), logChat(false), isClient(false){}
     QString ipAddr;
     QString alias;
     int port;
     bool logChat;
     bool isClient;
-}SETTINGS, *PSETTINGS;
+};
 
 namespace Ui {
     class MainWindow;
@@ -38,7 +38,7 @@ private:
     /**
      * Structure that will hold all the settings parameters.
      */
-    PSETTINGS settings_;
+    Settings* settings_;
     /**
      * A log object where the chat log will be saved.
      */
