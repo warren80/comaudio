@@ -18,6 +18,11 @@ enum NetMode {
     kUDP = SOCK_DGRAM,    /**< TCP Socket. */
 };
 
+/**
+  Wrapper class for the standard function calls making use of sockets.
+
+  @author Nick Huber
+  */
 class Socket {
 public:
 
@@ -39,6 +44,11 @@ public:
       @author Nick Huber
       */
     Socket(int socket, NetMode mode, sockaddr_in info) : socket_(socket), mode_(mode), information_(info) {}
+
+    /**
+      Destructor for the socket. Calls shutdown and close on the file descriptor.
+      */
+    ~Socket();
 
     /**
       Bind the socket to all incoming address
@@ -67,7 +77,7 @@ public:
       @return Number of bytes received.
       @author Nick Huber
       */
-    int receive(char* buffer, int length);
+    int receive(char* buffer, int length) const;
 
     /**
       Transmit length bytes from buffer to the socket.
@@ -77,7 +87,7 @@ public:
       @return Number of bytes transmitted.
       @author Nick Huber
       */
-    int transmit(char* buffer, int length);
+    int transmit(char* buffer, int length) const;
 
     /**
       Accept and create a new socket from the accepted connection.
@@ -86,6 +96,12 @@ public:
       @author Nick Huber
       */
     Socket accept();
+
+    /**
+      Conversion operator for Socket, acts as a c-style socket descriptor.
+      @return The socket descriptor.
+      */
+    operator const int() const { return socket_; }
 
 private:
     int socket_;

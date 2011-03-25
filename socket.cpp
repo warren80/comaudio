@@ -5,6 +5,10 @@
 #include <sys/socket.h>
 #endif
 
+#ifdef _WIN32
+#define SHUT_RDRW 2
+#endif
+
 #include "socket.h"
 
 Socket::Socket(NetMode mode) : mode_(mode) {
@@ -14,6 +18,11 @@ Socket::Socket(NetMode mode) : mode_(mode) {
         exception.append(strerror(errno));
         throw exception;
     }
+}
+
+Socket::~Socket() {
+    shutdown(socket_, SHUT_RDWR);
+    close(socket_);
 }
 
 void Socket::bind(int port) {
@@ -38,7 +47,7 @@ void Socket::listen(int backlog) {
     }
 }
 
-int Socket::receive(char* buffer, int length) {
+int Socket::receive(char* buffer, int length) const {
     int read = 0;
 
     while ((read = recv(socket_, buffer, length, 0)) != -1) {
@@ -53,7 +62,7 @@ int Socket::receive(char* buffer, int length) {
    return read;
 }
 
-int Socket::transmit(char *buffer, int length) {
+int Socket::transmit(char *buffer, int length) const {
     return send(socket_, buffer, length, 0);
 }
 
