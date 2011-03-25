@@ -1,8 +1,6 @@
 #ifndef SOCKET_H
 #define SOCKET_H
 
-#include "logs.h"
-
 #ifndef _WIN32
 #include <arpa/inet.h>
 #define CLOSESOCKET close
@@ -123,7 +121,7 @@ private:
     int socket_;        /**< Socket file descriptor. */
     NetMode mode_;      /**< Network mode this socket works in. */
     sockaddr_in peer_;  /**< Information about the peer for this socket. */
-    Logs *errorLog_;    /**< Log where all errors will be documented. */
+
 };
 
 #endif
