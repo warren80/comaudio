@@ -29,7 +29,7 @@ void Socket::bind(int port) {
     sockaddr_in bindTo;
     memset((char*) &bindTo, 0, sizeof(bindTo));
     bindTo.sin_family = AF_INET;
-    bindTo.sin_port = htons(port);
+    bindTo.sin_port = port;
     bindTo.sin_addr.s_addr = htonl(INADDR_ANY);
 
     if (::bind(socket_, (sockaddr*) &bindTo, sizeof(bindTo)) == -1) {
@@ -81,10 +81,24 @@ int Socket::transmit(char *buffer, int length) const {
 
 }
 
-Socket Socket::accept() {
+Socket Socket::accept() const {
     int newSocket;
     sockaddr_in info;
     socklen_t len = sizeof(info);
     newSocket = ::accept(socket_, (sockaddr*) &info, &len);
     return Socket(newSocket, mode_, info);
+}
+
+bool Socket::connect(in_addr_t address, uint16_t port) const {
+    sockaddr_in serverAddress;
+
+    serverAddress.sin_family = AF_INET;
+    serverAddress.sin_addr.s_addr = address;
+    serverAddress.sin_port = port;
+
+    if (::connect(socket_, (const sockaddr*) &serverAddress, sizeof(serverAddress)) != -1) {
+        return true;
+    } else {
+        return false;
+    }
 }

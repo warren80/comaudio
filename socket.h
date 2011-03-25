@@ -54,7 +54,7 @@ public:
       Bind the socket to all incoming address
 
       @throws QString Unable to bind a socket.
-      @param port Port to bind to.
+      @param port Port to bind to in network byte ordering.
       @author Nick Huber
       */
     void bind(int port);
@@ -97,7 +97,15 @@ public:
       @return New socket for the accepted connection.
       @author Nick Huber
       */
-    Socket accept();
+    Socket accept() const;
+
+    /**
+      Connect to the address specified. Returns immediatly with -1 on UDP.
+
+      @param adddress IP address in network byte ordering.
+      @param port Port # of the server in network byte ordering.
+      */
+    bool connect(in_addr_t address, uint16_t port) const;
 
     /**
       Conversion operator for Socket, acts as a c-style socket descriptor.
