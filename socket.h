@@ -1,8 +1,6 @@
 #ifndef SOCKET_H
 #define SOCKET_H
 
-#include "logs.h"
-
 #ifndef _WIN32
 #include <arpa/inet.h>
 #define CLOSESOCKET close

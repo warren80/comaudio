@@ -13,8 +13,6 @@
 
 Socket::Socket(NetMode mode) : mode_(mode) {
 
-    errorLog_ = new Logs("./logs/errorLog.log", "Error Log");
-
     if ((socket_ = socket(PF_INET, mode_, IPPROTO_TCP)) == -1) {
         QString exception("error creating socket: ");
         exception.append(strerror(errno));
@@ -37,7 +35,6 @@ void Socket::bind(int port) {
     if (::bind(socket_, (sockaddr*) &bindTo, sizeof(bindTo)) == -1) {
         QString exception("error binding server socket: ");
         exception.append(strerror(errno));
-        errorLog_->writeToLog("socket.cpp::bind() error", errno);
         throw exception;
     }
 }
@@ -49,7 +46,6 @@ void Socket::listen(int backlog) {
     if (::listen(socket_, backlog) == -1) {
         QString exception("error listening on server socket: ");
         exception.append(strerror(errno));
-        errorLog_->writeToLog("socket.cpp::listen() error", errno);
         throw exception;
     }
 }
@@ -103,7 +99,6 @@ bool Socket::connect(in_addr_t address, uint16_t port) const {
     if (::connect(socket_, (const sockaddr*) &serverAddress, sizeof(serverAddress)) != -1) {
         return true;
     } else {
-        errorLog_->writeToLog("socket.cpp::connect() error", errno);
         return false;
     }
 }
