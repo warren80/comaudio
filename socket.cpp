@@ -6,7 +6,7 @@
 #endif
 
 #ifdef _WIN32
-#define SHUT_RDRW 2
+#define SHUT_RDWR 2
 #endif
 
 #include "socket.h"
@@ -22,7 +22,7 @@ Socket::Socket(NetMode mode) : mode_(mode) {
 
 Socket::~Socket() {
     shutdown(socket_, SHUT_RDWR);
-    close(socket_);
+    CLOSESOCKET(socket_);
 }
 
 void Socket::bind(int port) {
