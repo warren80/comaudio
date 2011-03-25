@@ -3,6 +3,8 @@
 
 #include <QThread>
 
+#include "socket.h"
+
 class Client : public QThread
 {
 public:
@@ -10,6 +12,10 @@ public:
 
 protected:
     void run();
+
+private:
+    Socket socket_;
+    bool running_;
 };
 
 #endif // CLIENT_H
