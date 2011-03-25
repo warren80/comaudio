@@ -2,10 +2,10 @@
 #include <QVector>
 #include "server.h"
 
-Server::Server(int port) : socket_(Socket(kTCP)), running_(false) {
+Server::Server(int port, int backlog) : socket_(Socket(kTCP)), running_(false) {
 
     socket_.bind(port);
-    socket_.listen(5);
+    socket_.listen(backlog);
 }
 
 void Server::run() {

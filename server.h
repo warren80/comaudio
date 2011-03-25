@@ -20,10 +20,11 @@ public:
     /**
       Server constructor, takes a port to listen to.
 
-      @param port Port # to listen to.
+      @param port Port # to listen to in network byte ordering.
+      @param backlog Number of connections to queue.
       @author Nick Huber
       */
-    Server(int port);
+    Server(int port, int backlog);
 
 protected:
     /**
