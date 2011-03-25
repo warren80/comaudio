@@ -24,7 +24,7 @@ public:
       @param backlog Number of connections to queue.
       @author Nick Huber
       */
-    Server(int port, int backlog);
+    Server(int port, int backlog = 5);
 
 protected:
     /**
