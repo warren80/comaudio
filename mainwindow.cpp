@@ -1,8 +1,17 @@
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
 #include <QFileDialog>
 #include <QFileSystemModel>
 #include <QObjectList>
+
+#ifndef _WIN32
+#include <sys/socket.h>
+#endif
+
+#ifdef _WIN32
+#include <winsock2.h>
+#endif
+
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
 
 /**
  * CONSTRUCTOR
@@ -129,7 +138,7 @@ void MainWindow::appConnect() {
     } else {
         ui->statusText->setText("Server");
         setWindowTitle("Kidnapster - Server");
-        appServer_ = new Server(settings_->port);
+        appServer_ = new Server(htons(settings_->port));
         appServer_->start();
     }
 
