@@ -9,12 +9,13 @@ class Client : public QThread
 {
 public:
     Client();
+    ~Client();
 
 protected:
     void run();
 
 private:
-    Socket socket_;
+    Socket* socket_;
     bool running_;
 };
 

@@ -1,18 +1,25 @@
-
+#include <iostream>
 #include <QVector>
 #include "server.h"
 
-Server::Server(int port, int backlog) : socket_(Socket(kTCP)), running_(false) {
+Server::Server(int port, int backlog) : socket_(new Socket(kTCP)), running_(false) {
 
-    qDebug() << "Server starting...";
-    socket_.bind(port);
-    qDebug() << "Listening for clients.";
-    socket_.listen(backlog);
+    socket_->bind(port);
+    socket_->listen(backlog);
+}
+
+Server::~Server() {
+    // prepare thread for close by aborting socket operations and stopping the loop from repeating.
+    running_ = false;
+    delete socket_;
+
+    // wait for the thread to finish.
+    QThread::wait();
 }
 
 void Server::run() {
     int numReady;
-    int largest = socket_;
+    int largest = *socket_;
     int connected;
     QVector<Socket*> clients;
     socklen_t infoSize;
@@ -21,7 +28,9 @@ void Server::run() {
     fd_set allset;
 
     FD_ZERO(&allset);
-    FD_SET(socket_, &allset);
+    FD_SET(*socket_, &allset);
+
+    running_ = true;
 
     while (running_) {
         rset = allset; // check all currenet sockets
@@ -38,10 +47,10 @@ void Server::run() {
         }
 
         // check for a new connection
-        if (FD_ISSET(socket_, &rset)) {
+        if (FD_ISSET(*socket_, &rset)) {
             infoSize = sizeof(info);
 
-            if ((connected = accept(socket_, (sockaddr*) &info, &infoSize)) == -1) {
+            if ((connected = accept(*socket_, (sockaddr*) &info, &infoSize)) == -1) {
                 //qDebug() << "accept error:" << strerror(errno);
                 return; // TODO: inform main window of failure.
             } else {
@@ -74,9 +83,8 @@ void Server::run() {
                 }
                 char* buffer = new char[msgSize];
                 clients[i]->receive(buffer, msgSize);
-                // temp. echo and delete received data.
-                qDebug() << buffer;
-                delete[] buffer;
+
+                // move the received data to the dispatcher
 
                 if (--numReady == 0) {
                     break;

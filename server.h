@@ -24,7 +24,14 @@ public:
       @param backlog Number of connections to queue.
       @author Nick Huber
       */
-    Server(int port, int backlog = 5);
+    explicit Server(int port, int backlog = 5);
+
+    /**
+      Server destructor, shuts down socket and closes the server loop if running.
+
+      @author Nick Huber
+      */
+    ~Server();
 
 protected:
     /**
@@ -37,7 +44,7 @@ protected:
     void run();
 
 private:
-    Socket socket_;         /**< The socket information for the server. */
+    Socket* socket_;        /**< The socket information for the server. */
     Dispatcher dispatcher_; /**< Dispatch recieved messages to the right component.*/
     bool running_;          /**< State of the thread, whether it should be running or not. */
 
