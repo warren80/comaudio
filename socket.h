@@ -1,6 +1,8 @@
 #ifndef SOCKET_H
 #define SOCKET_H
 
+#include <stdint.h>
+
 #ifndef _WIN32
 #include <arpa/inet.h>
 #endif
