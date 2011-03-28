@@ -3,9 +3,10 @@
 /**
  * CONSTRUCTOR
  */
-ComponentChat::ComponentChat(int socketID) : Component(socketID) {
+ComponentChat::ComponentChat(Socket socket) : Component(kChat, socket) {
 
 }
+
 
 /**
  * ESSENTIAL METHODS
@@ -20,16 +21,4 @@ void ComponentChat::sendMessage(QString message) {
     int length = message.length();
 
     //tx...(mesg, length);
-}
-
-/**
- * SLOTS
- */
-
-/*
- * TODO:
- *  1. Create sockets.
- */
-void ComponentChat::slotStart() {
-
 }

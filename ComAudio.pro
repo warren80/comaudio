@@ -21,18 +21,18 @@ SOURCES += main.cpp\
         thread.cpp \
         component.cpp \
         dispatcher.cpp \
-        componentaudio.cpp \
+        componentstream.cpp \
         componentvoice.cpp \
-        componentfile.cpp \
+        componenttransfer.cpp \
+        componentchat.cpp \
         audioplayer.cpp \
         socket.cpp \
         logs.cpp \
         server.cpp \
-        componentiterator.cpp \
         microphone.cpp \
-    client.cpp \
-    components.cpp \
-    componentchat.cpp
+        client.cpp \
+        components.cpp \
+
 
 HEADERS  += mainwindow.h \
         socket.h \
@@ -40,16 +40,17 @@ HEADERS  += mainwindow.h \
         component.h \
         packet.h \
         dispatcher.h \
-        componentaudio.h \
+        componentstream.h \
         componentvoice.h \
-        componentfile.h \
+        componenttransfer.h \
+        componentchat.h \
         audioplayer.h \
         logs.h \
         server.h \
         microphone.h \
-    client.h \
-    components.h \
-    componentchat.h
+        client.h \
+        components.h \
+
 
 FORMS    += mainwindow.ui \
 

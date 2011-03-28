@@ -6,9 +6,8 @@
 class ComponentVoice : public Component {
 
 public:
-    ComponentVoice(int socketID);
-public slots:
-    virtual void slotStart();
+    ComponentVoice(Socket socket);
+
 };
 
 #endif // COMPONENTVOICE_H

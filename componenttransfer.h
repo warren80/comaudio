@@ -1,12 +1,14 @@
-#ifndef COMPONENTFILE_H
-#define COMPONENTFILE_H
+#ifndef COMPONENTTRANSFER_H
+#define COMPONENTTRANSFER_H
 
+
+#include <QString>
 #include "component.h"
 
-class ComponentFile : public Component {
+class ComponentTransfer : public Component {
 
 public:
-    ComponentFile(int socketID);
+    ComponentTransfer(Socket socket);
 
 private:
     /**
@@ -23,9 +25,6 @@ private:
      * @arg mesg - the received message
      */
     void saveFile(QList<char*> mesg);
-
-public slots:
-    virtual void slotStart();
 };
 
-#endif // COMPONENTFILE_H
+#endif // COMPONENTTRANSFER_H

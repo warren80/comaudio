@@ -14,6 +14,7 @@ class Component {
 
 public:
     Component(ComponentType type, Socket socket);
+    virtual ~Component() {};
 
 private:
     ComponentType type_;
