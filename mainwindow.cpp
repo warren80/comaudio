@@ -114,6 +114,9 @@ void MainWindow::appConnect() {
     settings_ = new Settings();
     qDebug("Connecting...");
 
+    settings_->port = ui->portBox->text().toInt();
+    qDebug() << QString::number(settings_->port).toLatin1().data();
+
     if((settings_->isClient = ui->client->isChecked())) {
         player_ = new AudioPlayer();
 
@@ -141,9 +144,6 @@ void MainWindow::appConnect() {
         appServer_ = new Server(htons(settings_->port));
         appServer_->start();
     }
-
-    settings_->port = ui->portBox->text().toInt();
-    qDebug() << QString::number(settings_->port).toLatin1().data();
 
     connected(true);
 }

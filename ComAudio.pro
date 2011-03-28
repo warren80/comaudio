@@ -22,7 +22,6 @@ SOURCES += main.cpp\
         component.cpp \
         dispatcher.cpp \
         componentaudio.cpp \
-        componenttext.cpp \
         componentvoice.cpp \
         componentfile.cpp \
         audioplayer.cpp \
@@ -31,25 +30,26 @@ SOURCES += main.cpp\
         server.cpp \
         componentiterator.cpp \
         microphone.cpp \
-    client.cpp
+    client.cpp \
+    components.cpp \
+    componentchat.cpp
 
 HEADERS  += mainwindow.h \
         socket.h \
-        includes.h \
         thread.h \
         component.h \
         packet.h \
         dispatcher.h \
         componentaudio.h \
-        componenttext.h \
         componentvoice.h \
         componentfile.h \
         audioplayer.h \
         logs.h \
         server.h \
-        componentiterator.h \
         microphone.h \
-    client.h
+    client.h \
+    components.h \
+    componentchat.h
 
 FORMS    += mainwindow.ui \
 

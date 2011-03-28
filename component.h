@@ -1,28 +1,24 @@
 #ifndef COMPONENT_H
 #define COMPONENT_H
 
-#include "includes.h"
-#include "logs.h"
+#include "socket.h"
 
-class Component : public QObject
-{
-    Q_OBJECT
+enum ComponentType {
+    kChat,      /**< Textual chat. */
+    kStream,    /**< Music streaming. */
+    kTransfer,  /**< File transfer. */
+    kVoice,     /**< Multicast voice chat. */
+};
+
+class Component {
+
 public:
-    Component(int socketID);
+    Component(ComponentType type, Socket socket);
 
-protected:
-    int port_;
-    Logs *errorLog_;
-    Logs *chatLog_;
-    Logs *activityLog_;
-    int socketID_;
+private:
+    ComponentType type_;
+    Socket socket_;
 
-signals:
-    emit void signalTxPckt(void *);
-
-public slots:
-    virtual void slotPacketReceived(void *);
-    virtual void slotStart();
 };
 
 #endif // COMPONENT_H

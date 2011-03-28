@@ -1,9 +1,9 @@
 #ifndef DISPATCHER_H
 #define DISPATCHER_H
 
-#include "includes.h"
+#include "packet.h"
 #include "socket.h"
-#include "componentIterator.h"
+#include "components.h"
 
 /**
  * The Dispatcher is the core to this program.
@@ -22,41 +22,13 @@
  * @author Warren Voelkl
  */
 
-class Dispatcher : public QObject
-{
-Q_OBJECT
+class Dispatcher {
+
 private:
     /** the class which holds all components */
-    ComponentIterator * compIterator_;
+    Components components_;
 
 public:
-    /**
-     * Constructor creates the compIterator
-     *
-     * @author Warren Voelkl
-     */
-    Dispatcher(QObject *parent = 0);
-    /**
-     * tells the componentIterator class to create a new component
-     *
-     * @author Warren Voelkl
-     */
-    void startComponent(Message * msg);
-    /**
-     *Tells the componentIterator class to delete a component
-     *
-     *@author Warren Voelkl
-     */
-    void stopComponent(int type);
-
-protected:
-
-signals:
-    void signalTxPckt(Message * msg);
-public slots:
-    void slotPacketRecieved(Message * msg);
-    void slotPacketToTransmit(Message * msg);
-    void slotSocketClosed(int socketID);
 
 };
 
