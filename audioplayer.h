@@ -25,7 +25,7 @@ public:
       @param bufferSize The amount of space to allocate inside the QAudioOutput for buffering data.
       @author Nick Huber
       */
-    explicit AudioPlayer(int bufferSize = 64000);
+    explicit AudioPlayer(int frequency, int channels, int sampleSize, int bufferSize = 64000);
 
     /**
       Appends data to the buffer to be played.
