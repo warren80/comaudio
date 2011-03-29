@@ -4,7 +4,7 @@
 #include "component.h"
 
 struct Packet {
-    int length; //equal to size of componetID + data;
+    int length; //equal to size of ComponentType + data;
     ComponentType type;
     char* data;
 };
