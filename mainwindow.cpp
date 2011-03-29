@@ -116,14 +116,6 @@ void MainWindow::appConnect() {
     settings_->port = ui->portBox->text().toInt();
 
     if((settings_->isClient = ui->client->isChecked())) {
-        player_ = new AudioPlayer();
-
-        //Microphone
-//        mic_ = new Microphone();
-//        micThread_ = new Thread();
-//        micThread_->start();
-//        mic_->moveToThread(micThread_);
-//        mic_->startRecording();
 
         //Settings
         ui->statusText->setText("Client");
@@ -139,9 +131,6 @@ void MainWindow::appConnect() {
         }
         appClient_->start();
 
-
-        // more Microphone
-        //connect(mic_, SIGNAL(sendVoice(const char*)), this, SLOT(sendVoice(const char*)));
     } else {
         ui->statusText->setText("Server");
         setWindowTitle("Kidnapster - Server");
