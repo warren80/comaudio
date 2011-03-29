@@ -3,7 +3,7 @@
 #include "client.h"
 
 Client::Client() : socket_(new Socket(kTCP)), running_(false) {
-    qDebug() << "Client starting...";
+
 }
 
 Client::~Client() {
