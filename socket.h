@@ -9,6 +9,7 @@
 
 #ifdef _WIN32
 #include <winsock2.h>
+#include <ws2tcpip.h>
 typedef unsigned int in_addr_t;
 typedef int socklen_t;
 #endif
@@ -117,6 +118,26 @@ public:
       @return The socket descriptor.
       */
     operator const int() const { return socket_; }
+
+    /**
+      Connect a server to the multicast address specified.
+      Returns true if it connects corretly
+      False on failure
+
+      @param adddress IP address in network byte ordering.
+      @param port Port # of the server in network byte ordering.
+      */
+    bool serverJoinMCast(in_addr_t address, uint16_t port);
+
+    /**
+      Connect a client to the multicast address specified.
+      Returns true if it connects corretly
+      False on failure
+
+      @param adddress IP address in network byte ordering.
+      @param port Port # of the server in network byte ordering.
+      */
+    bool clientJoinMCast(in_addr_t address, uint16_t port);
 
 private:
     int socket_;        /**< Socket file descriptor. */
