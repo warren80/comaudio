@@ -1,5 +1,5 @@
 #include "componentvoice.h"
 
-ComponentVoice::ComponentVoice(Socket socket) : Component(kVoice, socket) {
+ComponentVoice::ComponentVoice(const Socket& socket) : Component(kVoice, socket) {
 
 }

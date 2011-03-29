@@ -6,8 +6,9 @@
 #include "component.h"
 
 class ComponentChat : public Component {
+
 public:
-    ComponentChat(Socket socket);
+    ComponentChat(const Socket& socket);
     /**
      * Call this function to send the message the user typed into the
      * chat input box.

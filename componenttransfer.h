@@ -6,9 +6,8 @@
 #include "component.h"
 
 class ComponentTransfer : public Component {
-
 public:
-    ComponentTransfer(Socket socket);
+    ComponentTransfer(const Socket& socket);
 
 private:
     /**

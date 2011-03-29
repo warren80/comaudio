@@ -4,9 +4,8 @@
 #include "component.h"
 
 class ComponentVoice : public Component {
-
 public:
-    ComponentVoice(Socket socket);
+    ComponentVoice(const Socket& socket);
 
 };
 

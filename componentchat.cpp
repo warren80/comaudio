@@ -3,7 +3,7 @@
 /**
  * CONSTRUCTOR
  */
-ComponentChat::ComponentChat(Socket socket) : Component(kChat, socket) {
+ComponentChat::ComponentChat(const Socket& socket) : Component(kChat, socket) {
 
 }
 
