@@ -13,4 +13,5 @@ void ComponentStream::setupAudio(int frequency, int channels, int sampleSize, in
 
 void ComponentStream::receiveData(char *data, int length) {
     player_->appendBuffer(data, length);
+    emit signal_receviedData(data, length);
 }
