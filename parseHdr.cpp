@@ -1,8 +1,5 @@
 #include "parseHdr.h"
-
-ParseHdr::ParseHdr() {
-    header = new WaveHdr();    
-}
+ParseHdr::ParseHdr() { }
 
 ParseHdr::~ParseHdr() { }
 
@@ -16,8 +13,8 @@ void ParseHdr::hdrParse(char * file) {
 }
 
 void ParseHdr::setNumChan(char * file) { 
-    ss << hex << file[22];
-    ss >> header->numChan;
+    ss << std::hex << file[22];
+    ss >> numChan;
 }
 
 void ParseHdr::setSampleRate(char * file) {
@@ -26,8 +23,8 @@ void ParseHdr::setSampleRate(char * file) {
     for(i = 0; i < 4; i++) {
         temp[3 - i] = file[24 + i];
     }
-    ss << hex << temp;
-    ss >> header->sampleRate;
+    ss << std::hex << temp;
+    ss >> sampleRate;
 }
 
 void ParseHdr::setByteRate(char * file) {
@@ -36,8 +33,8 @@ void ParseHdr::setByteRate(char * file) {
     for(i = 0; i < 4; i++) {
         temp[3 - i] = file[28 + i];
     }
-    ss << hex << temp;
-    ss >> header->byteRate;
+    ss << std::hex << temp;
+    ss >> byteRate;
 }
 
 void ParseHdr::setBlockAlign(char * file) {
@@ -46,8 +43,8 @@ void ParseHdr::setBlockAlign(char * file) {
     for(i = 0; i < 4; i++) {
         temp[3 - i] = file[32 + i];
     }
-    ss << hex << temp;
-    ss >> header->blockAlign;
+    ss << std::hex << temp;
+    ss >> blockAlign;
 }
 
 void ParseHdr::setBitsPerSample(char * file) {
@@ -56,8 +53,8 @@ void ParseHdr::setBitsPerSample(char * file) {
     for(i = 0; i < 4; i++) {
         temp[3 - i] = file[34 + i];
     }
-    ss << hex << temp;
-    ss >> header->bitsPerSample;
+    ss << std::hex << temp;
+    ss >> bitsPerSample;
 }
 
 void ParseHdr::setDataLen(char * file) {
@@ -66,25 +63,30 @@ void ParseHdr::setDataLen(char * file) {
     for(i = 0; i < 4; i++) {
         temp[3 - i] = file[40 + i];
     }
-    ss << hex << temp;
-    ss >> header->dataLen;
+    ss << std::hex << temp;
+    ss >> dataLen;
 }
 
-int ParseHdr::getNumChan(WaveHdr * header) {
-    return header->numChan;
+int ParseHdr::getNumChan() {
+    return numChan;
 }
-int ParseHdr::getSampleRate(WaveHdr * header) {
-    return header->sampleRate;
+
+int ParseHdr::getSampleRate() {
+    return sampleRate;
 }
-int ParseHdr::getByteRate(WaveHdr * header) {
-    return header->byteRate;
+
+int ParseHdr::getByteRate() {
+    return byteRate;
 }
-int ParseHdr::getBlockAlign(WaveHdr * header) {
-    return header->blockAlign;
+
+int ParseHdr::getBlockAlign() {
+    return blockAlign;
 }
-int ParseHdr::getBitsPerSample(WaveHdr * header) {
-    return header->bitsPerSample;
+
+int ParseHdr::getBitsPerSample() {
+    return bitsPerSample;
 }
-int ParseHdr::getDataLen(WaveHdr * header) {
-    return header->dataLen;
+
+int ParseHdr::getDataLen() {
+    return dataLen;
 }

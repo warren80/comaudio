@@ -1,8 +1,9 @@
-#ifndef PARSEWaveHdrD_H
+#ifndef PARSEHDR_H
 #define PARSEHDR_H
 
-#include <sstream>
 #include <iostream>
+#include <sstream>
+using namespace std;
 
 
 /*typedef struct WaveHdr {
@@ -19,19 +20,32 @@
 class ParseHdr {
 
 public:
-    int getNumChan(WaveHdr *);
-    int getSampleRate(WaveHdr *);
-    int getByteRate(WaveHdr *);
-    int getBlockAlign(WaveHdr *);
-    int getBitsPerSample(WaveHdr *);
-    int getDataLen(WaveHdr *);
+    int getNumChan();
+    int getSampleRate();
+    int getByteRate();
+    int getBlockAlign();
+    int getBitsPerSample();
+    int getDataLen();
 
+    explicit  ParseHdr();
+    ~ParseHdr();
 private:
-    WaveHdr * header;
-
+    //WaveHdr * header;
+    stringstream ss;
+    istringstream ins;
+    ostringstream outs;
+    int numChan;
+    int sampleRate;
+    int byteRate;
+    int blockAlign;
+    int bitsPerSample;
+    int dataLen;
+    unsigned char *extra;
+    int extralen;
+    
     void hdrParse(char *);
-    void setNumChan(char * file);
-    void setSampleRate(char * file);
+    void setNumChan(char *);
+    void setSampleRate(char *);
     void setByteRate(char *);
     void setBlockAlign(char *);
     void setBitsPerSample(char *);
