@@ -1,5 +1,3 @@
-#include <Qdebug>
-
 #include "dispatcher.h"
 #include "packet.h"
 
@@ -10,6 +8,8 @@ void Dispatcher::dispatch(char* data, int length) {
     memcpy((void*) (packet + sizeof(packet->length)), data, length);
     delete[] data;
 
-    // testing, print out the type
-    qDebug() << packet->type;
+    // check if this connection already has this component
+    // if it does, send it the data
+    // if it does not, create it and send it the data
+
 }
