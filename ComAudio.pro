@@ -4,7 +4,6 @@
 #
 #-------------------------------------------------
 
-QT       += multimedia
 QT       += core gui multimedia
 
 TARGET = ComAudio
