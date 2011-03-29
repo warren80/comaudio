@@ -22,7 +22,7 @@ int Components::addComponent(Component *component) {
 
 void Components::addData(int index, char *data, int length) {
     componentsControl_.lock();
-    components_[index]->newData(data, length);
+    components_[index]->receiveData(data, length);
     pending_[index] = true;
     waiting_.release();
     componentsControl_.unlock();

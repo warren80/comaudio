@@ -25,7 +25,7 @@ public:
       @author Nick Huber
 
       */
-    virtual void newData(char* data, int length) = 0;
+    virtual void receiveData(char* data, int length) = 0;
 
 private:
     ComponentType type_;

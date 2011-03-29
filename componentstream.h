@@ -7,7 +7,7 @@ class ComponentStream : public Component {
 public:
     ComponentStream(Socket socket);
 
-    void newData(char *data, int length);
+    void receiveData(char *data, int length);
 private:
     AudioPlayer player_;
 };

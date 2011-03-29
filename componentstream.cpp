@@ -4,7 +4,7 @@ ComponentStream::ComponentStream(Socket socket) : Component(kStream, socket) {
 
 }
 
-void ComponentStream::newData(char *data, int length) {
+void ComponentStream::receiveData(char *data, int length) {
     player_.appendBuffer(data, length);
 }
 
