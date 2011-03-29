@@ -5,13 +5,16 @@ ComponentStream::ComponentStream(const Socket& socket) : Component(kStream, sock
 }
 
 void ComponentStream::setupAudio(int frequency, int channels, int sampleSize, int bufferSize) {
-    if (player_ != NULL) {
-        delete player_;
+    if (audioPlayer_ != NULL) {
+        delete audioPlayer_;
     }
-    player_ = new AudioPlayer(frequency, channels, sampleSize, bufferSize);
+    audioPlayer_ = new AudioPlayer(frequency, channels, sampleSize, bufferSize);
 }
 
 void ComponentStream::receiveData(char *data, int length) {
-    player_->appendBuffer(data, length);
-    emit signal_receviedData(data, length);
+    audioPlayer_->appendBuffer(data, length);
+}
+
+void ComponentStream::transmitData(char *data, int length) {
+    socket_.transmit(data, length);
 }

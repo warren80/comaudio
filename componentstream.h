@@ -19,8 +19,10 @@ public:
       */
     void setupAudio(int frequency, int channels, int sampleSize, int bufferSize);
     void receiveData(char *data, int length);
+    void transmitData(char *data, int length);
 private:
-    AudioPlayer* player_;
+    AudioPlayer* audioPlayer_;
+
 };
 
 #endif // COMPONENTSTREAM_H

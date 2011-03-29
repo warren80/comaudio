@@ -41,9 +41,18 @@ public:
 
 private:
     ComponentType type_;
+
+protected:
     Socket socket_;
 
 public slots:
+    /**
+      Slot for transmission of data to this component's socket.
+
+      @param data Data to transmit.
+      @param length Length of data to transmit.
+      @author Nick Huber
+      */
     void slot_transmitData(char* data, int length) { transmitData(data, length); };
 
 signals:
