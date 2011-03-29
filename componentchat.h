@@ -1,14 +1,14 @@
-#ifndef COMPONENTTEXT_H
-#define COMPONENTTEXT_H
+#ifndef COMPONENTCHAT_H
+#define COMPONENTCHAT_H
 
-#include "includes.h"
+#include <QString>
+
 #include "component.h"
 
-class ComponentText : public Component
-{
-    Q_OBJECT
+class ComponentChat : public Component {
+
 public:
-    ComponentText(int socketID);
+    ComponentChat(const Socket& socket);
     /**
      * Call this function to send the message the user typed into the
      * chat input box.
@@ -18,9 +18,6 @@ public:
      *                input box
      */
     void sendMessage(QString message);
-
-public slots:
-    virtual void slotStart();
 };
 
-#endif // COMPONENTTEXT_H
+#endif // COMPONENTCHAT_H

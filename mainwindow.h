@@ -1,8 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "includes.h"
-
 #include <QMainWindow>
 #include "thread.h"
 #include "logs.h"

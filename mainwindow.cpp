@@ -112,17 +112,10 @@ void MainWindow::printF(const QString message) {
 //TODO: Connect
 void MainWindow::appConnect() {
     settings_ = new Settings();
-    qDebug("Connecting...");
+
+    settings_->port = ui->portBox->text().toInt();
 
     if((settings_->isClient = ui->client->isChecked())) {
-        player_ = new AudioPlayer();
-
-        //Microphone
-        mic_ = new Microphone();
-        micThread_ = new Thread();
-        micThread_->start();
-        mic_->moveToThread(micThread_);
-        mic_->startRecording();
 
         //Settings
         ui->statusText->setText("Client");
@@ -132,18 +125,18 @@ void MainWindow::appConnect() {
         settings_->logChat = ui->logChatBox->isChecked();
 
         appClient_ = new Client();
+        if (!appClient_->connect(inet_addr(settings_->ipAddr.toStdString().c_str()), htons(settings_->port))) {
+            delete appClient_;
+            return;
+        }
         appClient_->start();
 
-        connect(mic_, SIGNAL(sendVoice(const char*)), this, SLOT(sendVoice(const char*)));
     } else {
         ui->statusText->setText("Server");
         setWindowTitle("Kidnapster - Server");
         appServer_ = new Server(htons(settings_->port));
         appServer_->start();
     }
-
-    settings_->port = ui->portBox->text().toInt();
-    qDebug() << QString::number(settings_->port).toLatin1().data();
 
     connected(true);
 }

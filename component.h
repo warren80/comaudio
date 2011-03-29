@@ -1,28 +1,54 @@
 #ifndef COMPONENT_H
 #define COMPONENT_H
 
-#include "includes.h"
-#include "logs.h"
+#include <QObject>
 
-class Component : public QObject
-{
-    Q_OBJECT
+#include "socket.h"
+
+enum ComponentType {
+    kChat,      /**< Textual chat. */
+    kStream,    /**< Music streaming. */
+    kTransfer,  /**< File transfer. */
+    kVoice,     /**< Multicast voice chat. */
+};
+
+class Component : public QObject {
+
 public:
-    Component(int socketID);
+    Component(ComponentType type, const Socket& socket);
+    virtual ~Component() {};
 
-protected:
-    int port_;
-    Logs *errorLog_;
-    Logs *chatLog_;
-    Logs *activityLog_;
-    int socketID_;
+    /**
+      Newly received data to be processed by the component.
+      Must be implemented by each component.
+      Should emit the signal_receivedData(char*, int) signal.
 
-signals:
-    emit void signalTxPckt(void *);
+      @param data Received data.
+      @param length Length of received data.
+      @author Nick Huber
+
+      */
+    virtual void receiveData(char* data, int length) = 0;
+
+    /**
+      Transmit data to the other side.
+
+      @param data Data to transmit.
+      @param length Size of data.
+      @author Nick Huber
+      */
+    void transmitData(char* data, int length) { socket_.transmit(data, length); };
+
+private:
+    ComponentType type_;
+    Socket socket_;
 
 public slots:
-    virtual void slotPacketReceived(void *);
-    virtual void slotStart();
+    void slot_transmitData(char* data, int length) { transmitData(data, length); };
+
+signals:
+    void signal_receviedData(char* data, int length);
+
 };
 
 #endif // COMPONENT_H

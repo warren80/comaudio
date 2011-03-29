@@ -1,9 +1,12 @@
+#include <stdlib.h>
 #include "parseHdr.h"
 ParseHdr::ParseHdr() { }
 
 ParseHdr::~ParseHdr() { }
 
 void ParseHdr::hdrParse(char * file) {
+    char * header;
+    header = (char *) malloc (44);
     setNumChan(file);
     setSampleRate(file);
     setByteRate(file);

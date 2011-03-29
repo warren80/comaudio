@@ -1,4 +1,4 @@
-#include "componentfile.h"
+#include "componenttransfer.h"
 #include <QFile>
 #include <QList>
 #include <QMessageBox>
@@ -6,8 +6,7 @@
 /**
  * CONSTRUCTOR
  */
-ComponentFile::ComponentFile(int socketID) : Component(socketID)
-{
+ComponentTransfer::ComponentTransfer(const Socket& socket) : Component(kTransfer, socket) {
 }
 
 /**
@@ -19,14 +18,13 @@ ComponentFile::ComponentFile(int socketID) : Component(socketID)
  *  1. Save into buffer
  *  2. Send file
  */
-void ComponentFile::setupFileTransfer(QString fileNamePath) {
+void ComponentTransfer::setupFileTransfer(QString fileNamePath) {
     QFile *file = new QFile(fileNamePath);
     QList<char*> buffer;
     char *message;
 
     if(file->open(QIODevice::ReadOnly)) {
         QMessageBox::QMessageBox(QMessageBox::Critical, "Error", "Cannot open file or file doesn't exist", QMessageBox::Ok).exec();
-        errorLog_->writeToLog("setupFileTransfer(): Cannot open file", 0);
         return;
     }
 
@@ -37,13 +35,12 @@ void ComponentFile::setupFileTransfer(QString fileNamePath) {
     file->close();
 }
 
-void ComponentFile::saveFile(QList<char*> mesg) {
+void ComponentTransfer::saveFile(QList<char*> mesg) {
     QFile *file = new QFile("test.txt");
     QListIterator<char*> iterator(mesg);
 
     if(file->open(QIODevice::ReadOnly)) {
         QMessageBox::QMessageBox(QMessageBox::Critical, "Error", "Cannot open file or file doesn't exist", QMessageBox::Ok).exec();
-        errorLog_->writeToLog("saveFile(): Cannot open file", 0);
         return;
     }
 
@@ -52,11 +49,4 @@ void ComponentFile::saveFile(QList<char*> mesg) {
     }
 
     file->close();
-}
-
-/**
- * SLOTS
- */
-void ComponentFile::slotStart() {
-
 }

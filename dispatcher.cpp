@@ -1,36 +1,15 @@
 #include "dispatcher.h"
+#include "packet.h"
 
+void Dispatcher::dispatch(char* data, int length) {
+    Packet* packet = new Packet;
+    packet->length = length;
+    // copy the data into the rest of the packet then delete the original data.
+    memcpy((void*) (packet + sizeof(packet->length)), data, length);
+    delete[] data;
 
-//TODO take all components out of thread and add them to a storage structure that can be itereated
-
-Dispatcher::Dispatcher(QObject *parent) :
-    QObject(parent) {
-    compIterator_ = new ComponentIterator();
-}
-
-void Dispatcher::startComponent(Message * msg) {
-    int id;
-    if ((id = compIterator_->createComponent(msg)) == -1) {
-        //failed connection stuff tx a close packet message
-        qDebug("Dispatcher::createComponent() max component limit hit");
-        return;
-    }
-}
-
-void Dispatcher::slotPacketRecieved(Message * msg) {
-    if (msg->payload->componentID > COMPONENTLIMIT) {
-        return startComponent(msg);
-    }
-    if (compIterator_->clientMessage(msg) == -1) {
-        qDebug("Dispatcher::slotPacketRecieved() component not found");
-    }
-}
-
-void Dispatcher::slotPacketToTransmit(Message * msg) {
-    emit signalTxPckt(msg);
-}
-
-void Dispatcher::slotSocketClosed(int socketID) {
+    // check if this connection already has this component
+    // if it does, send it the data
+    // if it does not, create it and send it the data
 
 }
-

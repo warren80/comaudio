@@ -2,12 +2,12 @@
 
 #include <QtMultimedia>
 
-AudioPlayer::AudioPlayer(int bufferSize) {
+AudioPlayer::AudioPlayer(int frequency, int channels, int sampleSize, int bufferSize) {
     QAudioFormat format;
     // Set up the format, eg.
-    format.setFrequency(16000);
-    format.setChannels(1);
-    format.setSampleSize(16);
+    format.setFrequency(frequency);
+    format.setChannels(channels);
+    format.setSampleSize(sampleSize);
     format.setCodec("audio/pcm");
     format.setByteOrder(QAudioFormat::LittleEndian);
     format.setSampleType(QAudioFormat::UnSignedInt);
