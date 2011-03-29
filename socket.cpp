@@ -15,7 +15,7 @@
 
 Socket::Socket(NetMode mode) : mode_(mode) {
 
-    if ((socket_ = socket(PF_INET, mode_, IPPROTO_TCP)) == -1) {
+    if ((socket_ = socket(PF_INET, mode_, 0)) == -1) {
         QString exception("error creating socket: ");
         exception.append(strerror(errno));
         throw exception;
@@ -27,12 +27,12 @@ Socket::~Socket() {
     CLOSESOCKET(socket_);
 }
 
-void Socket::bind(int port) {
+void Socket::bind(int port, in_addr_t listenTo) {
     sockaddr_in bindTo;
     memset((char*) &bindTo, 0, sizeof(bindTo));
     bindTo.sin_family = AF_INET;
     bindTo.sin_port = port;
-    bindTo.sin_addr.s_addr = htonl(INADDR_ANY);
+    bindTo.sin_addr.s_addr = listenTo;
 
     if (::bind(socket_, (sockaddr*) &bindTo, sizeof(bindTo)) == -1) {
         QString exception("error binding server socket: ");
