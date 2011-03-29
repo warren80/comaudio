@@ -3,7 +3,7 @@
 
 #include "includes.h"
 #include "socket.h"
-#include "componentIterator.h"
+#include "componentiterator.h"
 
 /**
  * The Dispatcher is the core to this program.

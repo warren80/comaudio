@@ -4,6 +4,7 @@
 #
 #-------------------------------------------------
 
+QT       += multimedia
 QT       += core gui multimedia
 
 TARGET = ComAudio
@@ -31,6 +32,7 @@ SOURCES += main.cpp\
         server.cpp \
         componentiterator.cpp \
         microphone.cpp \
+        parseHdr.cpp \
     client.cpp
 
 HEADERS  += mainwindow.h \
@@ -49,6 +51,7 @@ HEADERS  += mainwindow.h \
         server.h \
         componentiterator.h \
         microphone.h \
+        parseHdr.h \
     client.h
 
 FORMS    += mainwindow.ui \
