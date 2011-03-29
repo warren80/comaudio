@@ -121,11 +121,11 @@ void MainWindow::appConnect() {
         player_ = new AudioPlayer();
 
         //Microphone
-        mic_ = new Microphone();
-        micThread_ = new Thread();
-        micThread_->start();
-        mic_->moveToThread(micThread_);
-        mic_->startRecording();
+//        mic_ = new Microphone();
+//        micThread_ = new Thread();
+//        micThread_->start();
+//        mic_->moveToThread(micThread_);
+//        mic_->startRecording();
 
         //Settings
         ui->statusText->setText("Client");
@@ -135,6 +135,7 @@ void MainWindow::appConnect() {
         settings_->logChat = ui->logChatBox->isChecked();
 
         appClient_ = new Client();
+        appClient_->connect(inet_addr(settings_->ipAddr.toStdString().c_str()), htons(settings_->port));
         appClient_->start();
 
         connect(mic_, SIGNAL(sendVoice(const char*)), this, SLOT(sendVoice(const char*)));

@@ -1,8 +1,6 @@
 #ifndef DISPATCHER_H
 #define DISPATCHER_H
 
-#include "packet.h"
-#include "socket.h"
 #include "components.h"
 
 /**
@@ -21,14 +19,13 @@
  *
  * @author Warren Voelkl
  */
-
 class Dispatcher {
 
-private:
-    /** the class which holds all components */
-    Components components_;
-
 public:
+    void dispatch(char* data, int length);
+
+private:
+    Components components_;
 
 };
 

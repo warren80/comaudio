@@ -85,6 +85,7 @@ void Server::run() {
                 clients[i]->receive(buffer, msgSize);
 
                 // move the received data to the dispatcher
+                dispatcher_.dispatch(buffer, msgSize);
 
                 if (--numReady == 0) {
                     break;

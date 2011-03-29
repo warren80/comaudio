@@ -12,7 +12,7 @@ moc_*.cpp
 Makefile*
 ComAudio
 ComAudio-*
-ComAudio.pro.user
+ComAudio.pro.user*
 moc_*
 ui_*
 *.app

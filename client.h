@@ -10,6 +10,7 @@ class Client : public QThread
 public:
     Client();
     ~Client();
+    bool connect(in_addr_t address, uint16_t port) { return socket_->connect(address, port); };
 
 protected:
     void run();
