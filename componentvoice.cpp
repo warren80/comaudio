@@ -7,6 +7,9 @@ ComponentVoice::ComponentVoice() {
     socket_->serverJoinMCast(inet_addr(MULTICASTIP), htons(MULTICASTPORT));
     mic_ = new Microphone();
     connect(mic_, SIGNAL(sendVoice(QByteArray*)),this, SLOT(transmitVoice(QByteArray*)));
+    micThread_ = new Thread();
+    micThread_->start();
+    mic_->moveToThread(micThread_);
 }
 
 ComponentVoice::~ComponentVoice() {
@@ -20,7 +23,7 @@ void ComponentVoice::transmitVoice(QByteArray * ba) {
 }
 
 void ComponentVoice::run() {
-
+    mic_->startRecording();
 
 }
 
