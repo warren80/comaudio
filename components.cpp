@@ -36,7 +36,7 @@ void Components::run() {
         componentsControl_.lock();
         for (int i = 0; i < components_.size(); i++) {
             if (pending_[i]) {
-                //process component_[i]
+                // process received data
                 break;
             }
         }
