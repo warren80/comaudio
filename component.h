@@ -16,7 +16,7 @@ class Component : public QObject {
 
 public:
     Component(ComponentType type, const Socket& socket);
-    virtual ~Component() {};
+    virtual ~Component() {}
 
     /**
       Newly received data to be processed by the component.
