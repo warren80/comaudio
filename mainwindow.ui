@@ -25,6 +25,9 @@
   <property name="windowTitle">
    <string>Kidnapster - Disconnected</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <property name="minimumSize">
     <size>
@@ -110,6 +113,9 @@
     <property name="autoFillBackground">
      <bool>false</bool>
     </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
     <property name="tabPosition">
      <enum>QTabWidget::North</enum>
     </property>
@@ -117,7 +123,7 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="statusTab">
      <attribute name="title">
@@ -546,52 +552,29 @@
      </widget>
     </widget>
    </widget>
-   <widget class="QPushButton" name="previousButton">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>330</x>
-      <y>410</y>
-      <width>75</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Previous</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="playButton">
     <property name="enabled">
      <bool>false</bool>
     </property>
     <property name="geometry">
      <rect>
-      <x>420</x>
-      <y>410</y>
-      <width>75</width>
-      <height>23</height>
+      <x>330</x>
+      <y>400</y>
+      <width>81</width>
+      <height>31</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(204, 176, 156, 255), stop:1 rgba(196, 112, 53, 255));
+border: 1px #c47035 brown;
+border-radius: 40px 15px;
+color: white;</string>
     </property>
     <property name="text">
      <string>Play</string>
     </property>
-   </widget>
-   <widget class="QPushButton" name="nextButton">
-    <property name="enabled">
+    <property name="checkable">
      <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>590</x>
-      <y>410</y>
-      <width>75</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Next</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pauseButton">
@@ -600,11 +583,17 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>500</x>
-      <y>410</y>
-      <width>75</width>
-      <height>23</height>
+      <x>580</x>
+      <y>400</y>
+      <width>81</width>
+      <height>31</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(204, 176, 156, 255), stop:1 rgba(196, 112, 53, 255));
+border: 1px #c47035 brown;
+border-radius: 40px 15px;
+color: white;</string>
     </property>
     <property name="text">
      <string>Pause</string>
@@ -625,14 +614,26 @@ background-repeat: none;
 background-position: center;</string>
     </property>
    </widget>
+   <widget class="QLabel" name="notes">
+    <property name="geometry">
+     <rect>
+      <x>420</x>
+      <y>403</y>
+      <width>151</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
    <zorder>typeScreen</zorder>
    <zorder>sendButton</zorder>
    <zorder>tabWidget</zorder>
-   <zorder>previousButton</zorder>
    <zorder>playButton</zorder>
-   <zorder>nextButton</zorder>
    <zorder>pauseButton</zorder>
    <zorder>backgroundChatScreen</zorder>
+   <zorder>notes</zorder>
    <zorder>chatScreen</zorder>
   </widget>
   <action name="actionConnect">

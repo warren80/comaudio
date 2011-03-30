@@ -45,10 +45,11 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->refreshServerFilesButton, SIGNAL(pressed()), this, SLOT(refreshFiles()));
 
     //Audio Player
-    connect(ui->previousButton, SIGNAL(pressed()), this, SLOT(previousSong()));
     connect(ui->playButton, SIGNAL(pressed()), this, SLOT(playSong()));
     connect(ui->pauseButton, SIGNAL(pressed()), this, SLOT(pauseSong()));
-    connect(ui->nextButton, SIGNAL(pressed()), this, SLOT(nextSong()));
+
+    notes_.setFileName(".\\notes.gif");
+    ui->notes->setMovie(&notes_);
 }
 
 /**
@@ -75,15 +76,11 @@ void MainWindow::connected(bool connected) {
     ui->typeScreen->setEnabled(settings_->isClient && connected);
     ui->sendButton->setEnabled(settings_->isClient && connected);
     ui->fileTab->setEnabled(settings_->isClient && connected);
-    ui->previousButton->setEnabled(settings_->isClient && connected);
     ui->playButton->setEnabled(settings_->isClient && connected);
     ui->pauseButton->setEnabled(settings_->isClient && connected);
-    ui->nextButton->setEnabled(settings_->isClient && connected);
 
     if(!connected) {
         if(settings_->isClient) {
-            mic_->stopRecording();
-            mic_->deleteLater();
             //delete player_;
         }
         delete settings_;
@@ -115,13 +112,6 @@ void MainWindow::appConnect() {
     if((settings_->isClient = ui->client->isChecked())) {
         player_ = new AudioPlayer();
 
-        //Microphone
-        mic_ = new Microphone();
-        micThread_ = new Thread();
-        micThread_->start();
-        mic_->moveToThread(micThread_);
-        mic_->startRecording();
-
         //Settings
         ui->statusText->setText("Client");
         setWindowTitle("Kidnapster - Client");
@@ -132,8 +122,6 @@ void MainWindow::appConnect() {
         appClient_ = new Client(settings_->ipAddr.toLatin1().data()
                                 , settings_->port, settings_->alias);
         appClient_->start();
-
-        connect(mic_, SIGNAL(sendVoice(const char*)), this, SLOT(sendVoice(const char*)));
     } else {
         ui->statusText->setText("Server");
         setWindowTitle("Kidnapster - Server");
@@ -218,27 +206,14 @@ void MainWindow::refreshFiles() {
 /**
  * AUDIO PLAYER
  */
-void MainWindow::previousSong() {
-
-}
 
 void MainWindow::playSong() {
+    notes_.start();
     player_->play();
 }
 
 void MainWindow::pauseSong() {
+    notes_.stop();
     player_->pause();
-}
-
-void MainWindow::nextSong() {
-
-}
-
-/**
- * VOICE
- */
-void MainWindow::sendVoice(const char *mesg) {
-    //printF(mesg);
-    //transmit!!!
 }
 
