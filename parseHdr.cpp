@@ -1,12 +1,36 @@
-#include <stdlib.h>
 #include "parseHdr.h"
-ParseHdr::ParseHdr() { }
+
+ParseHdr::ParseHdr(QFILE * file) { 
+    hdrParse(file);
+}
+
+ParseHdr::ParseHdr(char * file) {
+    hdrParse(file);
+}
+
+ParseHdr::ParseHdr(QByteArray * file) { 
+    hdrParse(file);
+}
 
 ParseHdr::~ParseHdr() { }
 
 void ParseHdr::hdrParse(char * file) {
-    char * header;
-    header = (char *) malloc (44);
+    int i;
+    QByteArray array;
+    QString header
+    
+    array = new QByteArray(file, 44);
+   
+    setNumChan(array);
+    setSampleRate(array);
+    setByteRate(array);
+    setBlockAlign(array);
+    setBitsPerSample(array);
+    setDataLen(array);
+}
+
+void ParseHdr::hdrParse(QByteArray * file) {
+       
     setNumChan(file);
     setSampleRate(file);
     setByteRate(file);
@@ -15,59 +39,87 @@ void ParseHdr::hdrParse(char * file) {
     setDataLen(file);
 }
 
-void ParseHdr::setNumChan(char * file) { 
-    ss << std::hex << file[22];
-    ss >> numChan;
+void ParseHdr::hdrParse(QFILE * file) {
+    file.open(IO_ReadOnly);
+    QByteArray array = file.read(44);
+    file.close();
+
+    setNumChan(array);
+    setSampleRate(array);
+    setByteRate(array);
+    setBlockAlign(array);
+    setBitsPerSample(array);
+    setDataLen(array);
 }
 
-void ParseHdr::setSampleRate(char * file) {
-    char temp[4];
+void ParseHdr::setNumChan(QByteArray * header) { 
+    QChar temp = header[22];
+    bool ok;
+    numChan = temp.toInt(&ok, 16);   
+    if(ok != 1) {
+        printf("Error setting numChan");
+    }
+}
+
+void ParseHdr::setSampleRate(QByteArray * header) {
+    QByteArray temp = new QByteArray(4,0);
+    int i;
+    bool ok;
+    for(i = 0; i < 4; i++) {
+        temp[3 - i] = header[24 + i];
+    }
+    sampleRate = temp.toInt(&ok, 16);
+    if(ok != 1) {
+        printf("Error setting sampleRate");
+    }
+}
+
+void ParseHdr::setByteRate(QByteArray * header) {
+    QByteArray temp = new QByteArray(4,0);
     int i;
     for(i = 0; i < 4; i++) {
-        temp[3 - i] = file[24 + i];
+        temp[3 - i] = header[28 + i];
     }
-    ss << std::hex << temp;
-    ss >> sampleRate;
+    byteRate = temp.toInt(&ok, 16);
+    if(ok != 1) {
+        printf("Error setting byteRate");
+    }
 }
 
-void ParseHdr::setByteRate(char * file) {
-    char temp[4];
-    int i;
-    for(i = 0; i < 4; i++) {
-        temp[3 - i] = file[28 + i];
-    }
-    ss << std::hex << temp;
-    ss >> byteRate;
-}
-
-void ParseHdr::setBlockAlign(char * file) {
-    char temp[4];
+void ParseHdr::setBlockAlign(QByteArray * header) {
+    QByteArray temp = new QByteArray(4,0);;
     int i;
     for(i = 0; i < 4; i++) {
         temp[3 - i] = file[32 + i];
     }
-    ss << std::hex << temp;
-    ss >> blockAlign;
+    blockAlign = temp.toInt(&ok, 16);
+    if(ok != 1) {
+        printf("Error setting blockAlign");
+    }
 }
 
-void ParseHdr::setBitsPerSample(char * file) {
-    char temp[4];
+void ParseHdr::setBitsPerSample(QByteArray * header) {
+    QByteArray temp = new QByteArray(4,0);
     int i;
     for(i = 0; i < 4; i++) {
         temp[3 - i] = file[34 + i];
     }
-    ss << std::hex << temp;
-    ss >> bitsPerSample;
+    bitsPerSample  = temp.toInt(&ok, 16);
+    if(ok != 1) {
+        printf("Error setting bitsPerSample");
+    }
 }
 
-void ParseHdr::setDataLen(char * file) {
-    char temp[4];
+void ParseHdr::setDataLen(QByteArray * header) {
+    QByteArray temp = new QByteArray(4,0);
     int i;
     for(i = 0; i < 4; i++) {
         temp[3 - i] = file[40 + i];
     }
-    ss << std::hex << temp;
-    ss >> dataLen;
+    dataLen = temp.toInt(&ok, 16);
+    if(ok != 1) {
+        printf("Error setting dataLen");
+    }
 }
 
 int ParseHdr::getNumChan() {

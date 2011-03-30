@@ -4,7 +4,7 @@
 #include <QVector>
 #include <QMutex>
 #include <QSemaphore>
-#include <Qthread>
+#include <QThread>
 #include "component.h"
 
 class Components : public QThread

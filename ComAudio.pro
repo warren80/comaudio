@@ -30,14 +30,8 @@ SOURCES += main.cpp\
         logs.cpp \
         server.cpp \
         microphone.cpp \
-<<<<<<< HEAD
         parseHdr.cpp \
-    client.cpp
-=======
         client.cpp \
-        components.cpp \
-
->>>>>>> 37e7e9b3723359c3e0ce502d4ebceead05721f53
 
 HEADERS  += mainwindow.h \
         socket.h \
@@ -53,14 +47,9 @@ HEADERS  += mainwindow.h \
         logs.h \
         server.h \
         microphone.h \
-<<<<<<< HEAD
         parseHdr.h \
-    client.h
-=======
         client.h \
-        components.h \
-
->>>>>>> 37e7e9b3723359c3e0ce502d4ebceead05721f53
+=======
 
 FORMS    += mainwindow.ui \
 
