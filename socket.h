@@ -95,7 +95,7 @@ public:
       @return Number of bytes transmitted.
       @author Nick Huber
       */
-    int transmit(char* buffer, int length) const;
+    int transmit(const char* buffer, int length) const;
 
     /**
       Accept and create a new socket from the accepted connection.

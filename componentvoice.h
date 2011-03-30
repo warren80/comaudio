@@ -1,9 +1,14 @@
-#ifndef SERVER_H
-#define SERVER_H
+#ifndef COMPONENTVOICE_H
+#define COMPONENTVOICE_H
 
 #include <QThread>
+#include <QDebug>
+
 #include "audioplayer.h"
 #include "socket.h"
+#include "microphone.h"
+
+#include "componentvoice.h"
 
 #define MULTICASTIP "234.5.6.7"
 #define MULTICASTPORT 8888
@@ -39,10 +44,13 @@ protected:
       @author Warren Voelkl
       */
     void run();
+public slots:
+    void transmitVoice(QByteArray * ba);
 
 private:
     Socket* socket_;        /**< The socket information for the ComponentVoice. */
-    AudioPlayer* ap_;        /**< The audio player */
+    AudioPlayer* ap_;       /**< The audio player */
+    Microphone* mic_;       /**< The Microphone Reader */
 };
 
 #endif // SERVER_H

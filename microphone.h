@@ -36,7 +36,7 @@ private:
     /**
      * The array that will hold the raw data that was read from input_.
      */
-    QByteArray ba_;
+    QByteArray *ba_;
     /**
      * A copy of the recordFile_. This will be where the reading would happen.
      */
@@ -66,7 +66,7 @@ signals:
      * @author Karl Castillo
      * @arg mesg - the raw data read from the buffer
      */
-    void sendVoice(const char *mesg);
+    void sendVoice(QByteArray *ba);
 };
 
 #endif // MICROPHONE_H

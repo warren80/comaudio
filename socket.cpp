@@ -72,7 +72,7 @@ int Socket::receive(char* buffer, int length) const {
    return read;
 }
 
-int Socket::transmit(char *buffer, int length) const {
+int Socket::transmit(const char *buffer, int length) const {
     if (mode_ == kTCP) {
         return send(socket_, buffer, length, 0);
     } else if (mode_ == kUDP) {

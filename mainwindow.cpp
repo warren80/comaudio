@@ -2,6 +2,7 @@
 #include <QFileSystemModel>
 #include <QObjectList>
 
+
 #ifndef _WIN32
 #include <sys/socket.h>
 #endif
@@ -20,6 +21,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    ComponentVoice *cv;
     QValidator *validPort = new QRegExpValidator(QRegExp("^\\d*$"), this);
     QValidator *validIp = new QRegExpValidator(QRegExp("^\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}$"), this);
 
@@ -51,6 +53,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->playButton, SIGNAL(pressed()), this, SLOT(playSong()));
     connect(ui->pauseButton, SIGNAL(pressed()), this, SLOT(pauseSong()));
     connect(ui->nextButton, SIGNAL(pressed()), this, SLOT(nextSong()));
+
+    //testing for the voice component
+    cv = new ComponentVoice();
+    cv->start();
 }
 
 /**
@@ -84,8 +90,8 @@ void MainWindow::connected(bool connected) {
 
     if(!connected) {
         if(settings_->isClient) {
-            mic_->stopRecording();
-            mic_->deleteLater();
+            //mic_->stopRecording();
+            //mic_->deleteLater();
             //delete player_;
         }
         delete settings_;

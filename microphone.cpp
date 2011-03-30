@@ -56,11 +56,11 @@ void Microphone::readData() {
     }
 
     input_->seek(size - dataWritten_);
-    ba_ = input_->read(size);
-    emit sendVoice(ba_.constData());
-    qDebug() << "ba_ size: " + QString::number(ba_.size());
-    ba_.clear();
-    qDebug() << "ba_ size: " + QString::number(ba_.size());
+    ba_ = new QByteArray(input_->read(size));
+    emit sendVoice(ba_);
+    qDebug() << "ba_ size: " + QString::number(ba_->size());
+    ba_->clear();
+    qDebug() << "ba_ size: " + QString::number(ba_->size());
 }
 
 void Microphone::bytesWritten(qint64 data) {

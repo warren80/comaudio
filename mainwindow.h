@@ -8,6 +8,7 @@
 #include "client.h"
 #include "audioplayer.h"
 #include "microphone.h"
+#include "componentvoice.h"
 
 struct Settings {
     Settings():ipAddr(""), alias(""), port(0), logChat(false), isClient(false){}
