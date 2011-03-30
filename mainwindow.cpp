@@ -49,6 +49,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->pauseButton, SIGNAL(pressed()), this, SLOT(pauseSong()));
 
     notes_.setFileName(".\\notes.gif");
+    cylon_.setFileName(".\\cylon.gif");
+    ui->cylon->setMovie(&cylon_);
     ui->notes->setMovie(&notes_);
 }
 
@@ -80,11 +82,14 @@ void MainWindow::connected(bool connected) {
     ui->pauseButton->setEnabled(settings_->isClient && connected);
 
     if(!connected) {
+        cylon_.stop();
         if(settings_->isClient) {
             //delete player_;
         }
         delete settings_;
         ui->statusText->setText("Disconnected");
+    } else {
+        cylon_.start();
     }
 }
 
@@ -132,6 +137,7 @@ void MainWindow::appConnect() {
     settings_->port = ui->portBox->text().toInt();
     qDebug() << QString::number(settings_->port).toLatin1().data();
 
+    cylon_.start();
     connected(true);
 }
 
@@ -159,7 +165,7 @@ void MainWindow::sendText() {
     QString message = ui->typeScreen->toPlainText();
 
     ui->typeScreen->clear();
-    printF(settings_->alias + ":\n\t" + message + "\n");
+    printF(settings_->alias + ":\n" + message + "\n");
 }
 
 /**

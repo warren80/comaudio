@@ -44,6 +44,7 @@ private:
     Microphone *mic_;     /**< Recording device for user's voice through a mic. */
     Thread *micThread_;   /**< Thread the mic runs on */
     QMovie notes_;
+    QMovie cylon_;
 
     void initDispatcher();
     /**

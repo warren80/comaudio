@@ -41,31 +41,6 @@
      <height>768</height>
     </size>
    </property>
-   <widget class="QPlainTextEdit" name="chatScreen">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>321</width>
-      <height>391</height>
-     </rect>
-    </property>
-    <property name="cursor" stdset="0">
-     <cursorShape>IBeamCursor</cursorShape>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background: rgba(255,255,255,50%);</string>
-    </property>
-    <property name="lineWidth">
-     <number>1</number>
-    </property>
-    <property name="tabStopWidth">
-     <number>8</number>
-    </property>
-    <property name="textInteractionFlags">
-     <set>Qt::TextSelectableByMouse</set>
-    </property>
-   </widget>
    <widget class="QPlainTextEdit" name="typeScreen">
     <property name="enabled">
      <bool>false</bool>
@@ -613,6 +588,19 @@ color: white;</string>
 background-repeat: none;
 background-position: center;</string>
     </property>
+    <widget class="QLabel" name="cylon">
+     <property name="geometry">
+      <rect>
+       <x>85</x>
+       <y>215</y>
+       <width>152</width>
+       <height>15</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
    </widget>
    <widget class="QLabel" name="notes">
     <property name="geometry">
@@ -627,14 +615,31 @@ background-position: center;</string>
      <string/>
     </property>
    </widget>
-   <zorder>typeScreen</zorder>
-   <zorder>sendButton</zorder>
-   <zorder>tabWidget</zorder>
-   <zorder>playButton</zorder>
-   <zorder>pauseButton</zorder>
-   <zorder>backgroundChatScreen</zorder>
-   <zorder>notes</zorder>
-   <zorder>chatScreen</zorder>
+   <widget class="QPlainTextEdit" name="chatScreen">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>321</width>
+      <height>391</height>
+     </rect>
+    </property>
+    <property name="cursor" stdset="0">
+     <cursorShape>IBeamCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background: rgba(255,255,255,75%);</string>
+    </property>
+    <property name="lineWidth">
+     <number>1</number>
+    </property>
+    <property name="tabStopWidth">
+     <number>8</number>
+    </property>
+    <property name="textInteractionFlags">
+     <set>Qt::TextSelectableByMouse</set>
+    </property>
+   </widget>
   </widget>
   <action name="actionConnect">
    <property name="text">
