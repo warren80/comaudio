@@ -50,8 +50,14 @@
     <property name="cursor" stdset="0">
      <cursorShape>IBeamCursor</cursorShape>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background: rgba(255,255,255,50%);</string>
+    </property>
+    <property name="lineWidth">
+     <number>1</number>
+    </property>
     <property name="tabStopWidth">
-     <number>4</number>
+     <number>8</number>
     </property>
     <property name="textInteractionFlags">
      <set>Qt::TextSelectableByMouse</set>
@@ -111,7 +117,7 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="statusTab">
      <attribute name="title">
@@ -121,7 +127,7 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>97</y>
+        <y>47</y>
         <width>41</width>
         <height>16</height>
        </rect>
@@ -134,7 +140,7 @@
       <property name="geometry">
        <rect>
         <x>150</x>
-        <y>97</y>
+        <y>47</y>
         <width>71</width>
         <height>16</height>
        </rect>
@@ -150,7 +156,7 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>117</y>
+        <y>67</y>
         <width>71</width>
         <height>16</height>
        </rect>
@@ -163,7 +169,7 @@
       <property name="geometry">
        <rect>
         <x>150</x>
-        <y>117</y>
+        <y>67</y>
         <width>51</width>
         <height>16</height>
        </rect>
@@ -178,43 +184,17 @@
         <x>10</x>
         <y>0</y>
         <width>321</width>
-        <height>91</height>
+        <height>41</height>
        </rect>
       </property>
       <property name="title">
        <string>Log Locations</string>
       </property>
-      <widget class="QLabel" name="errorLogLabel">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>51</width>
-         <height>16</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Error Log:</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="logLabel">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>40</y>
-         <width>46</width>
-         <height>13</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Log:</string>
-       </property>
-      </widget>
       <widget class="QLabel" name="chatLogLabel">
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>60</y>
+         <y>20</y>
          <width>51</width>
          <height>16</height>
         </rect>
@@ -223,43 +203,11 @@
         <string>Chat Log:</string>
        </property>
       </widget>
-      <widget class="QLabel" name="errorLogText">
-       <property name="geometry">
-        <rect>
-         <x>140</x>
-         <y>20</y>
-         <width>101</width>
-         <height>16</height>
-        </rect>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">color: red;</string>
-       </property>
-       <property name="text">
-        <string>./logs/error_log.log</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="logText">
-       <property name="geometry">
-        <rect>
-         <x>140</x>
-         <y>40</y>
-         <width>71</width>
-         <height>16</height>
-        </rect>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">color: red;</string>
-       </property>
-       <property name="text">
-        <string>./logs/log.log</string>
-       </property>
-      </widget>
       <widget class="QLabel" name="chatLogText">
        <property name="geometry">
         <rect>
          <x>140</x>
-         <y>60</y>
+         <y>20</y>
          <width>171</width>
          <height>16</height>
         </rect>
@@ -276,7 +224,7 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>137</y>
+        <y>87</y>
         <width>91</width>
         <height>16</height>
        </rect>
@@ -289,7 +237,7 @@
       <property name="geometry">
        <rect>
         <x>150</x>
-        <y>137</y>
+        <y>87</y>
         <width>46</width>
         <height>13</height>
        </rect>
@@ -302,7 +250,7 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>160</y>
+        <y>110</y>
         <width>321</width>
         <height>20</height>
        </rect>
@@ -469,73 +417,11 @@
      <attribute name="title">
       <string>Files</string>
      </attribute>
-     <widget class="QGroupBox" name="sendfileBox">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>0</y>
-        <width>321</width>
-        <height>101</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Send File</string>
-      </property>
-      <widget class="QLabel" name="sendFileLabel">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>81</width>
-         <height>16</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Send File:</string>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="pathBox">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>40</y>
-         <width>301</width>
-         <height>20</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="browseButton">
-       <property name="geometry">
-        <rect>
-         <x>150</x>
-         <y>70</y>
-         <width>75</width>
-         <height>23</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Browse</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="sendFileButton">
-       <property name="geometry">
-        <rect>
-         <x>230</x>
-         <y>70</y>
-         <width>75</width>
-         <height>23</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Send</string>
-       </property>
-      </widget>
-     </widget>
      <widget class="QGroupBox" name="downloadSongBox">
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>110</y>
+        <y>0</y>
         <width>321</width>
         <height>51</height>
        </rect>
@@ -587,7 +473,7 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>170</y>
+        <y>50</y>
         <width>61</width>
         <height>16</height>
        </rect>
@@ -600,7 +486,7 @@
       <property name="geometry">
        <rect>
         <x>260</x>
-        <y>190</y>
+        <y>70</y>
         <width>75</width>
         <height>23</height>
        </rect>
@@ -613,7 +499,7 @@
       <property name="geometry">
        <rect>
         <x>260</x>
-        <y>280</y>
+        <y>160</y>
         <width>75</width>
         <height>23</height>
        </rect>
@@ -626,9 +512,9 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>190</y>
+        <y>70</y>
         <width>241</width>
-        <height>171</height>
+        <height>291</height>
        </rect>
       </property>
      </widget>
@@ -636,17 +522,20 @@
       <property name="geometry">
        <rect>
         <x>261</x>
-        <y>250</y>
+        <y>130</y>
         <width>71</width>
         <height>20</height>
        </rect>
+      </property>
+      <property name="text">
+       <string/>
       </property>
      </widget>
      <widget class="QLabel" name="filterLabel">
       <property name="geometry">
        <rect>
         <x>260</x>
-        <y>230</y>
+        <y>110</y>
         <width>71</width>
         <height>16</height>
        </rect>
@@ -721,6 +610,30 @@
      <string>Pause</string>
     </property>
    </widget>
+   <widget class="QWidget" name="backgroundChatScreen" native="true">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>321</width>
+      <height>391</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background: url('chatBG.png');
+background-repeat: none;
+background-position: center;</string>
+    </property>
+   </widget>
+   <zorder>typeScreen</zorder>
+   <zorder>sendButton</zorder>
+   <zorder>tabWidget</zorder>
+   <zorder>previousButton</zorder>
+   <zorder>playButton</zorder>
+   <zorder>nextButton</zorder>
+   <zorder>pauseButton</zorder>
+   <zorder>backgroundChatScreen</zorder>
+   <zorder>chatScreen</zorder>
   </widget>
   <action name="actionConnect">
    <property name="text">

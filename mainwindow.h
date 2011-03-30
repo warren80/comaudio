@@ -91,18 +91,6 @@ private slots:
      */
     void appDisconnect();
     /**
-     * Call this function to browse for a file that will be sent to the server.
-     *
-     * @author Karl Castillo
-     */
-    void browseFile();
-    /**
-     * Call this function to send the selected file to the server.
-     *
-     * @author Karl Castillo
-     */
-    void sendFile();
-    /**
      * Call this function to send the text message from the chat widget to the server.
      *
      * @author Karl Castillo

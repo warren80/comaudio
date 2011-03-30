@@ -8,12 +8,13 @@
 class Client : public QThread
 {
 public:
-    Client();
+    Client(char *ipAddr, int port, QString alias);
 
 protected:
     void run();
 
 private:
+    QString alias_;
     Socket socket_;
     bool running_;
 };

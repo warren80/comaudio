@@ -3,15 +3,14 @@
 #include "server.h"
 
 Server::Server(int port, int backlog) : socket_(Socket(kTCP)), running_(false) {
-
     qDebug() << "Server starting...";
+
     socket_.bind(port);
-    qDebug() << "Listening for clients.";
     socket_.listen(backlog);
 }
 
 void Server::run() {
-    int numReady;
+    int numReady    ;
     int largest = socket_;
     int connected;
     QVector<Socket*> clients;
@@ -22,6 +21,8 @@ void Server::run() {
 
     FD_ZERO(&allset);
     FD_SET(socket_, &allset);
+
+    running_ = true;
 
     while (running_) {
         rset = allset; // check all currenet sockets
@@ -42,9 +43,10 @@ void Server::run() {
             infoSize = sizeof(info);
 
             if ((connected = accept(socket_, (sockaddr*) &info, &infoSize)) == -1) {
-                //qDebug() << "accept error:" << strerror(errno);
+                qDebug() << "accept error:" << strerror(errno);
                 return; // TODO: inform main window of failure.
             } else {
+                qDebug() << "Client connected.";
                 clients.append(new Socket(connected, kTCP, info));
             }
 

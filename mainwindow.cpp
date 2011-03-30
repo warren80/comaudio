@@ -40,8 +40,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->disconnectButton, SIGNAL(pressed()), this, SLOT(appDisconnect()));
 
     //Files Tab
-    connect(ui->browseButton, SIGNAL(pressed()), this, SLOT(browseFile()));
-    connect(ui->sendFileButton, SIGNAL(pressed()), this, SLOT(sendFile()));
     connect(ui->downloadSongButton, SIGNAL(pressed()), this, SLOT(downloadSong()));
     connect(ui->downloadCurrentSongButton, SIGNAL(pressed()), this, SLOT(downloadCurrentSong()));
     connect(ui->refreshServerFilesButton, SIGNAL(pressed()), this, SLOT(refreshFiles()));
@@ -131,7 +129,8 @@ void MainWindow::appConnect() {
         settings_->alias = ui->aliasBox->text();
         settings_->logChat = ui->logChatBox->isChecked();
 
-        appClient_ = new Client();
+        appClient_ = new Client(settings_->ipAddr.toLatin1().data()
+                                , settings_->port, settings_->alias);
         appClient_->start();
 
         connect(mic_, SIGNAL(sendVoice(const char*)), this, SLOT(sendVoice(const char*)));
@@ -172,22 +171,7 @@ void MainWindow::sendText() {
     QString message = ui->typeScreen->toPlainText();
 
     ui->typeScreen->clear();
-    printF(settings_->alias + ":\n" + message);
-}
-
-void MainWindow::browseFile() {
-    QString fileNamePath = QFileDialog::getOpenFileName(this, "Open", QDir::homePath(), "Text (*.txt);;All(*.*)");
-    ui->pathBox->setText(fileNamePath);
-
-}
-
-//TODO: Send file to the server
-void MainWindow::sendFile() {
-    QString fileNamePath = ui->pathBox->text();
-
-    if(fileNamePath.length() != 0) {
-
-    }
+    printF(settings_->alias + ":\n\t" + message + "\n");
 }
 
 /**
