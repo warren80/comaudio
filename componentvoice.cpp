@@ -1,20 +1,20 @@
 #include "componentvoice.h"
 
 
-ComponentVoice::ComponentVoice() {
-    socket_ = new Socket(kUDP);
-    ap_ = new AudioPlayer(8000, 1, 8, 4096);
-    socket_->serverJoinMCast(inet_addr(MULTICASTIP), htons(MULTICASTPORT));
-    mic_ = new Microphone();
-    connect(mic_, SIGNAL(sendVoice(QByteArray*)),this, SLOT(transmitVoice(QByteArray*)));
-    micThread_ = new Thread();
-    micThread_->start();
-    mic_->moveToThread(micThread_);
+ComponentVoice::ComponentVoice(const Socket& socket) : Component(kTransfer, socket) {
+    //socket_ = new Socket(kUDP);
+    //ap_ = new AudioPlayer(8000, 1, 8, 4096);
+    //socket_->serverJoinMCast(inet_addr(MULTICASTIP), htons(MULTICASTPORT));
+    //mic_ = new Microphone();
+    //connect(mic_, SIGNAL(sendVoice(QByteArray*)),this, SLOT(transmitVoice(QByteArray*)));
+    //micThread_ = new Thread();
+    //micThread_->start();
+    //mic_->moveToThread(micThread_);
 }
 
 ComponentVoice::~ComponentVoice() {
     delete socket_;
-    QThread::wait();
+    //QThread::wait();
 }
 
 void ComponentVoice::transmitVoice(QByteArray * ba) {

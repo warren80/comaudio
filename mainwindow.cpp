@@ -21,7 +21,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    ComponentVoice *cv;
+    //ComponentVoice *cv;
     QValidator *validPort = new QRegExpValidator(QRegExp("^\\d*$"), this);
     QValidator *validIp = new QRegExpValidator(QRegExp("^\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}$"), this);
 
@@ -55,8 +55,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->nextButton, SIGNAL(pressed()), this, SLOT(nextSong()));
 
     //testing for the voice component
-    cv = new ComponentVoice();
-    cv->start();
+    //cv = new ComponentVoice();
+    //cv->start();
 }
 
 /**

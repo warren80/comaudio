@@ -8,6 +8,7 @@
 #include "socket.h"
 #include "microphone.h"
 #include "thread.h"
+#include "component.h"
 
 #define MULTICASTIP "234.5.6.7"
 #define MULTICASTPORT 8888
@@ -19,19 +20,19 @@
 
   @author Warren Voelkl
   */
-class ComponentVoice : public QThread
+class ComponentVoice : public Component
 {
     Q_OBJECT
 
 public:
     /**
-      ComponentVoice constructor listens to a multicast session
+      ComponentVoice constructor
       @author Warren Voelkl
       */
-    ComponentVoice();
+    ComponentVoice(const Socket& socket);
 
     /**
-      ComponentVoice, shuts down socket and closes recieve loop
+      ComponentVoice
       @author Warren Voelkl
       */
     ~ComponentVoice();
