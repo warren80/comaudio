@@ -17,8 +17,6 @@ ComponentChat::ComponentChat(const Socket& socket) : Component(kChat, socket) {
  *  1. Send text
  */
 void ComponentChat::sendMessage(QString message) {
-    char *msg = message.toLatin1().data();
-    int length = message.length();
-
+    message.leftJustified(4);
     //tx...(mesg, length);
 }

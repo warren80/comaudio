@@ -31,7 +31,7 @@ SOURCES += main.cpp\
         server.cpp \
         microphone.cpp \
         client.cpp \
-        components.cpp \
+        components.cpp
 
 
 HEADERS  += mainwindow.h \
@@ -49,7 +49,7 @@ HEADERS  += mainwindow.h \
         server.h \
         microphone.h \
         client.h \
-        components.h \
+        components.h
 
 
 FORMS    += mainwindow.ui \

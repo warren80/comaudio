@@ -10,8 +10,7 @@
 #include "thread.h"
 #include "component.h"
 
-#define MULTICASTIP "234.5.6.7"
-#define MULTICASTPORT 8888
+
 
 /**
   Voice function that uses a mutlicast peer to all style.
@@ -36,6 +35,11 @@ public:
       @author Warren Voelkl
       */
     ~ComponentVoice();
+
+    /**
+      Parses incoming data and gives it to the audioplayer for playback
+      */
+    void receiveData(char* data, int length);
 
 protected:
     /**

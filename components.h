@@ -30,6 +30,8 @@ public:
     int addComponent(Component* component);
 
     void addData(int index, char* data, int length);
+public slots:
+    void recieveMessage();
 
 protected:
     void run();

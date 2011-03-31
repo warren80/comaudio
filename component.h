@@ -13,7 +13,7 @@ enum ComponentType {
 };
 
 class Component : public QObject {
-
+    Q_OBJECT
 public:
     Component(ComponentType type, const Socket& socket);
     virtual ~Component() {}
