@@ -33,6 +33,8 @@ void Server::run() {
 
     running_ = true;
 
+    running_ = true;
+
     while (running_) {
         rset = allset; // check all currenet sockets
         numReady = select(largest + 1, &rset, NULL, NULL, NULL);
@@ -55,6 +57,7 @@ void Server::run() {
                 //qDebug() << "accept error:" << strerror(errno);
                 return; // TODO: inform main window of failure.
             } else {
+                qDebug() << "Client connected.";
                 clients.append(new Socket(connected, kTCP, info));
             }
 
@@ -99,8 +102,7 @@ void Server::run() {
                 char* buffer = new char[msgSize];
                 clients[i]->receive(buffer, msgSize);
 
-                // move the received data to the dispatcher
-                dispatcher_.dispatch(*clients[i], buffer, msgSize);
+                // check what the received data is for and send it to that component (through a signal)
 
                 if (--numReady == 0) {
                     break;

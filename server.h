@@ -4,7 +4,6 @@
 #include <QThread>
 
 #include "socket.h"
-#include "dispatcher.h"
 
 /**
   Server class that creates a socket then creates a thread to receive incoming TCP
@@ -45,7 +44,6 @@ protected:
 
 private:
     Socket* socket_;        /**< The socket information for the server. */
-    Dispatcher dispatcher_; /**< Dispatch recieved messages to the right component.*/
     bool running_;          /**< State of the thread, whether it should be running or not. */
 
 };

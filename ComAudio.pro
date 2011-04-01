@@ -20,13 +20,11 @@ SOURCES += main.cpp\
         mainwindow.cpp \
         thread.cpp \
         component.cpp \
-        dispatcher.cpp \
         componentstream.cpp \
         componentvoice.cpp \
         componenttransfer.cpp \
         audioplayer.cpp \
         socket.cpp \
-        logs.cpp \
         server.cpp \
         microphone.cpp \
         client.cpp \
@@ -37,12 +35,10 @@ HEADERS  += mainwindow.h \
         thread.h \
         component.h \
         packet.h \
-        dispatcher.h \
         componentstream.h \
         componentvoice.h \
         componenttransfer.h \
         audioplayer.h \
-        logs.h \
         server.h \
         microphone.h \
         client.h \

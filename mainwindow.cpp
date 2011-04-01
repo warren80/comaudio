@@ -33,29 +33,24 @@ MainWindow::MainWindow(QWidget *parent) :
     /**
      * CONNECTIONS
      */
-    //Chat
-    connect(ui->sendButton, SIGNAL(pressed()), this, SLOT(sendText()));
 
     //Settings Tab
     connect(ui->connectButton, SIGNAL(pressed()), this, SLOT(appConnect()));
     connect(ui->disconnectButton, SIGNAL(pressed()), this, SLOT(appDisconnect()));
 
     //Files Tab
-    connect(ui->browseButton, SIGNAL(pressed()), this, SLOT(browseFile()));
-    connect(ui->sendFileButton, SIGNAL(pressed()), this, SLOT(sendFile()));
     connect(ui->downloadSongButton, SIGNAL(pressed()), this, SLOT(downloadSong()));
     connect(ui->downloadCurrentSongButton, SIGNAL(pressed()), this, SLOT(downloadCurrentSong()));
     connect(ui->refreshServerFilesButton, SIGNAL(pressed()), this, SLOT(refreshFiles()));
 
     //Audio Player
-    connect(ui->previousButton, SIGNAL(pressed()), this, SLOT(previousSong()));
     connect(ui->playButton, SIGNAL(pressed()), this, SLOT(playSong()));
     connect(ui->pauseButton, SIGNAL(pressed()), this, SLOT(pauseSong()));
-    connect(ui->nextButton, SIGNAL(pressed()), this, SLOT(nextSong()));
 
-    //testing for the voice component
-    //cv = new ComponentVoice();
-    //cv->start();
+    notes_.setFileName(".\\notes.gif");
+    cylon_.setFileName(".\\cylon.gif");
+    ui->cylon->setMovie(&cylon_);
+    ui->notes->setMovie(&notes_);
 }
 
 /**
@@ -79,31 +74,24 @@ void MainWindow::connected(bool connected) {
     ui->disconnectButton->setEnabled(connected);
 
     //If client
-    ui->typeScreen->setEnabled(settings_->isClient && connected);
-    ui->sendButton->setEnabled(settings_->isClient && connected);
     ui->fileTab->setEnabled(settings_->isClient && connected);
-    ui->previousButton->setEnabled(settings_->isClient && connected);
     ui->playButton->setEnabled(settings_->isClient && connected);
     ui->pauseButton->setEnabled(settings_->isClient && connected);
-    ui->nextButton->setEnabled(settings_->isClient && connected);
+
+    //If Server
+    ui->serverTab->setEnabled(!settings_->isClient && connected);
 
     if(!connected) {
+        cylon_.stop();
+        notes_.stop();
         if(settings_->isClient) {
-            //mic_->stopRecording();
-            //mic_->deleteLater();
             //delete player_;
         }
         delete settings_;
         ui->statusText->setText("Disconnected");
+    } else {
+        cylon_.start();
     }
-}
-
-void MainWindow::printF(const char *message) {
-    ui->chatScreen->appendPlainText(QString(message));
-}
-
-void MainWindow::printF(const QString message) {
-    ui->chatScreen->appendPlainText(message);
 }
 
 /**
@@ -121,13 +109,13 @@ void MainWindow::appConnect() {
     settings_->port = ui->portBox->text().toInt();
 
     if((settings_->isClient = ui->client->isChecked())) {
-
         //Settings
         ui->statusText->setText("Client");
         setWindowTitle("Kidnapster - Client");
         settings_->ipAddr = ui->serverAddrBox->text();
         settings_->alias = ui->aliasBox->text();
         settings_->logChat = ui->logChatBox->isChecked();
+
 
         try {
             appClient_ = new Client();
@@ -152,49 +140,17 @@ void MainWindow::appConnect() {
         appServer_->start();
     }
 
+    cylon_.start();
     connected(true);
 }
 
 //TODO: Close socket and delete socket/client/server objects
 void MainWindow::appDisconnect() {
     qDebug("Disconnecting");
-    if(settings_->logChat) {
-        chatLog_ = new Logs(QString("./logs/chat_log_" +
-                                    QString::number(QDateTime::currentMSecsSinceEpoch()) + ".log"),
-                            QDateTime::currentDateTime().toString());
-        chatLog_->writeToLog(ui->chatScreen->toPlainText());
-    }
-    ui->chatScreen->clear();
+
     ui->serverFilesView->clear();
     setWindowTitle("Kidnapster - Disconnected");
     connected(false);
-}
-
-/**
- * CHAT
- */
-
-//TODO: Send text to the server
-void MainWindow::sendText() {
-    QString message = ui->typeScreen->toPlainText();
-
-    ui->typeScreen->clear();
-    printF(settings_->alias + ":\n" + message);
-}
-
-void MainWindow::browseFile() {
-    QString fileNamePath = QFileDialog::getOpenFileName(this, "Open", QDir::homePath(), "Text (*.txt);;All(*.*)");
-    ui->pathBox->setText(fileNamePath);
-
-}
-
-//TODO: Send file to the server
-void MainWindow::sendFile() {
-    QString fileNamePath = ui->pathBox->text();
-
-    if(fileNamePath.length() != 0) {
-
-    }
 }
 
 /**
@@ -241,27 +197,14 @@ void MainWindow::refreshFiles() {
 /**
  * AUDIO PLAYER
  */
-void MainWindow::previousSong() {
-
-}
 
 void MainWindow::playSong() {
+    notes_.start();
     player_->play();
 }
 
 void MainWindow::pauseSong() {
+    notes_.stop();
     player_->pause();
-}
-
-void MainWindow::nextSong() {
-
-}
-
-/**
- * VOICE
- */
-void MainWindow::sendVoice(const char *mesg) {
-    //printF(mesg);
-    //transmit!!!
 }
 

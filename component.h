@@ -12,7 +12,6 @@ enum ComponentType {
 };
 
 class Component : public QObject {
-
 public:
     Component(ComponentType type, const Socket& socket);
     virtual ~Component() {}
@@ -53,7 +52,6 @@ public slots:
       @author Nick Huber
       */
     void slot_transmitData(char* data, int length) { transmitData(data, length); }
-
 signals:
     void signal_receviedData(char* data, int length);
 

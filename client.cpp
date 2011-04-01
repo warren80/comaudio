@@ -16,6 +16,7 @@ Client::~Client() {
 }
 
 void Client::run() {
+    running_ = true;
 
     running_ = true;
     while (running_) {
@@ -33,7 +34,7 @@ void Client::run() {
             char* buffer = new char[msgSize];
             socket_->receive(buffer, msgSize);
             // temp. echo received data
-            dispatcher_.dispatch(*socket_, buffer, msgSize);
+            // check what data is for and send it to the right component thread
 
             break;
         }

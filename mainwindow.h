@@ -2,8 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QMovie>
 #include "thread.h"
-#include "logs.h"
 #include "server.h"
 #include "client.h"
 #include "audioplayer.h"
@@ -35,12 +35,13 @@ private:
     Thread * dispatcherThread_;
     Ui::MainWindow *ui;   /**< Qt form UI. */
     Settings* settings_;  /**< Current settings for the window. */
-    Logs *chatLog_;       /**< Chat log. */
     Server *appServer_;   /**< For when the application is running as server. */
     Client *appClient_;   /**< For when the application is running as client. */
     AudioPlayer *player_; /**< Audioplayer for PCM audio. */
     Microphone *mic_;     /**< Recording device for user's voice through a mic. */
     Thread *micThread_;   /**< Thread the mic runs on */
+    QMovie notes_;
+    QMovie cylon_;
 
     void initDispatcher();
     /**
@@ -59,17 +60,6 @@ private:
      * @author Karl Castillo
      */
     void getFileList();
-    /**
-     * A wrapper function that should be called to print a message on to the chat screen.
-     * This method has 2 versions:
-     *  - printF(const char *message);
-     *  - printF(const QString message);
-     *
-     * @author Karl Castillo
-     * @arg message - the message that is to be printed out
-     */
-    void printF(const char *message);
-    void printF(const QString message);
 
 public slots:
 
@@ -90,24 +80,6 @@ private slots:
      */
     void appDisconnect();
     /**
-     * Call this function to browse for a file that will be sent to the server.
-     *
-     * @author Karl Castillo
-     */
-    void browseFile();
-    /**
-     * Call this function to send the selected file to the server.
-     *
-     * @author Karl Castillo
-     */
-    void sendFile();
-    /**
-     * Call this function to send the text message from the chat widget to the server.
-     *
-     * @author Karl Castillo
-     */
-    void sendText();
-    /**
      * Call this function to download a selected song.
      *
      * @author Karl Castillo
@@ -126,12 +98,6 @@ private slots:
      */
     void refreshFiles();
     /**
-     * Call this function to play the previous song that was being played.
-     *
-     * @author Karl Castillo
-     */
-    void previousSong();
-    /**
      * Call this function to play the current song.
      *
      * @author Karl Castillo
@@ -143,19 +109,6 @@ private slots:
      * @author Karl Castillo
      */
     void pauseSong();
-    /**
-     * Call this function to play the next song.
-     *
-     * @author Karl Castillo
-     */
-    void nextSong();
-    /**
-     * Call this function to send the voice recordings to the server.
-     *
-     * @author Karl Castillo
-     * @arg mesg - the voice chat message that will be sent.
-     */
-    void sendVoice(const char *mesg);
 
 signals:
 };

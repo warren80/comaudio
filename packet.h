@@ -9,10 +9,4 @@ struct Packet {
     char* data;
 };
 
-//struct Message {
-//    int socketID;
-//    char idAddr[16];
-//    Packet * payload;
-//};
-
 #endif // PACKET_H

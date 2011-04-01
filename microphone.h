@@ -2,7 +2,6 @@
 #define MICROPHONE_H
 
 #include <QObject>
-#include <QFile>
 #include <QtMultimedia>
 
 class Microphone:public QObject
@@ -45,9 +44,10 @@ private:
      * The input device that will capture the raw data.
      */
     QAudioInput *mic_;
+    /**
+     * The number of bytes written on to the QIODevice.
+     */
     qint64 dataWritten_;
-
-public slots:
 
 private slots:
     /**
@@ -57,6 +57,11 @@ private slots:
      * @author Karl Castillo
      */
     void readData();
+    /**
+     * Call this function when a data is written to input_.
+     *
+     * @author Karl Castillo
+     */
     void bytesWritten(qint64 data);
 
 signals:
