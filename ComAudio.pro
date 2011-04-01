@@ -22,7 +22,6 @@ SOURCES += main.cpp\
         component.cpp \
         dispatcher.cpp \
         componentaudio.cpp \
-        componenttext.cpp \
         componentvoice.cpp \
         componentfile.cpp \
         audioplayer.cpp \
@@ -41,7 +40,6 @@ HEADERS  += mainwindow.h \
         packet.h \
         dispatcher.h \
         componentaudio.h \
-        componenttext.h \
         componentvoice.h \
         componentfile.h \
         audioplayer.h \
