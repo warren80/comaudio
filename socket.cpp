@@ -20,6 +20,14 @@ Socket::Socket(NetMode mode) : mode_(mode) {
         exception.append(strerror(errno));
         throw exception;
     }
+
+    int arg = 1;
+
+    if (setsockopt(socket_, SOL_SOCKET, SO_REUSEADDR, (char*) &arg, sizeof(arg)) == -1) {
+        QString exception("error setting up socket: ");
+        exception.append(strerror(errno));
+        throw exception;
+    }
 }
 
 Socket::~Socket() {

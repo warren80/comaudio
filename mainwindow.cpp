@@ -125,8 +125,7 @@ void MainWindow::appConnectClient() {
     }
     appClient_->start();
 
-//    ComponentStream radio;
-//    radio.start();
+    stream_.start();
 
     cylon_.start();
     clientConnect(true);
@@ -200,7 +199,7 @@ void MainWindow::broadcastSong() {
     ui->currentSong->setText(songName);
 
     ServerStream *sfwo = new ServerStream(songName);
-    connect(this, SIGNAL(playThisSong()), sfwo, SLOT(startTransfer()));
+    connect(this, SIGNAL(playThisSong()), sfwo, SLOT(slotStartTransfer()));
     connect(sfwo, SIGNAL(signalTransferDone()), thread, SLOT(deleteLater()));
     thread->start();
 
