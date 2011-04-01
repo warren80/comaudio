@@ -452,7 +452,7 @@ color: white;</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background: url('chatBG.png');
+     <string notr="true">background: url(':/chatBG.png');
 background-repeat: none;
 background-position: center;</string>
     </property>

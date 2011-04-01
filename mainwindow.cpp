@@ -18,9 +18,9 @@
  ******************************************/
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    QMainWindow(parent), ui(new Ui::MainWindow)
 {
+    setWindowIcon(QIcon(":/kidnapster.png"));
     //ComponentVoice *cv;
     QValidator *validPort = new QRegExpValidator(QRegExp("^\\d*$"), this);
     QValidator *validIp = new QRegExpValidator(QRegExp("^\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}$"), this);
@@ -52,8 +52,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->playButton, SIGNAL(pressed()), this, SLOT(playSong()));
     connect(ui->pauseButton, SIGNAL(pressed()), this, SLOT(pauseSong()));
 
-    notes_.setFileName(".\\notes.gif");
-    cylon_.setFileName(".\\cylon.gif");
+    notes_.setFileName(":/notes.gif");
+    cylon_.setFileName(":/cylon.gif");
     ui->cylon->setMovie(&cylon_);
     ui->notes->setMovie(&notes_);
 }
