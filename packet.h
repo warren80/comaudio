@@ -1,7 +1,7 @@
 #ifndef PACKET_H
 #define PACKET_H
 
-#include "component.h"
+#include "componenttype.h"
 
 struct Packet {
     int length; //equal to size of ComponentType + data;

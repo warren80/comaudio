@@ -83,6 +83,16 @@ int Socket::transmit(const char *buffer, int length) const {
 
 }
 
+
+int Socket::transmit(const Packet& packet) {
+    int totalSize = packet.length + sizeof(packet.length) + sizeof(packet.type);
+    char* data = new char[totalSize];
+    memcpy((void*) data, (void*) &packet.length, sizeof(packet.length));
+    memcpy((void*) (data + sizeof(packet.length)), (void*) &packet.type, sizeof(packet.type));
+    memcpy((void*) (data + sizeof(packet.length) + sizeof(packet.type)), (void*) packet.data, packet.length);
+    return transmit(data, totalSize);
+}
+
 Socket Socket::accept() const {
     int newSocket;
     sockaddr_in info;
