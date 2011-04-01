@@ -2,11 +2,23 @@
 
 #include "client.h"
 
-Client::Client() : socket_(Socket(kTCP)), running_(false) {
+Client::Client(char *ipAddr, int port, QString alias) : alias_(alias), socket_(Socket(kTCP)), running_(false) {
     qDebug() << "Client starting...";
+    in_addr_t ip;
+
+    if((ip = inet_addr(ipAddr)) == INADDR_NONE) {
+        qDebug() << "Invalid ip";
+        return;
+    }
+
+    if(socket_.connect(ip, htons(port))) {
+        qDebug() << "client: connect() error: " + QString::number(errno);
+        return;
+    }
 }
 
 void Client::run() {
+    running_ = true;
 
     while (running_) {
         int msgSize;

@@ -12,9 +12,7 @@ public:
 
 protected:
     int port_;
-    Logs *errorLog_;
     Logs *chatLog_;
-    Logs *activityLog_;
     int socketID_;
 
 signals:

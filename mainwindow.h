@@ -4,6 +4,7 @@
 #include "includes.h"
 
 #include <QMainWindow>
+#include <QMovie>
 #include "thread.h"
 #include "logs.h"
 #include "server.h"
@@ -42,6 +43,8 @@ private:
     AudioPlayer *player_; /**< Audioplayer for PCM audio. */
     Microphone *mic_;     /**< Recording device for user's voice through a mic. */
     Thread *micThread_;   /**< Thread the mic runs on */
+    QMovie notes_;
+    QMovie cylon_;
 
     void initDispatcher();
     /**
@@ -91,18 +94,6 @@ private slots:
      */
     void appDisconnect();
     /**
-     * Call this function to browse for a file that will be sent to the server.
-     *
-     * @author Karl Castillo
-     */
-    void browseFile();
-    /**
-     * Call this function to send the selected file to the server.
-     *
-     * @author Karl Castillo
-     */
-    void sendFile();
-    /**
      * Call this function to send the text message from the chat widget to the server.
      *
      * @author Karl Castillo
@@ -127,12 +118,6 @@ private slots:
      */
     void refreshFiles();
     /**
-     * Call this function to play the previous song that was being played.
-     *
-     * @author Karl Castillo
-     */
-    void previousSong();
-    /**
      * Call this function to play the current song.
      *
      * @author Karl Castillo
@@ -144,19 +129,6 @@ private slots:
      * @author Karl Castillo
      */
     void pauseSong();
-    /**
-     * Call this function to play the next song.
-     *
-     * @author Karl Castillo
-     */
-    void nextSong();
-    /**
-     * Call this function to send the voice recordings to the server.
-     *
-     * @author Karl Castillo
-     * @arg mesg - the voice chat message that will be sent.
-     */
-    void sendVoice(const char *mesg);
 
 signals:
 };

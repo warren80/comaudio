@@ -40,17 +40,18 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->disconnectButton, SIGNAL(pressed()), this, SLOT(appDisconnect()));
 
     //Files Tab
-    connect(ui->browseButton, SIGNAL(pressed()), this, SLOT(browseFile()));
-    connect(ui->sendFileButton, SIGNAL(pressed()), this, SLOT(sendFile()));
     connect(ui->downloadSongButton, SIGNAL(pressed()), this, SLOT(downloadSong()));
     connect(ui->downloadCurrentSongButton, SIGNAL(pressed()), this, SLOT(downloadCurrentSong()));
     connect(ui->refreshServerFilesButton, SIGNAL(pressed()), this, SLOT(refreshFiles()));
 
     //Audio Player
-    connect(ui->previousButton, SIGNAL(pressed()), this, SLOT(previousSong()));
     connect(ui->playButton, SIGNAL(pressed()), this, SLOT(playSong()));
     connect(ui->pauseButton, SIGNAL(pressed()), this, SLOT(pauseSong()));
-    connect(ui->nextButton, SIGNAL(pressed()), this, SLOT(nextSong()));
+
+    notes_.setFileName(".\\notes.gif");
+    cylon_.setFileName(".\\cylon.gif");
+    ui->cylon->setMovie(&cylon_);
+    ui->notes->setMovie(&notes_);
 }
 
 /**
@@ -77,19 +78,18 @@ void MainWindow::connected(bool connected) {
     ui->typeScreen->setEnabled(settings_->isClient && connected);
     ui->sendButton->setEnabled(settings_->isClient && connected);
     ui->fileTab->setEnabled(settings_->isClient && connected);
-    ui->previousButton->setEnabled(settings_->isClient && connected);
     ui->playButton->setEnabled(settings_->isClient && connected);
     ui->pauseButton->setEnabled(settings_->isClient && connected);
-    ui->nextButton->setEnabled(settings_->isClient && connected);
 
     if(!connected) {
+        cylon_.stop();
         if(settings_->isClient) {
-            mic_->stopRecording();
-            mic_->deleteLater();
             //delete player_;
         }
         delete settings_;
         ui->statusText->setText("Disconnected");
+    } else {
+        cylon_.start();
     }
 }
 
@@ -117,13 +117,6 @@ void MainWindow::appConnect() {
     if((settings_->isClient = ui->client->isChecked())) {
         player_ = new AudioPlayer();
 
-        //Microphone
-        mic_ = new Microphone();
-        micThread_ = new Thread();
-        micThread_->start();
-        mic_->moveToThread(micThread_);
-        mic_->startRecording();
-
         //Settings
         ui->statusText->setText("Client");
         setWindowTitle("Kidnapster - Client");
@@ -131,10 +124,9 @@ void MainWindow::appConnect() {
         settings_->alias = ui->aliasBox->text();
         settings_->logChat = ui->logChatBox->isChecked();
 
-        appClient_ = new Client();
+        appClient_ = new Client(settings_->ipAddr.toLatin1().data()
+                                , settings_->port, settings_->alias);
         appClient_->start();
-
-        connect(mic_, SIGNAL(sendVoice(const char*)), this, SLOT(sendVoice(const char*)));
     } else {
         ui->statusText->setText("Server");
         setWindowTitle("Kidnapster - Server");
@@ -145,6 +137,7 @@ void MainWindow::appConnect() {
     settings_->port = ui->portBox->text().toInt();
     qDebug() << QString::number(settings_->port).toLatin1().data();
 
+    cylon_.start();
     connected(true);
 }
 
@@ -172,22 +165,7 @@ void MainWindow::sendText() {
     QString message = ui->typeScreen->toPlainText();
 
     ui->typeScreen->clear();
-    printF(settings_->alias + ":\n" + message);
-}
-
-void MainWindow::browseFile() {
-    QString fileNamePath = QFileDialog::getOpenFileName(this, "Open", QDir::homePath(), "Text (*.txt);;All(*.*)");
-    ui->pathBox->setText(fileNamePath);
-
-}
-
-//TODO: Send file to the server
-void MainWindow::sendFile() {
-    QString fileNamePath = ui->pathBox->text();
-
-    if(fileNamePath.length() != 0) {
-
-    }
+    printF(settings_->alias + ":\n" + message + "\n");
 }
 
 /**
@@ -234,27 +212,14 @@ void MainWindow::refreshFiles() {
 /**
  * AUDIO PLAYER
  */
-void MainWindow::previousSong() {
-
-}
 
 void MainWindow::playSong() {
+    notes_.start();
     player_->play();
 }
 
 void MainWindow::pauseSong() {
+    notes_.stop();
     player_->pause();
-}
-
-void MainWindow::nextSong() {
-
-}
-
-/**
- * VOICE
- */
-void MainWindow::sendVoice(const char *mesg) {
-    //printF(mesg);
-    //transmit!!!
 }
 

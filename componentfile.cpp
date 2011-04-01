@@ -26,7 +26,6 @@ void ComponentFile::setupFileTransfer(QString fileNamePath) {
 
     if(file->open(QIODevice::ReadOnly)) {
         QMessageBox::QMessageBox(QMessageBox::Critical, "Error", "Cannot open file or file doesn't exist", QMessageBox::Ok).exec();
-        errorLog_->writeToLog("setupFileTransfer(): Cannot open file", 0);
         return;
     }
 
@@ -43,12 +42,11 @@ void ComponentFile::saveFile(QList<char*> mesg) {
 
     if(file->open(QIODevice::ReadOnly)) {
         QMessageBox::QMessageBox(QMessageBox::Critical, "Error", "Cannot open file or file doesn't exist", QMessageBox::Ok).exec();
-        errorLog_->writeToLog("saveFile(): Cannot open file", 0);
         return;
     }
 
     while(iterator.hasNext()) {
-        file->write(iterator.peekNext(), qstrlen(iterator.next()));
+        file->write(iterator.peekNext(), 1024);
     }
 
     file->close();
