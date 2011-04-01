@@ -83,6 +83,7 @@ void MainWindow::connected(bool connected) {
 
     if(!connected) {
         cylon_.stop();
+        notes_.stop();
         if(settings_->isClient) {
             //delete player_;
         }

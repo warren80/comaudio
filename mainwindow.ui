@@ -98,7 +98,10 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
+    </property>
+    <property name="elideMode">
+     <enum>Qt::ElideNone</enum>
     </property>
     <widget class="QWidget" name="statusTab">
      <attribute name="title">
@@ -143,7 +146,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Song Playing:</string>
+       <string>Current Song:</string>
       </property>
      </widget>
      <widget class="QLabel" name="songText">
@@ -241,6 +244,47 @@
       </property>
       <property name="value">
        <number>0</number>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="serverTab">
+     <attribute name="title">
+      <string>Server</string>
+     </attribute>
+     <widget class="QListWidget" name="songList">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>30</y>
+        <width>321</width>
+        <height>291</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>330</y>
+        <width>75</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Broadcast</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>81</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Available Songs:</string>
       </property>
      </widget>
     </widget>
