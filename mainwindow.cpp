@@ -19,8 +19,7 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow),
-    stream_(Socket(kUDP))
+    ui(new Ui::MainWindow)
 {
     //ComponentVoice *cv;
     QValidator *validPort = new QRegExpValidator(QRegExp("^\\d*$"), this);
@@ -197,7 +196,7 @@ void MainWindow::broadCastSong() {
 }
 
 void MainWindow::refreshSongList() {
-    QDir dir(".\\Songs");
+    QDir dir("./Songs");
     QStringList files = dir.entryList(QStringList("*.wav"));
 
     ui->songList->clear();

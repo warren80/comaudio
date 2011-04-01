@@ -45,7 +45,7 @@ void ComponentTransfer::saveFile(QList<char*> mesg) {
     }
 
     while(iterator.hasNext()) {
-        file->write(iterator.peekNext(), 1024);
+        file->write(iterator.next(), 1024);
     }
 
     file->close();
