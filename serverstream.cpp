@@ -1,3 +1,4 @@
+#include <QDebug>
 #include "serverstream.h"
 #include "packet.h"
 
