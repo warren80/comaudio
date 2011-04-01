@@ -2,7 +2,7 @@
 
 #include "componentstream.h"
 
-ComponentStream::ComponentStream(const Socket& socket) : Component(kStream, socket), audioPlayer_(NULL) {
+ComponentStream::ComponentStream(const Socket& socket) : Component(socket), audioPlayer_(NULL) {
 
 }
 

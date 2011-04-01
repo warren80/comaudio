@@ -1,19 +1,20 @@
 #ifndef COMPONENT_H
 #define COMPONENT_H
 
-#include <QObject>
+#include <QThread>
 
 #include "socket.h"
 
 enum ComponentType {
     kStream,    /**< Multicast Music streaming. */
     kTransfer,  /**< File transfer. */
-    kVoice,     /**< Voice Chat. */
+    kVoice,     /**< Server-Client Voice Chat. */
 };
 
-class Component : public QObject {
+class Component : public QThread {
+
 public:
-    Component(ComponentType type, const Socket& socket);
+    Component(const Socket& socket);
     virtual ~Component() {}
 
     /**
@@ -37,8 +38,7 @@ public:
       */
     void transmitData(char* data, int length) { socket_.transmit(data, length); }
 
-private:
-    ComponentType type_;
+protected:
 
 protected:
     Socket socket_;
