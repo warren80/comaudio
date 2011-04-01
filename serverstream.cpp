@@ -44,6 +44,7 @@ void ServerStream::slotStartTransfer(){
 
     if (file->read(pckt.data,HEADER_LENGTH) != HEADER_LENGTH) {
         emit signalTransferDone();
+        return;
     }
 
     while (!file->atEnd()) {

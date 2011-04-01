@@ -1,6 +1,5 @@
 #ifndef SERVERSTREAM_H
 #define SERVERSTREAM_H
-
 #include <QObject>
 #include "Thread.h"
 
