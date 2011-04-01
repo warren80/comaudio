@@ -1,6 +1,7 @@
 //#include <QDebug>
 
 #include "componentstream.h"
+#include "componenttype.h"
 
 ComponentStream::ComponentStream() : Component(new Socket(kUDP)), audioPlayer_(NULL) {
     socket_->clientJoinMCast(inet_addr(MULTICAST_IP), MULTICAST_PORT);
@@ -44,8 +45,11 @@ void ComponentStream::run() {
 
             // check if the wave header stuff is the same
             // process buffer to buffer + HEADER_LENGTH - 1
+            if (audioPlayer_ == NULL) {
+                setupAudio(44100, 2, 16, 100000);
+            }
 
-            audioPlayer_->appendBuffer(buffer + HEADER_LENGTH, msgSize - HEADER_LENGTH);
+            audioPlayer_->appendBuffer(buffer + sizeof(ComponentType) + HEADER_LENGTH, msgSize - HEADER_LENGTH);
 
             // remove the memory since its now in the audio player
             delete[] buffer;
