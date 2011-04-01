@@ -39,9 +39,11 @@ public:
     void transmitData(char* data, int length) { socket_.transmit(data, length); }
 
 protected:
+    virtual void run() = 0;
 
 protected:
     Socket socket_;
+    bool running_;
 
 public slots:
     /**

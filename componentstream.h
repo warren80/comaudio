@@ -20,6 +20,10 @@ public:
     void setupAudio(int frequency, int channels, int sampleSize, int bufferSize);
     void receiveData(char *data, int length);
     void transmitData(char *data, int length);
+
+protected:
+    void run();
+
 private:
     AudioPlayer* audioPlayer_;
 
