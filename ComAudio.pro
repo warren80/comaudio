@@ -27,8 +27,7 @@ SOURCES += main.cpp\
         socket.cpp \
         server.cpp \
         microphone.cpp \
-        client.cpp \
-
+        client.cpp
 
 HEADERS  += mainwindow.h \
         socket.h \
@@ -41,7 +40,7 @@ HEADERS  += mainwindow.h \
         audioplayer.h \
         server.h \
         microphone.h \
-        client.h \
+        client.h
 
 
 FORMS    += mainwindow.ui \
