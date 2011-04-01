@@ -60,3 +60,7 @@ RESOURCES += \
 win32 {
     LIBS += -lws2_32
 }
+
+RESOURCES += \
+    icon.qrc \
+    miscImages.qrc

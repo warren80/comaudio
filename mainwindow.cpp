@@ -52,8 +52,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->playButton, SIGNAL(pressed()), this, SLOT(playSong()));
     connect(ui->pauseButton, SIGNAL(pressed()), this, SLOT(pauseSong()));
 
-    notes_.setFileName(".\\notes.gif");
-    cylon_.setFileName(".\\cylon.gif");
+    notes_.setFileName(":/notes.gif");
+    cylon_.setFileName(":/cylon.gif");
     ui->cylon->setMovie(&cylon_);
     ui->notes->setMovie(&notes_);
 }
@@ -196,7 +196,7 @@ void MainWindow::broadCastSong() {
 }
 
 void MainWindow::refreshSongList() {
-    QDir dir(".\\Songs");
+    QDir dir("./Songs");
     QStringList files = dir.entryList(QStringList("*.wav"));
 
     ui->songList->clear();
