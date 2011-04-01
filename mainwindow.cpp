@@ -125,6 +125,9 @@ void MainWindow::appConnectClient() {
     }
     appClient_->start();
 
+    ComponentStream radio;
+    radio.start();
+
     cylon_.start();
     clientConnect(true);
 }
