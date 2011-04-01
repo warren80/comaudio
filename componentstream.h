@@ -5,12 +5,14 @@
 #include "audioplayer.h"
 #include <QFile>
 #include "thread.h"
+#include "packet.h"
 
 #define MULTICAST_IP "234.5.6.7"
-#define MULTICAST_PORT 8888
-#define HEADER_LENGTH 44
-//#define STREAMPACKETSIZE 4096
-//#define STREAMDATALENGTH  STREAMPACKETSIZE - HEADERLENGTH - 2
+#define MULTICAST_PORT                  8888
+#define HEADER_LENGTH                   44
+#define HEADER_WAVE_AND_PACKETHEADER    (HEADER_LENGTH + sizeof(Packet))
+#define STREAMPACKETSIZE                4096
+#define STREAMDATALENGTH                (STREAMPACKETSIZE - HEADER_WAVE_AND_PACKETHEADER)
 
 class ComponentStream : public Component {
 Q_OBJECT
@@ -38,17 +40,5 @@ private:
 signals:
     void signalStreamFile();
 };
-
-//class StreamFileWorkerObject :  public QObject {
-//Q_OBJECT
-//private:
-//    QString fileNamePath_;
-//public:
-//    StreamFileWorkerObject(QString fileNamePath);
-//public slots:
-//    void slotStartTransfer();
-//signals:
-//    void signalTransferDone();
-//};
 
 #endif // COMPONENTSTREAM_H
