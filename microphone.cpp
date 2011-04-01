@@ -60,13 +60,6 @@ void Microphone::readData() {
     qDebug() << "ba_ size: " + QString::number(ba_->size());
     ba_->clear();
     qDebug() << "ba_ size: " + QString::number(ba_->size());
-
-    // this was a merge conflict, didn't know anything about it but the other one worked
-//    ba_ = input_->read(size);
-//    emit sendVoice(ba_.constData());
-//    qDebug() << QString::number(ba_.size());
-//    ba_.clear();
-
 }
 
 void Microphone::bytesWritten(qint64 data) {
