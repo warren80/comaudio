@@ -199,7 +199,7 @@ void MainWindow::broadcastSong() {
     notes_.start();
     ui->currentSong->setText(songName);
 
-    ServerStream *sfwo = new ServerStream(songName);
+    ServerStream *sfwo = new ServerStream("./Songs/" + songName);
     connect(this, SIGNAL(playThisSong()), sfwo, SLOT(startTransfer()));
     connect(sfwo, SIGNAL(signalTransferDone()), thread, SLOT(deleteLater()));
     thread->start();
