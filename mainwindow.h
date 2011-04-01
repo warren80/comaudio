@@ -11,13 +11,6 @@
 #include "componentvoice.h"
 #include "componentstream.h"
 
-struct Settings {
-    Settings():ipAddr(""), port(0), isClient(false){}
-    QString ipAddr;
-    int port;
-    bool isClient;
-};
-
 namespace Ui {
     class MainWindow;
 }
@@ -33,7 +26,6 @@ public:
 private:
     Thread * dispatcherThread_;
     Ui::MainWindow *ui;   /**< Qt form UI. */
-    Settings* settings_;  /**< Current settings for the window. */
     Server *appServer_;   /**< For when the application is running as server. */
     Client *appClient_;   /**< For when the application is running as client. */
     AudioPlayer *player_; /**< Audioplayer for PCM audio. */
@@ -52,7 +44,8 @@ private:
      * @arg connected - true, if the application is connected
      *                  false, if the application is not connected
      */
-    void connected(bool connected);
+    void clientConnect(bool connected);
+    void serverConnect(bool connected);
     /**
      * Call this function to get the list of available music files in the server and show them
      * in the file list view.
@@ -71,14 +64,26 @@ private slots:
      *
      * @author Karl Castillo
      */
-    void appConnect();
+    void appConnectClient();
     /**
      * Call this function to disconnect the socket and to destroy the objects related to
      * the client or server.
      *
      * @author Karl Castillo
      */
-    void appDisconnect();
+    void appDisconnectClient();
+    /**
+     * Call this function to start the server.
+     *
+     * @author Karl Castillo
+     */
+    void appStartServer();
+    /**
+     * Call this function to close the server.
+     *
+     * @author Karl Castillo
+     */
+    void appStopServer();
 
     /******************************************
      * FILE SLOTS
@@ -130,7 +135,7 @@ private slots:
      *
      * @author Karl Castillo
      */
-    void broadCastSong();
+    void broadcastSong();
     /**
      * Call this function to refresh the list of songs available on the server.
      *
@@ -139,6 +144,7 @@ private slots:
     void refreshSongList();
 
 signals:
+    void playThisSong(QString songName);
 };
 
 #endif // MAINWINDOW_H

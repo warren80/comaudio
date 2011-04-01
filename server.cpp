@@ -3,6 +3,7 @@
 #include "server.h"
 #include <QFile>
 #include <QDebug>
+
 Server::Server(int port, int backlog) : socket_(new Socket(kTCP)), running_(false) {
 
     socket_->bind(port);

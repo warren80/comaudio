@@ -39,7 +39,7 @@ SOURCES += main.cpp\
         microphone.cpp \
         parseHdr.cpp \
         client.cpp \
-    serverstream.cpp
+        serverstream.cpp
 
 HEADERS  += mainwindow.h \
         socket.h \
@@ -66,6 +66,5 @@ win32 {
     LIBS += -lws2_32
 }
 
-RESOURCES += \
-    icon.qrc \
-    miscImages.qrc
+RESOURCES += icon.qrc \
+             miscImages.qrc
