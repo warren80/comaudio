@@ -4,7 +4,7 @@
 /*ServerStream::ServerStream(QString fileNamePath) {
     Thread *thread = new Thread();
 
-    StreamFileWorkerObject *sfwo = new StreamFileWorkerObject(fileNamePath);
+    ServerStream *sfwo = new ServerStream(fileNamePath);
     connect(this, SIGNAL(signalStreamFile()), sfwo, SLOT(startTransfer()));
     connect(sfwo, SIGNAL(signalTransferDone()), thread, SLOT(deleteLater()));
     thread->start();

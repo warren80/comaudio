@@ -144,7 +144,7 @@ private slots:
     void refreshSongList();
 
 signals:
-    void playThisSong(QString songName);
+    void playThisSong();
 };
 
 #endif // MAINWINDOW_H
