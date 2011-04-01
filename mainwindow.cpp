@@ -12,6 +12,7 @@
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "serverstream.h"
 
 /******************************************
 * ESSENTIAL METHODS

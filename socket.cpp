@@ -149,6 +149,6 @@ bool Socket::serverJoinMCast(in_addr_t address, uint16_t port) {
     if (Ret == -1) { return false; }
     //disable loop back
     Ret = setsockopt(socket_, IPPROTO_IP, IP_MULTICAST_LOOP, (char *)&f, sizeof(f));
-      if (Ret == -1) { return false; }
+    if (Ret == -1) { return false; }
     return true;
 }

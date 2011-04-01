@@ -25,7 +25,6 @@ void ComponentStream::setupAudio(int frequency, int channels, int sampleSize, in
 //}
 
 void ComponentStream::run() {
-
     running_ = true;
     while (running_) {
         int msgSize;
