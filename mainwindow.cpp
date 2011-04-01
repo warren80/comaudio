@@ -2,7 +2,6 @@
 #include <QFileSystemModel>
 #include <QObjectList>
 
-
 #ifndef _WIN32
 #include <sys/socket.h>
 #endif
@@ -130,17 +129,26 @@ void MainWindow::appConnect() {
         settings_->alias = ui->aliasBox->text();
         settings_->logChat = ui->logChatBox->isChecked();
 
-        appClient_ = new Client();
+        try {
+            appClient_ = new Client();
+        } catch (const QString& e) {
+            qDebug() << e;
+        }
+
         if (!appClient_->connect(inet_addr(settings_->ipAddr.toStdString().c_str()), htons(settings_->port))) {
             delete appClient_;
             return;
         }
         appClient_->start();
-
     } else {
         ui->statusText->setText("Server");
         setWindowTitle("Kidnapster - Server");
-        appServer_ = new Server(htons(settings_->port));
+        try {
+            appServer_ = new Server(htons(settings_->port));
+        } catch (const QString& e) {
+            qDebug() << e;
+        }
+
         appServer_->start();
     }
 

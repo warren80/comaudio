@@ -16,8 +16,7 @@
 
   @author Nick Huber
   */
-class AudioPlayer
-{
+class AudioPlayer {
 public:
 
     /**
@@ -49,7 +48,11 @@ public:
 
 private:
     QAudioOutput* audio_; /**< The audio output device. */
-    QBuffer* buffer_;     /**< The buffer that audio_ reads from. */
+    QIODevice* buffer_;     /**< The buffer that audio_ reads from. */
+    int frequency_;
+    int channels_;
+    int sampleSize_;
+    int bufferSize_;
 };
 
 #endif // AUDIOPLAYER_H

@@ -2,7 +2,7 @@
 #define CLIENT_H
 
 #include <QThread>
-
+#include "dispatcher.h"
 #include "socket.h"
 
 class Client : public QThread
@@ -18,6 +18,10 @@ protected:
 private:
     Socket* socket_;
     bool running_;
+    Dispatcher dispatcher_;
+
+public slots:
+    void slot_transmit(char* data, int length) { socket_->transmit(data, length); };
 };
 
 #endif // CLIENT_H

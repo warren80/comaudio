@@ -29,6 +29,8 @@ public:
       */
     int addComponent(Component* component);
 
+    int size() { return components_.size(); };
+
     void addData(int index, char* data, int length);
 
 protected:

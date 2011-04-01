@@ -1,6 +1,8 @@
+#include <QDebug>
+
 #include "componentstream.h"
 
-ComponentStream::ComponentStream(const Socket& socket) : Component(kStream, socket) {
+ComponentStream::ComponentStream(const Socket& socket) : Component(kStream, socket), audioPlayer_(NULL) {
 
 }
 
@@ -13,6 +15,8 @@ void ComponentStream::setupAudio(int frequency, int channels, int sampleSize, in
 
 void ComponentStream::receiveData(char *data, int length) {
     audioPlayer_->appendBuffer(data, length);
+    // temp.
+    //audioPlayer_->play();
 }
 
 void ComponentStream::transmitData(char *data, int length) {
