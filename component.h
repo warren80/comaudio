@@ -6,9 +6,9 @@
 #include "socket.h"
 
 enum ComponentType {
-    kStream,    /**< Music streaming. */
+    kStream,    /**< Multicast Music streaming. */
     kTransfer,  /**< File transfer. */
-    kVoice,     /**< Multicast voice chat. */
+    kVoice,     /**< Voice Chat. */
 };
 
 class Component : public QObject {
@@ -36,7 +36,7 @@ public:
       @param length Size of data.
       @author Nick Huber
       */
-    void transmitData(char* data, int length) { socket_.transmit(data, length); };
+    void transmitData(char* data, int length) { socket_.transmit(data, length); }
 
 private:
     ComponentType type_;
@@ -52,7 +52,7 @@ public slots:
       @param length Length of data to transmit.
       @author Nick Huber
       */
-    void slot_transmitData(char* data, int length) { transmitData(data, length); };
+    void slot_transmitData(char* data, int length) { transmitData(data, length); }
 
 signals:
     void signal_receviedData(char* data, int length);
