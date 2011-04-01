@@ -13,8 +13,8 @@ void ComponentStream::setupAudio(int frequency, int channels, int sampleSize, in
     audioPlayer_ = new AudioPlayer(frequency, channels, sampleSize, bufferSize);
 }
 
-void ComponentStream::receiveData(char *data, int length) {
-    audioPlayer_->appendBuffer(data, length);
+//void ComponentStream::receiveData(char *data, int length) {
+//
 //    short l;
 //    if (audioPlayer_ != NULL) {
 //        //parse the wave header packet
@@ -22,7 +22,7 @@ void ComponentStream::receiveData(char *data, int length) {
 //    }
 //    memcpy(&l, data + HEADERLENGTH, sizeof(short));
 //    audioPlayer_->appendBuffer(data + HEADERLENGTH + 2,l);
-}
+//}
 
 void ComponentStream::run() {
 
@@ -43,8 +43,9 @@ void ComponentStream::run() {
             socket_->receive(buffer, msgSize);
 
             // check if the wave header stuff is the same
+            // process buffer to buffer + HEADER_LENGTH - 1
 
-            receiveData(buffer, msgSize);
+            audioPlayer_->appendBuffer(buffer + HEADER_LENGTH, msgSize);
 
             // remove the memory since its now in the audio player
             delete[] buffer;

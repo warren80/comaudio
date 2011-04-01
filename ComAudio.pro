@@ -52,12 +52,11 @@ HEADERS  += mainwindow.h \
         microphone.h \
         client.h
 
-
 FORMS    += mainwindow.ui \
+
+RESOURCES += \
+    icon.qrc
 
 win32 {
     LIBS += -lws2_32
 }
-
-RESOURCES += \
-    icon.qrc
