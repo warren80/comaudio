@@ -38,11 +38,8 @@ void Microphone::startRecording() {
 }
 
 void Microphone::stopRecording() {
-    //QAudioOutput *temp = new QAudioOutput(*format_);
     mic_->stop();
     recordFile_->close();
-    //recordFile_->open(QIODevice::ReadOnly);
-    //temp->start(recordFile_);
 }
 
 /**
@@ -50,20 +47,22 @@ void Microphone::stopRecording() {
  */
 void Microphone::readData() {
     qint64 size = input_->size();
-    qDebug() << "input_ size: " + QString::number(size);
     if(size <= 0) {
         return;
     }
 
+    qDebug() << QString::number(size);
+
     input_->seek(size - dataWritten_);
-    ba_ = input_->read(size);
-    emit sendVoice(ba_.constData());
-    qDebug() << "ba_ size: " + QString::number(ba_.size());
-    ba_.clear();
-    qDebug() << "ba_ size: " + QString::number(ba_.size());
+
+    ba_ = new QByteArray(input_->read(size));
+    emit sendVoice(ba_);
+    qDebug() << "ba_ size: " + QString::number(ba_->size());
+    ba_->clear();
+    qDebug() << "ba_ size: " + QString::number(ba_->size());
 }
 
 void Microphone::bytesWritten(qint64 data) {
     dataWritten_ = data;
-    qDebug() << "Written: " + QString::number(data);
+    qDebug() << QString::number(data);
 }

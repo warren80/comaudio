@@ -1,22 +1,21 @@
 #ifndef COMPONENT_H
 #define COMPONENT_H
 
-#include <QObject>
+#include <QThread>
 
 #include "socket.h"
 
 enum ComponentType {
-    kChat,      /**< Textual chat. */
-    kStream,    /**< Music streaming. */
+    kStream,    /**< Multicast Music streaming. */
     kTransfer,  /**< File transfer. */
-    kVoice,     /**< Multicast voice chat. */
+    kVoice,     /**< Server-Client Voice Chat. */
 };
 
-class Component : public QObject {
+class Component : public QThread {
 
 public:
-    Component(ComponentType type, const Socket& socket);
-    virtual ~Component() {};
+    Component(Socket* socket);
+    virtual ~Component() {}
 
     /**
       Newly received data to be processed by the component.
@@ -30,24 +29,12 @@ public:
       */
     virtual void receiveData(char* data, int length) = 0;
 
-    /**
-      Transmit data to the other side.
+protected:
+    virtual void run() = 0;
 
-      @param data Data to transmit.
-      @param length Size of data.
-      @author Nick Huber
-      */
-    void transmitData(char* data, int length) { socket_.transmit(data, length); };
-
-private:
-    ComponentType type_;
-    Socket socket_;
-
-public slots:
-    void slot_transmitData(char* data, int length) { transmitData(data, length); };
-
-signals:
-    void signal_receviedData(char* data, int length);
+protected:
+    Socket* socket_;
+    bool running_;
 
 };
 

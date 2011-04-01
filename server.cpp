@@ -1,7 +1,8 @@
 #include <iostream>
 #include <QVector>
 #include "server.h"
-
+#include <QFile>
+#include <QDebug>
 Server::Server(int port, int backlog) : socket_(new Socket(kTCP)), running_(false) {
 
     socket_->bind(port);
@@ -32,6 +33,8 @@ void Server::run() {
 
     running_ = true;
 
+    running_ = true;
+
     while (running_) {
         rset = allset; // check all currenet sockets
         numReady = select(largest + 1, &rset, NULL, NULL, NULL);
@@ -54,6 +57,7 @@ void Server::run() {
                 //qDebug() << "accept error:" << strerror(errno);
                 return; // TODO: inform main window of failure.
             } else {
+                qDebug() << "Client connected.";
                 clients.append(new Socket(connected, kTCP, info));
             }
 
@@ -65,6 +69,20 @@ void Server::run() {
 
             // ensure the largest descriptor is still used.
             largest = connected > largest ? connected : largest;
+
+            // TEMPORARY TEST
+            qDebug() << "loaded client" << connected;
+                QFile temp("/Volumes/OptiBay/Home/Dropbox/School/sem4/COMP4985/final/1.wav");
+            temp.open(QFile::ReadOnly);
+            qDebug() << "file size: " << temp.size();
+            while (!temp.atEnd()) {
+                char* readBuffer = new char[61440];
+                int read = temp.read(readBuffer, 61440);
+                clients.last()->transmit((char*) &read, sizeof(read));
+                clients.last()->transmit(readBuffer, read);
+            }
+            qDebug() << "finished transmit";
+
 
             if (--numReady <= 0) {
                 continue;	// no more readable descriptors
@@ -84,8 +102,7 @@ void Server::run() {
                 char* buffer = new char[msgSize];
                 clients[i]->receive(buffer, msgSize);
 
-                // move the received data to the dispatcher
-                dispatcher_.dispatch(buffer, msgSize);
+                // check what the received data is for and send it to that component (through a signal)
 
                 if (--numReady == 0) {
                     break;

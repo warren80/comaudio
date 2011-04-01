@@ -72,7 +72,7 @@ int Socket::receive(char* buffer, int length) const {
    return read;
 }
 
-int Socket::transmit(char *buffer, int length) const {
+int Socket::transmit(const char *buffer, int length) const {
     if (mode_ == kTCP) {
         return send(socket_, buffer, length, 0);
     } else if (mode_ == kUDP) {
@@ -103,4 +103,42 @@ bool Socket::connect(in_addr_t address, uint16_t port) const {
     } else {
         return false;
     }
+}
+
+bool Socket::clientJoinMCast(in_addr_t address, uint16_t port) {
+    int nRet;
+    ip_mreq stMreq;
+
+    this->bind(port);
+    stMreq.imr_multiaddr.s_addr = address;
+    stMreq.imr_interface.s_addr = htonl(INADDR_ANY);
+    //join mcast session
+    nRet = setsockopt(socket_, IPPROTO_IP, IP_ADD_MEMBERSHIP, (char *)&stMreq, sizeof(stMreq));
+    if (nRet == -1) { return false; }
+    return true;
+}
+
+bool Socket::serverJoinMCast(in_addr_t address, uint16_t port) {
+    bool    f  = false;
+    int     Ret;
+    u_long  lTTL = 1;
+    ip_mreq serverAddress;
+
+    peer_.sin_family =      AF_INET;
+    peer_.sin_addr.s_addr = address;
+    peer_.sin_port =        port;
+
+    this->bind(port);
+    serverAddress.imr_multiaddr.s_addr = address;
+    serverAddress.imr_interface.s_addr = INADDR_ANY;
+    //join multicast address
+    Ret = setsockopt(socket_, IPPROTO_IP, IP_ADD_MEMBERSHIP, (char *)&serverAddress, sizeof(serverAddress));
+    if (Ret == -1) { return false; }
+    //set time to live to 1
+    Ret = setsockopt(socket_, IPPROTO_IP, IP_MULTICAST_TTL, (char *)&lTTL, sizeof(lTTL));
+    if (Ret == -1) { return false; }
+    //disable loop back
+    Ret = setsockopt(socket_, IPPROTO_IP, IP_MULTICAST_LOOP, (char *)&f, sizeof(f));
+      if (Ret == -1) { return false; }
+    return true;
 }

@@ -6,7 +6,7 @@
 /**
  * CONSTRUCTOR
  */
-ComponentTransfer::ComponentTransfer(const Socket& socket) : Component(kTransfer, socket) {
+ComponentTransfer::ComponentTransfer(Socket* socket) : Component(socket) {
 }
 
 /**
@@ -45,7 +45,7 @@ void ComponentTransfer::saveFile(QList<char*> mesg) {
     }
 
     while(iterator.hasNext()) {
-        file->write(iterator.peekNext(), qstrlen(iterator.next()));
+        file->write(iterator.next(), 1024);
     }
 
     file->close();

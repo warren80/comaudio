@@ -23,3 +23,4 @@ ui/
 moc/
 *.Debug
 *.Release
+qrc_*

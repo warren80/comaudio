@@ -3,10 +3,19 @@
 
 #include "component.h"
 #include "audioplayer.h"
-class ComponentStream : public Component {
+#include <QFile>
+#include "thread.h"
 
+#define MULTICAST_IP "234.5.6.7"
+#define MULTICAST_PORT 8888
+//#define HEADERLENGTH 44
+//#define STREAMPACKETSIZE 4096
+//#define STREAMDATALENGTH  STREAMPACKETSIZE - HEADERLENGTH - 2
+
+class ComponentStream : public Component {
+Q_OBJECT
 public:
-    ComponentStream(const Socket& socket);
+    ComponentStream();
 
     /**
       Create a new AudioPlayer.
@@ -19,8 +28,28 @@ public:
       */
     void setupAudio(int frequency, int channels, int sampleSize, int bufferSize);
     void receiveData(char *data, int length);
+
+protected:
+    void run();
+//    void streamFileTransfer(QString fileNamePath);
+
+
 private:
-    AudioPlayer* player_;
+    AudioPlayer* audioPlayer_;
+signals:
+    void signalStreamFile();
 };
+
+//class StreamFileWorkerObject :  public QObject {
+//Q_OBJECT
+//private:
+//    QString fileNamePath_;
+//public:
+//    StreamFileWorkerObject(QString fileNamePath);
+//public slots:
+//    void slotStartTransfer();
+//signals:
+//    void signalTransferDone();
+//};
 
 #endif // COMPONENTSTREAM_H

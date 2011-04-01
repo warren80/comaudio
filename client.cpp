@@ -16,6 +16,7 @@ Client::~Client() {
 }
 
 void Client::run() {
+    running_ = true;
 
     running_ = true;
     while (running_) {
@@ -32,10 +33,8 @@ void Client::run() {
             // data
             char* buffer = new char[msgSize];
             socket_->receive(buffer, msgSize);
-
             // temp. echo received data
-            qDebug() << buffer;
-            delete[] buffer;
+            // check what data is for and send it to the right component thread
 
             break;
         }
