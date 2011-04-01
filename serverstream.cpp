@@ -18,13 +18,15 @@ ServerStream::ServerStream(QString fileNamePath)
 }
 
 void ServerStream::slotStartTransfer(){
+    qDebug() << fileNamePath_;
     QFile *file = new QFile(fileNamePath_);
     Packet pckt;
 
     Socket s(kUDP);
     s.serverJoinMCast(inet_addr(MULTICAST_IP), htons(MULTICAST_PORT));
 
-    if(file->open(QIODevice::ReadOnly)) {
+
+    if(!file->open(QIODevice::ReadOnly)) {
         QMessageBox::QMessageBox(QMessageBox::Critical,
                                  "Error", "Cannot open file or file doesn't exist",
                                  QMessageBox::Ok).exec();
