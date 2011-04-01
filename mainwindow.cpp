@@ -25,30 +25,6 @@ MainWindow::MainWindow(QWidget *parent) :
     QValidator *validPort = new QRegExpValidator(QRegExp("^\\d*$"), this);
     QValidator *validIp = new QRegExpValidator(QRegExp("^\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}$"), this);
 
-    //new AudioPlayer(44100, 2, 16, 39379580);
-
-    QAudioFormat format;
-    // Set up the format, eg.
-    format.setFrequency(44100);
-    format.setChannels(2);
-    format.setSampleSize(16);
-    format.setCodec("audio/pcm");
-    format.setByteOrder(QAudioFormat::LittleEndian);
-    format.setSampleType(QAudioFormat::UnSignedInt);
-
-    QAudioOutput* audio_ = new QAudioOutput(format);
-    audio_->setBufferSize(39379580);
-
-    QIODevice* buffer_ = new QBuffer();
-    //audio_->start(buffer_);
-
-    QFile file;
-    file.setFileName("/Volumes/OptiBay/Home/Dropbox/School/sem4/COMP4985/final/1.wav");
-    file.open(QFile::ReadOnly);
-    audio_->start(&file);
-    //buffer_->write(file.readAll());
-
-
     ui->setupUi(this);
 
     //Setting regex validation
