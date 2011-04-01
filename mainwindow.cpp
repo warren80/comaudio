@@ -22,18 +22,16 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     setWindowIcon(QIcon(":/kidnapster.png"));
     //ComponentVoice *cv;
-    QValidator *validPort = new QRegExpValidator(QRegExp("^\\d*$"), this);
     QValidator *validIp = new QRegExpValidator(QRegExp("^\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}$"), this);
 
     ui->setupUi(this);
 
     //Setting regex validation
     ui->serverAddrBox->setValidator(validIp);
-    ui->portBox->setValidator(validPort);
 
     /**
-* CONNECTIONS
-*/
+    * CONNECTIONS
+    */
 
     //Settings Tab
     connect(ui->connectButton, SIGNAL(pressed()), this, SLOT(appConnect()));
@@ -47,6 +45,8 @@ MainWindow::MainWindow(QWidget *parent) :
     //Server Tab
     connect(ui->broadcastButton, SIGNAL(pressed()), this, SLOT(broadCastSong()));
     connect(ui->refreshSongs, SIGNAL(pressed()), this, SLOT(refreshSongList()));
+    connect(ui->startServerButton, SIGNAL(pressed()), this, SLOT(appStartServer()));
+    connect(ui->stopServerButton, SIGNAL(pressed()), this, SLOT(appStopServer()));
 
     //Audio Player
     connect(ui->playButton, SIGNAL(pressed()), this, SLOT(playSong()));
@@ -72,25 +72,33 @@ void MainWindow::initDispatcher() {
 * HELPERS
 ******************************************/
 
-void MainWindow::connected(bool connected) {
+void MainWindow::clientConnect(bool connected) {
     ui->connectButton->setEnabled(!connected);
     ui->disconnectButton->setEnabled(connected);
-
-    //If client
-    ui->fileTab->setEnabled(settings_->isClient && connected);
-    ui->playButton->setEnabled(settings_->isClient && connected);
-    ui->pauseButton->setEnabled(settings_->isClient && connected);
-
-    //If Server
-    ui->serverTab->setEnabled(!settings_->isClient && connected);
+    ui->fileTab->setEnabled(connected);
+    ui->playButton->setEnabled(connected);
+    ui->pauseButton->setEnabled(connected);
 
     if(!connected) {
+        setWindowTitle("Kidnapster - Disconnected");
         cylon_.stop();
         notes_.stop();
-        if(settings_->isClient) {
-            //delete player_;
-        }
-        delete settings_;
+    } else {
+        cylon_.start();
+    }
+}
+
+void MainWindow::serverConnect(bool connected) {
+    ui->startServerButton->setEnabled(!connected);
+    ui->broadcastButton->setEnabled(connected);
+    ui->stopServerButton->setEnabled(connected);
+    ui->refreshSongs->setEnabled(connected);
+    ui->songList->setEnabled(connected);
+
+    if(!connected) {
+        setWindowTitle("Kidnapster - Disconnected");
+        cylon_.stop();
+        notes_.stop();
     } else {
         cylon_.start();
     }
@@ -100,56 +108,48 @@ void MainWindow::connected(bool connected) {
 * SLOTS
 ******************************************/
 
-void MainWindow::appConnect() {
-    settings_ = new Settings();
+void MainWindow::appConnectClient() {
+    setWindowTitle("Kidnapster - Client");
+    QString ipAddr(ui->serverAddrBox->text());
 
-    settings_->port = ui->portBox->text().toInt();
-
-    if((settings_->isClient = ui->client->isChecked())) {
-        //Settings
-        setWindowTitle("Kidnapster - Client");
-        settings_->ipAddr = ui->serverAddrBox->text();
-
-        try {
-            appClient_ = new Client();
-        } catch (const QString& e) {
-            qDebug() << e;
-        }
-
-        if (!appClient_->connect(inet_addr(settings_->ipAddr.toStdString().c_str()), htons(settings_->port))) {
-            delete appClient_;
-            return;
-        }
-        appClient_->start();
-    } else {
-        setWindowTitle("Kidnapster - Server");
-        try {
-            appServer_ = new Server(htons(settings_->port));
-        } catch (const QString& e) {
-            qDebug() << e;
-        }
-
-        appServer_->start();
+    try {
+        appClient_ = new Client();
+    } catch (const QString& e) {
+        qDebug() << e;
     }
+
+    if (!appClient_->connect(inet_addr(ipAddr.toStdString().c_str()), 8001)) {
+        delete appClient_;
+        return;
+    }
+    appClient_->start();
 
     cylon_.start();
-    connected(true);
+    clientConnect(true);
 }
 
-//TODO: Close socket and delete socket/client/server objects
-void MainWindow::appDisconnect() {
-    qDebug("Disconnecting");
-
-    if(settings_->isClient) {
-        ui->playButton->setText("Tune In");
-        delete appClient_;
-    } else {
-        delete appServer_;
-    }
-
+void MainWindow::appDisconnectClient() {
+    delete appClient_;
+    ui->playButton->setText("Tune In");
     ui->serverFilesView->clear();
-    setWindowTitle("Kidnapster - Disconnected");
-    connected(false);
+    clientConnect(false);
+}
+
+void MainWindow::appStartServer() {
+    setWindowTitle("Kidnapster - Server");
+    try {
+        appServer_ = new Server(8001);
+    } catch (const QString& e) {
+        qDebug() << e;
+    }
+    appServer_->start();
+    serverConnect(true);
+}
+
+void MainWindow::appStopServer() {
+    delete appServer_;
+    ui->songList->clear();
+    serverConnect(false);
 }
 
 /*
@@ -189,10 +189,12 @@ void MainWindow::refreshFiles() {
     ui->serverFilesView->addItems(files);
 }
 
-void MainWindow::broadCastSong() {
+void MainWindow::broadcastSong() {
     QString songName = ui->songList->currentItem()->text();
 
+    notes_.start();
     ui->currentSong->setText(songName);
+    emit playThisSong(songName);
 }
 
 void MainWindow::refreshSongList() {

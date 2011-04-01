@@ -38,7 +38,8 @@ SOURCES += main.cpp\
         server.cpp \
         microphone.cpp \
         parseHdr.cpp \
-        client.cpp
+        client.cpp \
+        serverstream.cpp
 
 HEADERS  += mainwindow.h \
         socket.h \
@@ -48,12 +49,12 @@ HEADERS  += mainwindow.h \
         componentstream.h \
         componentvoice.h \
         componenttransfer.h \
-        componentchat.h \
         audioplayer.h \
         server.h \
         microphone.h \
         parseHdr.h \
-        client.h
+        client.h \
+        serverstream.h
 
 FORMS    += mainwindow.ui \
 
@@ -64,6 +65,5 @@ win32 {
     LIBS += -lws2_32
 }
 
-RESOURCES += \
-    icon.qrc \
-    miscImages.qrc
+RESOURCES += icon.qrc \
+             miscImages.qrc

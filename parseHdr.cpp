@@ -59,7 +59,7 @@ void ParseHdr::hdrParse(QFile * file) {
 void ParseHdr::setNumChan(QByteArray * header) {
     numChan = 0;
     numChan |= header->at(22);
-    numChan << 8;
+    numChan = numChan << 8;
 }
 
 void ParseHdr::setSampleRate(QByteArray * header) {
