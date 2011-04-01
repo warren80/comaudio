@@ -45,7 +45,7 @@ void ComponentStream::run() {
             // check if the wave header stuff is the same
             // process buffer to buffer + HEADER_LENGTH - 1
 
-            audioPlayer_->appendBuffer(buffer + HEADER_LENGTH, msgSize);
+            audioPlayer_->appendBuffer(buffer + HEADER_LENGTH, msgSize - HEADER_LENGTH);
 
             // remove the memory since its now in the audio player
             delete[] buffer;

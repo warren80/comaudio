@@ -12,7 +12,7 @@ struct WavHdr {
     int sampleRate;
     int bitsPerSample;
     int dataLen;
-} WavHdr;
+};
 
 class ParseHdr {
 
