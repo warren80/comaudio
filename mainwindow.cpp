@@ -35,8 +35,8 @@ MainWindow::MainWindow(QWidget *parent) :
     */
 
     //Settings Tab
-    connect(ui->connectButton, SIGNAL(pressed()), this, SLOT(appClientConnect()));
-    connect(ui->disconnectButton, SIGNAL(pressed()), this, SLOT(appClientDisconnect()));
+    connect(ui->connectButton, SIGNAL(pressed()), this, SLOT(appConnectClient()));
+    connect(ui->disconnectButton, SIGNAL(pressed()), this, SLOT(appDisconnectClient()));
 
     //Files Tab
     connect(ui->downloadSongButton, SIGNAL(pressed()), this, SLOT(downloadSong()));
