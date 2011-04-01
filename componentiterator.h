@@ -7,7 +7,6 @@
 #include "component.h"
 #include "componentaudio.h"
 #include "componentfile.h"
-#include "componenttext.h"
 #include "componentvoice.h"
 
 //TODO fill in all the functions

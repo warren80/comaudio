@@ -6,7 +6,6 @@
 #include <QMainWindow>
 #include <QMovie>
 #include "thread.h"
-#include "logs.h"
 #include "server.h"
 #include "client.h"
 #include "audioplayer.h"
@@ -37,7 +36,6 @@ private:
     Thread * dispatcherThread_;
     Ui::MainWindow *ui;   /**< Qt form UI. */
     Settings* settings_;  /**< Current settings for the window. */
-    Logs *chatLog_;       /**< Chat log. */
     Server *appServer_;   /**< For when the application is running as server. */
     Client *appClient_;   /**< For when the application is running as client. */
     AudioPlayer *player_; /**< Audioplayer for PCM audio. */
@@ -63,17 +61,6 @@ private:
      * @author Karl Castillo
      */
     void getFileList();
-    /**
-     * A wrapper function that should be called to print a message on to the chat screen.
-     * This method has 2 versions:
-     *  - printF(const char *message);
-     *  - printF(const QString message);
-     *
-     * @author Karl Castillo
-     * @arg message - the message that is to be printed out
-     */
-    void printF(const char *message);
-    void printF(const QString message);
 
 public slots:
 
@@ -93,12 +80,6 @@ private slots:
      * @author Karl Castillo
      */
     void appDisconnect();
-    /**
-     * Call this function to send the text message from the chat widget to the server.
-     *
-     * @author Karl Castillo
-     */
-    void sendText();
     /**
      * Call this function to download a selected song.
      *

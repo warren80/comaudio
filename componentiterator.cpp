@@ -18,9 +18,6 @@ int ComponentIterator::createComponent(Message * msg) {
     case FILECOMPONENT:
         pComponent = new ComponentFile(msg->socketID);
         break;
-    case TEXTCOMPONENT:
-        pComponent = new ComponentText(msg->socketID);
-        break;
     case VOICECOMPONENT:
         pComponent = new ComponentVoice(msg->socketID);
         break;

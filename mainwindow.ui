@@ -41,38 +41,6 @@
      <height>768</height>
     </size>
    </property>
-   <widget class="QPlainTextEdit" name="typeScreen">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>390</y>
-      <width>241</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="cursor" stdset="0">
-     <cursorShape>IBeamCursor</cursorShape>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="sendButton">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>240</x>
-      <y>390</y>
-      <width>81</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Send</string>
-    </property>
-   </widget>
    <widget class="QTabWidget" name="tabWidget">
     <property name="enabled">
      <bool>true</bool>
@@ -82,7 +50,7 @@
       <x>320</x>
       <y>0</y>
       <width>351</width>
-      <height>391</height>
+      <height>441</height>
      </rect>
     </property>
     <property name="autoFillBackground">
@@ -98,7 +66,7 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>3</number>
     </property>
     <property name="elideMode">
      <enum>Qt::ElideNone</enum>
@@ -248,6 +216,9 @@
      </widget>
     </widget>
     <widget class="QWidget" name="serverTab">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <attribute name="title">
       <string>Server</string>
      </attribute>
@@ -257,15 +228,15 @@
         <x>10</x>
         <y>30</y>
         <width>321</width>
-        <height>291</height>
+        <height>341</height>
        </rect>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton">
+     <widget class="QPushButton" name="broadcastButton">
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>330</y>
+        <y>380</y>
         <width>75</width>
         <height>23</height>
        </rect>
@@ -274,7 +245,7 @@
        <string>Broadcast</string>
       </property>
      </widget>
-     <widget class="QLabel" name="label">
+     <widget class="QLabel" name="asvailSongsLabel">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -539,7 +510,7 @@
         <x>10</x>
         <y>70</y>
         <width>241</width>
-        <height>291</height>
+        <height>341</height>
        </rect>
       </property>
      </widget>
@@ -577,7 +548,7 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>330</x>
+      <x>10</x>
       <y>400</y>
       <width>81</width>
       <height>31</height>
@@ -602,7 +573,7 @@ color: white;</string>
     </property>
     <property name="geometry">
      <rect>
-      <x>580</x>
+      <x>230</x>
       <y>400</y>
       <width>81</width>
       <height>31</height>
@@ -624,7 +595,7 @@ color: white;</string>
       <x>0</x>
       <y>0</y>
       <width>321</width>
-      <height>391</height>
+      <height>441</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -636,7 +607,7 @@ background-position: center;</string>
      <property name="geometry">
       <rect>
        <x>85</x>
-       <y>215</y>
+       <y>240</y>
        <width>152</width>
        <height>15</height>
       </rect>
@@ -649,9 +620,9 @@ background-position: center;</string>
    <widget class="QLabel" name="notes">
     <property name="geometry">
      <rect>
-      <x>420</x>
-      <y>403</y>
-      <width>151</width>
+      <x>95</x>
+      <y>400</y>
+      <width>131</width>
       <height>31</height>
      </rect>
     </property>
@@ -659,31 +630,11 @@ background-position: center;</string>
      <string/>
     </property>
    </widget>
-   <widget class="QPlainTextEdit" name="chatScreen">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>321</width>
-      <height>391</height>
-     </rect>
-    </property>
-    <property name="cursor" stdset="0">
-     <cursorShape>IBeamCursor</cursorShape>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background: rgba(255,255,255,75%);</string>
-    </property>
-    <property name="lineWidth">
-     <number>1</number>
-    </property>
-    <property name="tabStopWidth">
-     <number>8</number>
-    </property>
-    <property name="textInteractionFlags">
-     <set>Qt::TextSelectableByMouse</set>
-    </property>
-   </widget>
+   <zorder>backgroundChatScreen</zorder>
+   <zorder>tabWidget</zorder>
+   <zorder>playButton</zorder>
+   <zorder>pauseButton</zorder>
+   <zorder>notes</zorder>
   </widget>
   <action name="actionConnect">
    <property name="text">

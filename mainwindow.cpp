@@ -32,8 +32,6 @@ MainWindow::MainWindow(QWidget *parent) :
     /**
      * CONNECTIONS
      */
-    //Chat
-    connect(ui->sendButton, SIGNAL(pressed()), this, SLOT(sendText()));
 
     //Settings Tab
     connect(ui->connectButton, SIGNAL(pressed()), this, SLOT(appConnect()));
@@ -75,11 +73,12 @@ void MainWindow::connected(bool connected) {
     ui->disconnectButton->setEnabled(connected);
 
     //If client
-    ui->typeScreen->setEnabled(settings_->isClient && connected);
-    ui->sendButton->setEnabled(settings_->isClient && connected);
     ui->fileTab->setEnabled(settings_->isClient && connected);
     ui->playButton->setEnabled(settings_->isClient && connected);
     ui->pauseButton->setEnabled(settings_->isClient && connected);
+
+    //If Server
+    ui->serverTab->setEnabled(!settings_->isClient && connected);
 
     if(!connected) {
         cylon_.stop();
@@ -92,14 +91,6 @@ void MainWindow::connected(bool connected) {
     } else {
         cylon_.start();
     }
-}
-
-void MainWindow::printF(const char *message) {
-    ui->chatScreen->appendPlainText(QString(message));
-}
-
-void MainWindow::printF(const QString message) {
-    ui->chatScreen->appendPlainText(message);
 }
 
 /**
@@ -145,28 +136,10 @@ void MainWindow::appConnect() {
 //TODO: Close socket and delete socket/client/server objects
 void MainWindow::appDisconnect() {
     qDebug("Disconnecting");
-    if(settings_->logChat) {
-        chatLog_ = new Logs(QString("./logs/chat_log_" +
-                                    QString::number(QDateTime::currentMSecsSinceEpoch()) + ".log"),
-                            QDateTime::currentDateTime().toString());
-        chatLog_->writeToLog(ui->chatScreen->toPlainText());
-    }
-    ui->chatScreen->clear();
+
     ui->serverFilesView->clear();
     setWindowTitle("Kidnapster - Disconnected");
     connected(false);
-}
-
-/**
- * CHAT
- */
-
-//TODO: Send text to the server
-void MainWindow::sendText() {
-    QString message = ui->typeScreen->toPlainText();
-
-    ui->typeScreen->clear();
-    printF(settings_->alias + ":\n" + message + "\n");
 }
 
 /**

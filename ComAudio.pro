@@ -26,7 +26,6 @@ SOURCES += main.cpp\
         componentfile.cpp \
         audioplayer.cpp \
         socket.cpp \
-        logs.cpp \
         server.cpp \
         componentiterator.cpp \
         microphone.cpp \
@@ -43,7 +42,6 @@ HEADERS  += mainwindow.h \
         componentvoice.h \
         componentfile.h \
         audioplayer.h \
-        logs.h \
         server.h \
         componentiterator.h \
         microphone.h \
