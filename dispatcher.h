@@ -22,7 +22,7 @@
 class Dispatcher {
 
 public:
-    void dispatch(char* data, int length);
+    void dispatch(const Socket& socket, char* data, int length);
 
 private:
     Components components_;

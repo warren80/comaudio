@@ -2,6 +2,8 @@
 #include <QFileSystemModel>
 #include <QObjectList>
 
+#include "audioplayer.h"
+
 #ifndef _WIN32
 #include <sys/socket.h>
 #endif
@@ -22,6 +24,30 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     QValidator *validPort = new QRegExpValidator(QRegExp("^\\d*$"), this);
     QValidator *validIp = new QRegExpValidator(QRegExp("^\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}$"), this);
+
+    //new AudioPlayer(44100, 2, 16, 39379580);
+
+    QAudioFormat format;
+    // Set up the format, eg.
+    format.setFrequency(44100);
+    format.setChannels(2);
+    format.setSampleSize(16);
+    format.setCodec("audio/pcm");
+    format.setByteOrder(QAudioFormat::LittleEndian);
+    format.setSampleType(QAudioFormat::UnSignedInt);
+
+    QAudioOutput* audio_ = new QAudioOutput(format);
+    audio_->setBufferSize(39379580);
+
+    QIODevice* buffer_ = new QBuffer();
+    //audio_->start(buffer_);
+
+    QFile file;
+    file.setFileName("/Volumes/OptiBay/Home/Dropbox/School/sem4/COMP4985/final/1.wav");
+    file.open(QFile::ReadOnly);
+    audio_->start(&file);
+    //buffer_->write(file.readAll());
+
 
     ui->setupUi(this);
 
@@ -124,17 +150,26 @@ void MainWindow::appConnect() {
         settings_->alias = ui->aliasBox->text();
         settings_->logChat = ui->logChatBox->isChecked();
 
-        appClient_ = new Client();
+        try {
+            appClient_ = new Client();
+        } catch (const QString& e) {
+            qDebug() << e;
+        }
+
         if (!appClient_->connect(inet_addr(settings_->ipAddr.toStdString().c_str()), htons(settings_->port))) {
             delete appClient_;
             return;
         }
         appClient_->start();
-
     } else {
         ui->statusText->setText("Server");
         setWindowTitle("Kidnapster - Server");
-        appServer_ = new Server(htons(settings_->port));
+        try {
+            appServer_ = new Server(htons(settings_->port));
+        } catch (const QString& e) {
+            qDebug() << e;
+        }
+
         appServer_->start();
     }
 

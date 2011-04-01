@@ -32,10 +32,8 @@ void Client::run() {
             // data
             char* buffer = new char[msgSize];
             socket_->receive(buffer, msgSize);
-
             // temp. echo received data
-            qDebug() << buffer;
-            delete[] buffer;
+            dispatcher_.dispatch(*socket_, buffer, msgSize);
 
             break;
         }

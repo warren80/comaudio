@@ -1,7 +1,8 @@
 #include <iostream>
 #include <QVector>
 #include "server.h"
-
+#include <QFile>
+#include <QDebug>
 Server::Server(int port, int backlog) : socket_(new Socket(kTCP)), running_(false) {
 
     socket_->bind(port);
@@ -66,6 +67,20 @@ void Server::run() {
             // ensure the largest descriptor is still used.
             largest = connected > largest ? connected : largest;
 
+            // TEMPORARY TEST
+            qDebug() << "loaded client" << connected;
+                QFile temp("/Volumes/OptiBay/Home/Dropbox/School/sem4/COMP4985/final/1.wav");
+            temp.open(QFile::ReadOnly);
+            qDebug() << "file size: " << temp.size();
+            while (!temp.atEnd()) {
+                char* readBuffer = new char[61440];
+                int read = temp.read(readBuffer, 61440);
+                clients.last()->transmit((char*) &read, sizeof(read));
+                clients.last()->transmit(readBuffer, read);
+            }
+            qDebug() << "finished transmit";
+
+
             if (--numReady <= 0) {
                 continue;	// no more readable descriptors
             }
@@ -85,7 +100,7 @@ void Server::run() {
                 clients[i]->receive(buffer, msgSize);
 
                 // move the received data to the dispatcher
-                dispatcher_.dispatch(buffer, msgSize);
+                dispatcher_.dispatch(*clients[i], buffer, msgSize);
 
                 if (--numReady == 0) {
                     break;

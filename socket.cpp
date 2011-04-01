@@ -107,14 +107,14 @@ bool Socket::connect(in_addr_t address, uint16_t port) const {
 
 bool Socket::clientJoinMCast(in_addr_t address, uint16_t port) {
     int nRet;
-    struct ip_mreq stMreq;
+    ip_mreq stMreq;
 
     this->bind(port);
     stMreq.imr_multiaddr.s_addr = address;
     stMreq.imr_interface.s_addr = htonl(INADDR_ANY);
     //join mcast session
     nRet = setsockopt(socket_, IPPROTO_IP, IP_ADD_MEMBERSHIP, (char *)&stMreq, sizeof(stMreq));
-    if (nRet == SOCKET_ERROR) { return false; }
+    if (nRet == -1) { return false; }
     return true;
 }
 
@@ -122,7 +122,7 @@ bool Socket::serverJoinMCast(in_addr_t address, uint16_t port) {
     bool    f  = false;
     int     Ret;
     u_long  lTTL = 1;
-    struct  ip_mreq serverAddress;
+    ip_mreq serverAddress;
 
     peer_.sin_family =      AF_INET;
     peer_.sin_addr.s_addr = address;
@@ -133,12 +133,12 @@ bool Socket::serverJoinMCast(in_addr_t address, uint16_t port) {
     serverAddress.imr_interface.s_addr = INADDR_ANY;
     //join multicast address
     Ret = setsockopt(socket_, IPPROTO_IP, IP_ADD_MEMBERSHIP, (char *)&serverAddress, sizeof(serverAddress));
-    if (Ret == SOCKET_ERROR) { return false; }
+    if (Ret == -1) { return false; }
     //set time to live to 1
     Ret = setsockopt(socket_, IPPROTO_IP, IP_MULTICAST_TTL, (char *)&lTTL, sizeof(lTTL));
-    if (Ret == SOCKET_ERROR) { return false; }
+    if (Ret == -1) { return false; }
     //disable loop back
     Ret = setsockopt(socket_, IPPROTO_IP, IP_MULTICAST_LOOP, (char *)&f, sizeof(f));
-      if (Ret == SOCKET_ERROR) { return false; }
+      if (Ret == -1) { return false; }
     return true;
 }
