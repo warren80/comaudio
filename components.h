@@ -19,7 +19,7 @@ public:
       @return Pointer to the component.
       @author Nick Huber
       */
-    Component* operator[](int index) { return components_[index]; };
+    Component* operator[](int index) { return components_[index]; }
 
     /**
       Add a component and the associated pending state.
@@ -29,7 +29,7 @@ public:
       */
     int addComponent(Component* component);
 
-    int size() { return components_.size(); };
+    int size() { return components_.size(); }
 
     void addData(int index, char* data, int length);
 

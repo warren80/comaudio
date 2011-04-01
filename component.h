@@ -6,7 +6,6 @@
 #include "socket.h"
 
 enum ComponentType {
-    kChat,      /**< Textual chat. */
     kStream,    /**< Music streaming. */
     kTransfer,  /**< File transfer. */
     kVoice,     /**< Multicast voice chat. */
