@@ -34,8 +34,8 @@ MainWindow::MainWindow(QWidget *parent) :
     */
 
     //Settings Tab
-    connect(ui->connectButton, SIGNAL(pressed()), this, SLOT(appConnect()));
-    connect(ui->disconnectButton, SIGNAL(pressed()), this, SLOT(appDisconnect()));
+    connect(ui->connectButton, SIGNAL(pressed()), this, SLOT(appClientConnect()));
+    connect(ui->disconnectButton, SIGNAL(pressed()), this, SLOT(appClientDisconnect()));
 
     //Files Tab
     connect(ui->downloadSongButton, SIGNAL(pressed()), this, SLOT(downloadSong()));
@@ -43,7 +43,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->refreshServerFilesButton, SIGNAL(pressed()), this, SLOT(refreshFiles()));
 
     //Server Tab
-    connect(ui->broadcastButton, SIGNAL(pressed()), this, SLOT(broadCastSong()));
+    connect(ui->broadcastButton, SIGNAL(pressed()), this, SLOT(broadcastSong()));
     connect(ui->refreshSongs, SIGNAL(pressed()), this, SLOT(refreshSongList()));
     connect(ui->startServerButton, SIGNAL(pressed()), this, SLOT(appStartServer()));
     connect(ui->stopServerButton, SIGNAL(pressed()), this, SLOT(appStopServer()));

@@ -54,8 +54,8 @@ HEADERS  += mainwindow.h \
         microphone.h \
         parseHdr.h \
         client.h \
-    serverstream.h \
-    componenttype.h
+        serverstream.h \
+        componenttype.h
 
 FORMS    += mainwindow.ui \
 
