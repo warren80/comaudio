@@ -1,9 +1,6 @@
 #include <QFileDialog>
 #include <QFileSystemModel>
 #include <QObjectList>
-#include <QFile>
-#include <QString>
-#include "parseHdr.h""
 
 #ifndef _WIN32
 #include <sys/socket.h>
@@ -17,8 +14,8 @@
 #include "ui_mainwindow.h"
 
 /******************************************
- * ESSENTIAL METHODS
- ******************************************/
+* ESSENTIAL METHODS
+******************************************/
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent), ui(new Ui::MainWindow)
@@ -35,8 +32,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->portBox->setValidator(validPort);
 
     /**
-     * CONNECTIONS
-     */
+* CONNECTIONS
+*/
 
     //Settings Tab
     connect(ui->connectButton, SIGNAL(pressed()), this, SLOT(appConnect()));
@@ -54,16 +51,11 @@ MainWindow::MainWindow(QWidget *parent) :
     //Audio Player
     connect(ui->playButton, SIGNAL(pressed()), this, SLOT(playSong()));
     connect(ui->pauseButton, SIGNAL(pressed()), this, SLOT(pauseSong()));
-<<<<<<< HEAD
-    connect(ui->nextButton, SIGNAL(pressed()), this, SLOT(nextSong()));
-
-=======
 
     notes_.setFileName(":/notes.gif");
     cylon_.setFileName(":/cylon.gif");
     ui->cylon->setMovie(&cylon_);
     ui->notes->setMovie(&notes_);
->>>>>>> d3e9433491195babbe069d83eb110f8752745eda
 }
 
 MainWindow::~MainWindow() {
@@ -77,8 +69,8 @@ void MainWindow::initDispatcher() {
 }
 
 /******************************************
- * HELPERS
- ******************************************/
+* HELPERS
+******************************************/
 
 void MainWindow::connected(bool connected) {
     ui->connectButton->setEnabled(!connected);
@@ -105,8 +97,8 @@ void MainWindow::connected(bool connected) {
 }
 
 /******************************************
- * SLOTS
- ******************************************/
+* SLOTS
+******************************************/
 
 void MainWindow::appConnect() {
     settings_ = new Settings();
@@ -147,20 +139,12 @@ void MainWindow::appConnect() {
 //TODO: Close socket and delete socket/client/server objects
 void MainWindow::appDisconnect() {
     qDebug("Disconnecting");
-<<<<<<< HEAD
-    if(settings_->logChat) {
-        //chatLog_ = new Logs(QString("./logs/chat_log_" +
-                  //                  QString::number(QDateTime::currentMSecsSinceEpoch()) + ".log"),
-          //                  QDateTime::currentDateTime().toString());
-      //  chatLog_->writeToLog(ui->chatScreen->toPlainText());
-=======
 
     if(settings_->isClient) {
         ui->playButton->setText("Tune In");
         delete appClient_;
     } else {
         delete appServer_;
->>>>>>> d3e9433491195babbe069d83eb110f8752745eda
     }
 
     ui->serverFilesView->clear();
@@ -169,28 +153,28 @@ void MainWindow::appDisconnect() {
 }
 
 /*
- * TODO:
- *  1. Send request
- */
+* TODO:
+* 1. Send request
+*/
 void MainWindow::downloadSong() {
     QString songName = ui->serverFilesView->currentItem()->text();
 
 }
 
 /*
- * TODO:
- *  1. Send Request
- */
+* TODO:
+* 1. Send Request
+*/
 void MainWindow::downloadCurrentSong() {
     QString songName = ui->currentSongText->text();
 
 }
 
 /*
- * TODO:
- *  1. Send request to update files
- *  2. Update list widget
- */
+* TODO:
+* 1. Send request to update files
+* 2. Update list widget
+*/
 void MainWindow::refreshFiles() {
     QDir dir("C:\\Users\\KCastillo\\Documents");
     QString filter = ui->filterBox->text();
@@ -233,4 +217,3 @@ void MainWindow::pauseSong() {
     notes_.stop();
     player_->pause();
 }
-
