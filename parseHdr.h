@@ -7,6 +7,13 @@
 #include <QString>
 #include <string.h>
 
+struct WavHdr {
+    int numChan;
+    int sampleRate;
+    int bitsPerSample;
+    int dataLen;
+} WavHdr;
+
 class ParseHdr {
 
 public:
@@ -21,6 +28,7 @@ public:
     int getBlockAlign();
     int getBitsPerSample();
     int getDataLen();
+    WavHdr getWavHdr();
 
 private:
     int numChan;
@@ -29,6 +37,8 @@ private:
     int blockAlign;
     int bitsPerSample;
     int dataLen;
+
+    WavHdr header;
 
     void hdrParse(QFile *);
     void hdrParse(char *);

@@ -25,6 +25,11 @@ void ParseHdr::hdrParse(char * file) {
     setBlockAlign(&array);
     setBitsPerSample(&array);
     setDataLen(&array);
+
+    header.bitsPerSample = bitsPerSample;
+    header.dataLen = dataLen;
+    header.numChan = numChan;
+    header.sampleRate = sampleRate;
 }
 
 void ParseHdr::hdrParse(QByteArray * file) {
@@ -126,4 +131,8 @@ int ParseHdr::getBitsPerSample() {
 
 int ParseHdr::getDataLen() {
     return dataLen;
+}
+
+WavHdr ParseHdr::getWavHdr() {
+    return header;
 }
