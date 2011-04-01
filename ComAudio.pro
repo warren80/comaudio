@@ -16,6 +16,16 @@ OBJECTS_DIR = ./obj
 MOC_DIR = ./moc
 UI_DIR = ./ui
 
+# icon information
+
+macx {
+    ICON = kidnapster.icns
+}
+
+win32 {
+    RC_FILE = kidnapster.rc
+}
+
 SOURCES += main.cpp\
         mainwindow.cpp \
         thread.cpp \
@@ -48,3 +58,6 @@ FORMS    += mainwindow.ui \
 win32 {
     LIBS += -lws2_32
 }
+
+RESOURCES += \
+    icon.qrc

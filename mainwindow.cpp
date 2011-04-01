@@ -18,10 +18,9 @@
  ******************************************/
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow),
-    stream_(Socket(kUDP))
+    QMainWindow(parent), ui(new Ui::MainWindow)
 {
+    setWindowIcon(QIcon(":/kidnapster.png"));
     //ComponentVoice *cv;
     QValidator *validPort = new QRegExpValidator(QRegExp("^\\d*$"), this);
     QValidator *validIp = new QRegExpValidator(QRegExp("^\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}$"), this);
