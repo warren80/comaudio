@@ -562,10 +562,17 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(204, 176, 156, 255), stop:1 rgba(196, 112, 53, 255));
-border: 1px #c47035 brown;
-border-radius: 40px 15px;
-color: white;</string>
+     <string notr="true">QPushButton {
+	background: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 		rgba(204, 176, 156, 255), stop:1 rgba(196, 112, 53, 255));
+	border: 1px #c47035 brown;
+	border-radius: 40px 15px;
+	color: white;
+}
+
+QPushButton:pressed {
+	background:qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 205, 0, 255), stop:1 rgba(255, 255, 255, 255));
+	color: black;
+}</string>
     </property>
     <property name="text">
      <string>Tune In</string>
@@ -587,10 +594,17 @@ color: white;</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(204, 176, 156, 255), stop:1 rgba(196, 112, 53, 255));
-border: 1px #c47035 brown;
-border-radius: 40px 15px;
-color: white;</string>
+     <string notr="true">QPushButton {
+	background: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 		rgba(204, 176, 156, 255), stop:1 rgba(196, 112, 53, 255));
+	border: 1px #c47035 brown;
+	border-radius: 40px 15px;
+	color: white;
+}
+
+QPushButton:pressed {
+	background:qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 205, 0, 255), stop:1 rgba(255, 255, 255, 255));
+	color: black;
+}</string>
     </property>
     <property name="text">
      <string>Pause</string>
@@ -623,6 +637,8 @@ background-position: center;</string>
       <string/>
      </property>
     </widget>
+    <zorder>cylon</zorder>
+    <zorder>playButton</zorder>
    </widget>
    <widget class="QLabel" name="notes">
     <property name="geometry">
