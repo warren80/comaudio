@@ -1,5 +1,5 @@
 #include "component.h"
 
-Component::Component(const Socket& socket) : socket_(socket) {
+Component::Component(Socket* socket) : socket_(socket) {
 
 }

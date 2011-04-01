@@ -14,7 +14,7 @@ enum ComponentType {
 class Component : public QThread {
 
 public:
-    Component(const Socket& socket);
+    Component(Socket* socket);
     virtual ~Component() {}
 
     /**
@@ -29,33 +29,12 @@ public:
       */
     virtual void receiveData(char* data, int length) = 0;
 
-    /**
-      Transmit data to the other side.
-
-      @param data Data to transmit.
-      @param length Size of data.
-      @author Nick Huber
-      */
-    void transmitData(char* data, int length) { socket_.transmit(data, length); }
-
 protected:
     virtual void run() = 0;
 
 protected:
-    Socket socket_;
+    Socket* socket_;
     bool running_;
-
-public slots:
-    /**
-      Slot for transmission of data to this component's socket.
-
-      @param data Data to transmit.
-      @param length Length of data to transmit.
-      @author Nick Huber
-      */
-    void slot_transmitData(char* data, int length) { transmitData(data, length); }
-signals:
-    void signal_receviedData(char* data, int length);
 
 };
 

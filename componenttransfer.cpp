@@ -6,7 +6,7 @@
 /**
  * CONSTRUCTOR
  */
-ComponentTransfer::ComponentTransfer(const Socket& socket) : Component(socket) {
+ComponentTransfer::ComponentTransfer(Socket* socket) : Component(socket) {
 }
 
 /**

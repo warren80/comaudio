@@ -8,7 +8,7 @@
 class ComponentTransfer : public Component {
 public:
     Q_OBJECT
-    ComponentTransfer(const Socket& socket);
+    ComponentTransfer(Socket* socket);
 
 private:
     /**

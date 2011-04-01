@@ -28,7 +28,7 @@ public:
       ComponentVoice constructor
       @author Warren Voelkl
       */
-    ComponentVoice(const Socket& socket);
+    ComponentVoice(Socket* socket);
 
     /**
       ComponentVoice

@@ -1,9 +1,9 @@
-#include <QDebug>
+//#include <QDebug>
 
 #include "componentstream.h"
 
-ComponentStream::ComponentStream(const Socket& socket) : Component(socket), audioPlayer_(NULL) {
-
+ComponentStream::ComponentStream() : Component(new Socket(kUDP)), audioPlayer_(NULL) {
+    socket_->clientJoinMCast(inet_addr(MULTICAST_IP), MULTICAST_PORT);
 }
 
 void ComponentStream::setupAudio(int frequency, int channels, int sampleSize, int bufferSize) {
@@ -24,12 +24,7 @@ void ComponentStream::receiveData(char *data, int length) {
 //    audioPlayer_->appendBuffer(data + HEADERLENGTH + 2,l);
 }
 
-void ComponentStream::transmitData(char *data, int length) {
-    socket_.transmit(data, length);
-}
-
 void ComponentStream::run() {
-    running_ = true;
 
     running_ = true;
     while (running_) {
@@ -49,7 +44,7 @@ void ComponentStream::run() {
 
             // check if the wave header stuff is the same
 
-            receiveData(data, msgSize);
+            receiveData(buffer, msgSize);
 
             // remove the memory since its now in the audio player
             delete[] buffer;
