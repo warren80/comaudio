@@ -20,8 +20,8 @@ void ServerStream::slotStartTransfer(){
     QFile *file = new QFile(fileNamePath_);
     Packet pckt;
 
-    Socket *s = new Socket(kUDP);
-    s->serverJoinMCast(inet_addr(MULTICAST_IP), htons(MULTICAST_PORT));
+    Socket s(kUDP);
+    s.serverJoinMCast(inet_addr(MULTICAST_IP), htons(MULTICAST_PORT));
 
     if(file->open(QIODevice::ReadOnly)) {
         QMessageBox::QMessageBox(QMessageBox::Critical,
@@ -45,7 +45,7 @@ void ServerStream::slotStartTransfer(){
         pckt.data = new char[STREAMDATALENGTH];
         pckt.length = file->read(pckt.data + HEADER_LENGTH,STREAMDATALENGTH);
         pckt.type = kStream;
-        //s->transmit(pckt);
+        s.transmit(pckt);
         delete[] pckt.data;
     }
 
