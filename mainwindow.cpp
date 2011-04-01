@@ -110,8 +110,6 @@ void MainWindow::appConnect() {
         //Settings
         setWindowTitle("Kidnapster - Client");
         settings_->ipAddr = ui->serverAddrBox->text();
-        settings_->alias = ui->aliasBox->text();
-
 
         try {
             appClient_ = new Client();

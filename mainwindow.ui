@@ -71,15 +71,15 @@
     <property name="elideMode">
      <enum>Qt::ElideNone</enum>
     </property>
-    <widget class="QWidget" name="settingsTab">
+    <widget class="QWidget" name="radioTab">
      <attribute name="title">
-      <string>Settings</string>
+      <string>Radio</string>
      </attribute>
      <widget class="QPushButton" name="connectButton">
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>130</y>
+        <y>100</y>
         <width>75</width>
         <height>23</height>
        </rect>
@@ -97,7 +97,7 @@
         <x>10</x>
         <y>10</y>
         <width>321</width>
-        <height>81</height>
+        <height>51</height>
        </rect>
       </property>
       <property name="title">
@@ -132,38 +132,12 @@
         <string>Server Address:</string>
        </property>
       </widget>
-      <widget class="QLineEdit" name="aliasBox">
-       <property name="geometry">
-        <rect>
-         <x>100</x>
-         <y>50</y>
-         <width>201</width>
-         <height>20</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Local</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="aliasLabel">
-       <property name="geometry">
-        <rect>
-         <x>20</x>
-         <y>50</y>
-         <width>81</width>
-         <height>16</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Alias:</string>
-       </property>
-      </widget>
      </widget>
      <widget class="QLineEdit" name="portBox">
       <property name="geometry">
        <rect>
         <x>90</x>
-        <y>100</y>
+        <y>70</y>
         <width>241</width>
         <height>20</height>
        </rect>
@@ -176,7 +150,7 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>100</y>
+        <y>70</y>
         <width>71</width>
         <height>16</height>
        </rect>
@@ -192,7 +166,7 @@
       <property name="geometry">
        <rect>
         <x>90</x>
-        <y>130</y>
+        <y>100</y>
         <width>75</width>
         <height>23</height>
        </rect>

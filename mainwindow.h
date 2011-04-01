@@ -12,9 +12,8 @@
 #include "componentstream.h"
 
 struct Settings {
-    Settings():ipAddr(""), alias(""), port(0), isClient(false){}
+    Settings():ipAddr(""), port(0), isClient(false){}
     QString ipAddr;
-    QString alias;
     int port;
     bool isClient;
 };
