@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>chatBG.png</file>
+        <file>cylon.gif</file>
+        <file>notes.gif</file>
+    </qresource>
+</RCC>
