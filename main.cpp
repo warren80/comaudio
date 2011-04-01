@@ -5,6 +5,8 @@
 #endif
 
 #include "mainwindow.h"
+#include <QDebug>
+#include "packet.h"
 
 int main(int argc, char *argv[])
 {

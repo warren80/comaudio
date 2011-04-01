@@ -14,6 +14,8 @@ typedef unsigned int in_addr_t;
 typedef int socklen_t;
 #endif
 
+#include "packet.h"
+
 /**
   Which mode the socket operates in.
   @author Nick Huber
@@ -96,6 +98,15 @@ public:
       @author Nick Huber
       */
     int transmit(const char* buffer, int length) const;
+
+    /**
+      Combine all the packet information into a single data stream and transmit it.
+
+      @param packet Packet to transmit.
+      @return number of bytes transmitted.
+      @author Nick Huber
+      */
+    int transmit(const Packet& packet);
 
     /**
       Accept and create a new socket from the accepted connection.

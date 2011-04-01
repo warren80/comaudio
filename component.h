@@ -5,12 +5,6 @@
 
 #include "socket.h"
 
-enum ComponentType {
-    kStream,    /**< Multicast Music streaming. */
-    kTransfer,  /**< File transfer. */
-    kVoice,     /**< Server-Client Voice Chat. */
-};
-
 class Component : public QThread {
 
 public:
