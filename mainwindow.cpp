@@ -13,12 +13,14 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-/**
- * CONSTRUCTOR
- */
+/******************************************
+ * ESSENTIAL METHODS
+ ******************************************/
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    stream_(Socket(kUDP))
 {
     //ComponentVoice *cv;
     QValidator *validPort = new QRegExpValidator(QRegExp("^\\d*$"), this);
@@ -43,6 +45,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->downloadCurrentSongButton, SIGNAL(pressed()), this, SLOT(downloadCurrentSong()));
     connect(ui->refreshServerFilesButton, SIGNAL(pressed()), this, SLOT(refreshFiles()));
 
+    //Server Tab
+    connect(ui->broadcastButton, SIGNAL(pressed()), this, SLOT(broadCastSong()));
+    connect(ui->refreshSongs, SIGNAL(pressed()), this, SLOT(refreshSongList()));
+
     //Audio Player
     connect(ui->playButton, SIGNAL(pressed()), this, SLOT(playSong()));
     connect(ui->pauseButton, SIGNAL(pressed()), this, SLOT(pauseSong()));
@@ -53,9 +59,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->notes->setMovie(&notes_);
 }
 
-/**
- * DESTRUCTOR
- */
 MainWindow::~MainWindow() {
     delete ui;
 }
@@ -66,9 +69,10 @@ void MainWindow::initDispatcher() {
 
 }
 
-/**
+/******************************************
  * HELPERS
- */
+ ******************************************/
+
 void MainWindow::connected(bool connected) {
     ui->connectButton->setEnabled(!connected);
     ui->disconnectButton->setEnabled(connected);
@@ -88,21 +92,15 @@ void MainWindow::connected(bool connected) {
             //delete player_;
         }
         delete settings_;
-        ui->statusText->setText("Disconnected");
     } else {
         cylon_.start();
     }
 }
 
-/**
+/******************************************
  * SLOTS
- */
+ ******************************************/
 
-/**
- * SETTINGS TAB
- */
-
-//TODO: Connect
 void MainWindow::appConnect() {
     settings_ = new Settings();
 
@@ -110,11 +108,9 @@ void MainWindow::appConnect() {
 
     if((settings_->isClient = ui->client->isChecked())) {
         //Settings
-        ui->statusText->setText("Client");
         setWindowTitle("Kidnapster - Client");
         settings_->ipAddr = ui->serverAddrBox->text();
         settings_->alias = ui->aliasBox->text();
-        settings_->logChat = ui->logChatBox->isChecked();
 
 
         try {
@@ -129,7 +125,6 @@ void MainWindow::appConnect() {
         }
         appClient_->start();
     } else {
-        ui->statusText->setText("Server");
         setWindowTitle("Kidnapster - Server");
         try {
             appServer_ = new Server(htons(settings_->port));
@@ -148,14 +143,17 @@ void MainWindow::appConnect() {
 void MainWindow::appDisconnect() {
     qDebug("Disconnecting");
 
+    if(settings_->isClient) {
+        ui->playButton->setText("Tune In");
+        delete appClient_;
+    } else {
+        delete appServer_;
+    }
+
     ui->serverFilesView->clear();
     setWindowTitle("Kidnapster - Disconnected");
     connected(false);
 }
-
-/**
- * FILE TAB
- */
 
 /*
  * TODO:
@@ -194,13 +192,28 @@ void MainWindow::refreshFiles() {
     ui->serverFilesView->addItems(files);
 }
 
-/**
- * AUDIO PLAYER
- */
+void MainWindow::broadCastSong() {
+    QString songName = ui->songList->currentItem()->text();
+
+    ui->currentSong->setText(songName);
+}
+
+void MainWindow::refreshSongList() {
+    QDir dir(".\\Songs");
+    QStringList files = dir.entryList(QStringList("*.wav"));
+
+    ui->songList->clear();
+    ui->songList->addItems(files);
+}
 
 void MainWindow::playSong() {
-    notes_.start();
-    player_->play();
+    if(ui->playButton->text() == "Tune In") {
+        ui->playButton->setText("Play");
+        stream_.start();
+    } else {
+        notes_.start();
+        player_->play();
+    }
 }
 
 void MainWindow::pauseSong() {

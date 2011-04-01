@@ -9,13 +9,13 @@
 #include "audioplayer.h"
 #include "microphone.h"
 #include "componentvoice.h"
+#include "componentstream.h"
 
 struct Settings {
-    Settings():ipAddr(""), alias(""), port(0), logChat(false), isClient(false){}
+    Settings():ipAddr(""), alias(""), port(0), isClient(false){}
     QString ipAddr;
     QString alias;
     int port;
-    bool logChat;
     bool isClient;
 };
 
@@ -40,8 +40,9 @@ private:
     AudioPlayer *player_; /**< Audioplayer for PCM audio. */
     Microphone *mic_;     /**< Recording device for user's voice through a mic. */
     Thread *micThread_;   /**< Thread the mic runs on */
-    QMovie notes_;
-    QMovie cylon_;
+    ComponentStream stream_; /**< The stream object that will stream the music to this app */
+    QMovie notes_;        /**< The audio animation */
+    QMovie cylon_;        /**< Background animation */
 
     void initDispatcher();
     /**
@@ -79,6 +80,11 @@ private slots:
      * @author Karl Castillo
      */
     void appDisconnect();
+
+    /******************************************
+     * FILE SLOTS
+     ******************************************/
+
     /**
      * Call this function to download a selected song.
      *
@@ -97,6 +103,11 @@ private slots:
      * @author Karl Castillo
      */
     void refreshFiles();
+
+    /******************************************
+     * AUDIO PLAYER SLOTS
+     ******************************************/
+
     /**
      * Call this function to play the current song.
      *
@@ -109,6 +120,24 @@ private slots:
      * @author Karl Castillo
      */
     void pauseSong();
+
+    /******************************************
+     * SERVER SLOTS
+     ******************************************/
+
+    /**
+     * Call this function to broadcast the song selected by the server master.
+     * This function can only be used when the application is connected as a server.
+     *
+     * @author Karl Castillo
+     */
+    void broadCastSong();
+    /**
+     * Call this function to refresh the list of songs available on the server.
+     *
+     * @author Karl Castillo
+     */
+    void refreshSongList();
 
 signals:
 };

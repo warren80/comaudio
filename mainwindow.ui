@@ -66,199 +66,11 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>0</number>
     </property>
     <property name="elideMode">
      <enum>Qt::ElideNone</enum>
     </property>
-    <widget class="QWidget" name="statusTab">
-     <attribute name="title">
-      <string>Status</string>
-     </attribute>
-     <widget class="QLabel" name="statusLabel">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>47</y>
-        <width>41</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Status:</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="statusText">
-      <property name="geometry">
-       <rect>
-        <x>150</x>
-        <y>47</y>
-        <width>71</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: green;</string>
-      </property>
-      <property name="text">
-       <string>Disconnected</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="songLabel">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>67</y>
-        <width>71</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Current Song:</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="songText">
-      <property name="geometry">
-       <rect>
-        <x>150</x>
-        <y>67</y>
-        <width>51</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>None</string>
-      </property>
-     </widget>
-     <widget class="QGroupBox" name="logBox">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>0</y>
-        <width>321</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Log Locations</string>
-      </property>
-      <widget class="QLabel" name="chatLogLabel">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>51</width>
-         <height>16</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Chat Log:</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="chatLogText">
-       <property name="geometry">
-        <rect>
-         <x>140</x>
-         <y>20</y>
-         <width>171</width>
-         <height>16</height>
-        </rect>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">color: red;</string>
-       </property>
-       <property name="text">
-        <string>./logs/chat_log_(msAfterEpoch).log</string>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QLabel" name="fileTransferLabel">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>87</y>
-        <width>91</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>File Transferring:</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="fileTransferText">
-      <property name="geometry">
-       <rect>
-        <x>150</x>
-        <y>87</y>
-        <width>46</width>
-        <height>13</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>None</string>
-      </property>
-     </widget>
-     <widget class="QProgressBar" name="transferProgress">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>110</y>
-        <width>321</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: red;</string>
-      </property>
-      <property name="value">
-       <number>0</number>
-      </property>
-     </widget>
-    </widget>
-    <widget class="QWidget" name="serverTab">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <attribute name="title">
-      <string>Server</string>
-     </attribute>
-     <widget class="QListWidget" name="songList">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>30</y>
-        <width>321</width>
-        <height>341</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="broadcastButton">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>380</y>
-        <width>75</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Broadcast</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="asvailSongsLabel">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>81</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Available Songs:</string>
-      </property>
-     </widget>
-    </widget>
     <widget class="QWidget" name="settingsTab">
      <attribute name="title">
       <string>Settings</string>
@@ -266,8 +78,8 @@
      <widget class="QPushButton" name="connectButton">
       <property name="geometry">
        <rect>
-        <x>20</x>
-        <y>160</y>
+        <x>10</x>
+        <y>130</y>
         <width>75</width>
         <height>23</height>
        </rect>
@@ -285,7 +97,7 @@
         <x>10</x>
         <y>10</y>
         <width>321</width>
-        <height>111</height>
+        <height>81</height>
        </rect>
       </property>
       <property name="title">
@@ -346,25 +158,12 @@
         <string>Alias:</string>
        </property>
       </widget>
-      <widget class="QCheckBox" name="logChatBox">
-       <property name="geometry">
-        <rect>
-         <x>20</x>
-         <y>80</y>
-         <width>70</width>
-         <height>17</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Log Chat</string>
-       </property>
-      </widget>
      </widget>
      <widget class="QLineEdit" name="portBox">
       <property name="geometry">
        <rect>
         <x>90</x>
-        <y>130</y>
+        <y>100</y>
         <width>241</width>
         <height>20</height>
        </rect>
@@ -377,7 +176,7 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>130</y>
+        <y>100</y>
         <width>71</width>
         <height>16</height>
        </rect>
@@ -392,8 +191,8 @@
       </property>
       <property name="geometry">
        <rect>
-        <x>100</x>
-        <y>160</y>
+        <x>90</x>
+        <y>130</y>
         <width>75</width>
         <height>23</height>
        </rect>
@@ -403,6 +202,76 @@
       </property>
       <property name="checkable">
        <bool>false</bool>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="serverTab">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <attribute name="title">
+      <string>Server</string>
+     </attribute>
+     <widget class="QListWidget" name="songList">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>30</y>
+        <width>321</width>
+        <height>341</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="broadcastButton">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>380</y>
+        <width>75</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Broadcast</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="curSongLabel">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>71</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Current Song:</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="refreshSongs">
+      <property name="geometry">
+       <rect>
+        <x>90</x>
+        <y>380</y>
+        <width>75</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Refresh</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="currentSong">
+      <property name="geometry">
+       <rect>
+        <x>80</x>
+        <y>10</y>
+        <width>261</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>None</string>
       </property>
      </widget>
     </widget>
@@ -561,7 +430,7 @@ border-radius: 40px 15px;
 color: white;</string>
     </property>
     <property name="text">
-     <string>Play</string>
+     <string>Tune In</string>
     </property>
     <property name="checkable">
      <bool>false</bool>
