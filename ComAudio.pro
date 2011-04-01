@@ -25,6 +25,7 @@ SOURCES += main.cpp\
         componentvoice.cpp \
         componenttransfer.cpp \
         componentchat.cpp \
+components.cpp \
         audioplayer.cpp \
         socket.cpp \
         logs.cpp \
@@ -43,13 +44,13 @@ HEADERS  += mainwindow.h \
         componentvoice.h \
         componenttransfer.h \
         componentchat.h \
+components.h \
         audioplayer.h \
         logs.h \
         server.h \
         microphone.h \
         parseHdr.h \
         client.h \
-=======
 
 FORMS    += mainwindow.ui \
 

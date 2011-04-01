@@ -1,6 +1,6 @@
 #include "parseHdr.h"
-
-ParseHdr::ParseHdr(QFILE * file) { 
+#include <QDebug>
+ParseHdr::ParseHdr(QFile * file) {
     hdrParse(file);
 }
 
@@ -8,29 +8,26 @@ ParseHdr::ParseHdr(char * file) {
     hdrParse(file);
 }
 
-ParseHdr::ParseHdr(QByteArray * file) { 
+ParseHdr::ParseHdr(QByteArray * file) {
     hdrParse(file);
 }
 
 ParseHdr::~ParseHdr() { }
 
 void ParseHdr::hdrParse(char * file) {
-    int i;
     QByteArray array;
-    QString header
-    
-    array = new QByteArray(file, 44);
-   
-    setNumChan(array);
-    setSampleRate(array);
-    setByteRate(array);
-    setBlockAlign(array);
-    setBitsPerSample(array);
-    setDataLen(array);
+
+    array = QByteArray(file, 44);
+
+    setNumChan(&array);
+    setSampleRate(&array);
+    setByteRate(&array);
+    setBlockAlign(&array);
+    setBitsPerSample(&array);
+    setDataLen(&array);
 }
 
 void ParseHdr::hdrParse(QByteArray * file) {
-       
     setNumChan(file);
     setSampleRate(file);
     setByteRate(file);
@@ -39,87 +36,72 @@ void ParseHdr::hdrParse(QByteArray * file) {
     setDataLen(file);
 }
 
-void ParseHdr::hdrParse(QFILE * file) {
-    file.open(IO_ReadOnly);
-    QByteArray array = file.read(44);
-    file.close();
+void ParseHdr::hdrParse(QFile * file) {
+    if(!(file->open(QIODevice::ReadOnly))) {
+        qDebug("File open failed");
+    }
+    QByteArray array = QByteArray(file->read(44));
+    file->close();
 
-    setNumChan(array);
-    setSampleRate(array);
-    setByteRate(array);
-    setBlockAlign(array);
-    setBitsPerSample(array);
-    setDataLen(array);
+    setNumChan(&array);
+    setSampleRate(&array);
+    setByteRate(&array);
+    setBlockAlign(&array);
+    setBitsPerSample(&array);
+    setDataLen(&array);
 }
 
-void ParseHdr::setNumChan(QByteArray * header) { 
-    QChar temp = header[22];
-    bool ok;
-    numChan = temp.toInt(&ok, 16);   
-    if(ok != 1) {
-        printf("Error setting numChan");
-    }
+void ParseHdr::setNumChan(QByteArray * header) {
+    numChan = 0;
+    numChan |= header->at(22);
+    numChan << 8;
 }
 
 void ParseHdr::setSampleRate(QByteArray * header) {
-    QByteArray temp = new QByteArray(4,0);
+    sampleRate = 0;
+    QByteArray temp(4, '\0');
     int i;
-    bool ok;
     for(i = 0; i < 4; i++) {
-        temp[3 - i] = header[24 + i];
+        temp.push_front(header->at(27 - i));
     }
-    sampleRate = temp.toInt(&ok, 16);
-    if(ok != 1) {
-        printf("Error setting sampleRate");
-    }
+    memcpy(&sampleRate, temp, sizeof(int));
 }
 
 void ParseHdr::setByteRate(QByteArray * header) {
-    QByteArray temp = new QByteArray(4,0);
+    byteRate = 0;
+    QByteArray temp(4, '\0');
     int i;
     for(i = 0; i < 4; i++) {
-        temp[3 - i] = header[28 + i];
+        temp.push_front(header->at(31 - i));
     }
-    byteRate = temp.toInt(&ok, 16);
-    if(ok != 1) {
-        printf("Error setting byteRate");
-    }
+    memcpy(&byteRate, temp, sizeof(int));
 }
 
 void ParseHdr::setBlockAlign(QByteArray * header) {
-    QByteArray temp = new QByteArray(4,0);;
+    QByteArray temp(4, '\0');
     int i;
-    for(i = 0; i < 4; i++) {
-        temp[3 - i] = file[32 + i];
+    for(i = 0; i < 2; i++) {
+        temp.push_front(header->at(33 - i));
     }
-    blockAlign = temp.toInt(&ok, 16);
-    if(ok != 1) {
-        printf("Error setting blockAlign");
-    }
+    memcpy(&blockAlign, temp, sizeof(int));
 }
 
 void ParseHdr::setBitsPerSample(QByteArray * header) {
-    QByteArray temp = new QByteArray(4,0);
+    QByteArray temp(4, '\0');
     int i;
-    for(i = 0; i < 4; i++) {
-        temp[3 - i] = file[34 + i];
+    for(i = 0; i < 2; i++) {
+        temp.push_front(header->at(35 - i));
     }
-    bitsPerSample  = temp.toInt(&ok, 16);
-    if(ok != 1) {
-        printf("Error setting bitsPerSample");
-    }
+    memcpy(&blockAlign, temp, sizeof(int));
 }
 
 void ParseHdr::setDataLen(QByteArray * header) {
-    QByteArray temp = new QByteArray(4,0);
+    QByteArray temp(4, '\0');
     int i;
     for(i = 0; i < 4; i++) {
-        temp[3 - i] = file[40 + i];
+        temp.push_front(header->at(43 - i));
     }
-    dataLen = temp.toInt(&ok, 16);
-    if(ok != 1) {
-        printf("Error setting dataLen");
-    }
+    memcpy(&dataLen, temp, sizeof(int));
 }
 
 int ParseHdr::getNumChan() {

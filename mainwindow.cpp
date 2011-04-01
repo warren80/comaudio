@@ -1,6 +1,9 @@
 #include <QFileDialog>
 #include <QFileSystemModel>
 #include <QObjectList>
+#include <QFile>
+#include <QString>
+#include "parseHdr.h""
 
 #ifndef _WIN32
 #include <sys/socket.h>
@@ -51,6 +54,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->playButton, SIGNAL(pressed()), this, SLOT(playSong()));
     connect(ui->pauseButton, SIGNAL(pressed()), this, SLOT(pauseSong()));
     connect(ui->nextButton, SIGNAL(pressed()), this, SLOT(nextSong()));
+
 }
 
 /**
@@ -145,10 +149,10 @@ void MainWindow::appConnect() {
 void MainWindow::appDisconnect() {
     qDebug("Disconnecting");
     if(settings_->logChat) {
-        chatLog_ = new Logs(QString("./logs/chat_log_" +
-                                    QString::number(QDateTime::currentMSecsSinceEpoch()) + ".log"),
-                            QDateTime::currentDateTime().toString());
-        chatLog_->writeToLog(ui->chatScreen->toPlainText());
+        //chatLog_ = new Logs(QString("./logs/chat_log_" +
+                  //                  QString::number(QDateTime::currentMSecsSinceEpoch()) + ".log"),
+          //                  QDateTime::currentDateTime().toString());
+      //  chatLog_->writeToLog(ui->chatScreen->toPlainText());
     }
     ui->chatScreen->clear();
     ui->serverFilesView->clear();
