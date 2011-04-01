@@ -31,6 +31,8 @@ void ServerStream::slotStartTransfer(){
         return;
     }
 
+    qDebug() << file->size();
+
     if(file->size() < HEADER_LENGTH) {
         qDebug() << "invalid wave file format";
         emit signalTransferDone();

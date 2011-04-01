@@ -119,14 +119,13 @@ void MainWindow::appConnectClient() {
         qDebug() << e;
     }
 
-    if (!appClient_->connect(inet_addr(ipAddr.toStdString().c_str()), 8001)) {
+    if (!appClient_->connect(inet_addr(ipAddr.toStdString().c_str()), htons(8001))) {
         delete appClient_;
         return;
     }
     appClient_->start();
 
-    ComponentStream radio;
-    radio.start();
+    stream_.start();
 
     cylon_.start();
     clientConnect(true);
@@ -142,7 +141,7 @@ void MainWindow::appDisconnectClient() {
 void MainWindow::appStartServer() {
     setWindowTitle("Kidnapster - Server");
     try {
-        appServer_ = new Server(8001);
+        appServer_ = new Server(htons(8001));
     } catch (const QString& e) {
         qDebug() << e;
     }

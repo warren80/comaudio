@@ -71,19 +71,6 @@ void Server::run() {
             // ensure the largest descriptor is still used.
             largest = connected > largest ? connected : largest;
 
-            // TEMPORARY TEST
-            qDebug() << "loaded client" << connected;
-                QFile temp("/Volumes/OptiBay/Home/Dropbox/School/sem4/COMP4985/final/1.wav");
-            temp.open(QFile::ReadOnly);
-            qDebug() << "file size: " << temp.size();
-            while (!temp.atEnd()) {
-                char* readBuffer = new char[61440];
-                int read = temp.read(readBuffer, 61440);
-                clients.last()->transmit((char*) &read, sizeof(read));
-                clients.last()->transmit(readBuffer, read);
-            }
-            qDebug() << "finished transmit";
-
 
             if (--numReady <= 0) {
                 continue;	// no more readable descriptors
