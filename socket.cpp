@@ -123,8 +123,9 @@ bool Socket::clientJoinMCast(in_addr_t address, uint16_t port) {
     stMreq.imr_multiaddr.s_addr = address;
     stMreq.imr_interface.s_addr = htonl(INADDR_ANY);
     //join mcast session
-    nRet = setsockopt(socket_, IPPROTO_IP, IP_ADD_MEMBERSHIP, (char *)&stMreq, sizeof(stMreq));
-    if (nRet == -1) { return false; }
+    if (setsockopt(socket_, IPPROTO_IP, IP_ADD_MEMBERSHIP, (char *)&stMreq, sizeof(stMreq)) == -1) {
+        return false;
+    }
     return true;
 }
 
@@ -142,13 +143,16 @@ bool Socket::serverJoinMCast(in_addr_t address, uint16_t port) {
     serverAddress.imr_multiaddr.s_addr = address;
     serverAddress.imr_interface.s_addr = INADDR_ANY;
     //join multicast address
-    Ret = setsockopt(socket_, IPPROTO_IP, IP_ADD_MEMBERSHIP, (char *)&serverAddress, sizeof(serverAddress));
-    if (Ret == -1) { return false; }
+    if (setsockopt(socket_, IPPROTO_IP, IP_ADD_MEMBERSHIP, (char *)&serverAddress, sizeof(serverAddress)) == -1) {
+        return false;
+    }
     //set time to live to 1
-    Ret = setsockopt(socket_, IPPROTO_IP, IP_MULTICAST_TTL, (char *)&lTTL, sizeof(lTTL));
-    if (Ret == -1) { return false; }
+    if (setsockopt(socket_, IPPROTO_IP, IP_MULTICAST_TTL, (char *)&lTTL, sizeof(lTTL)) == -1) {
+        return false;
+    }
     //disable loop back
-    Ret = setsockopt(socket_, IPPROTO_IP, IP_MULTICAST_LOOP, (char *)&f, sizeof(f));
-    if (Ret == -1) { return false; }
+    if (setsockopt(socket_, IPPROTO_IP, IP_MULTICAST_LOOP, (char *)&f, sizeof(f)) == -1) {
+        return false;
+    }
     return true;
 }
