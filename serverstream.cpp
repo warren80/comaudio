@@ -2,7 +2,13 @@
 #include "packet.h"
 
 /*ServerStream::ServerStream(QString fileNamePath) {
+    Thread *thread = new Thread();
 
+    ServerStream *sfwo = new ServerStream(fileNamePath);
+    connect(this, SIGNAL(signalStreamFile()), sfwo, SLOT(startTransfer()));
+    connect(sfwo, SIGNAL(signalTransferDone()), thread, SLOT(deleteLater()));
+    thread->start();
+    emit signalStreamFile();
 }
 */
 

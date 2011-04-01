@@ -192,10 +192,16 @@ void MainWindow::refreshFiles() {
 
 void MainWindow::broadcastSong() {
     QString songName = ui->songList->currentItem()->text();
-
+    Thread *thread = new Thread();
     notes_.start();
     ui->currentSong->setText(songName);
-    emit playThisSong(songName);
+
+    ServerStream *sfwo = new ServerStream(songName);
+    connect(this, SIGNAL(playThisSong()), sfwo, SLOT(startTransfer()));
+    connect(sfwo, SIGNAL(signalTransferDone()), thread, SLOT(deleteLater()));
+    thread->start();
+
+    emit playThisSong();
 }
 
 void MainWindow::refreshSongList() {
