@@ -45,7 +45,7 @@ void ComponentStream::run() {
 
             // check if the wave header stuff is the same
             // process buffer to buffer + HEADER_LENGTH - 1
-            if (audio_ == NULL) {
+            if (audioPlayer_ == NULL) {
                 setupAudio(44100, 2, 16, 100000);
             }
 
