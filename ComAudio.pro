@@ -33,10 +33,14 @@ SOURCES += main.cpp\
         componentstream.cpp \
         componentvoice.cpp \
         componenttransfer.cpp \
+        componentchat.cpp \
+        components.cpp \
         audioplayer.cpp \
         socket.cpp \
         server.cpp \
         microphone.cpp \
+        parseHdr.cpp \
+        client.cpp \
         client.cpp
 
 HEADERS  += mainwindow.h \
@@ -47,9 +51,13 @@ HEADERS  += mainwindow.h \
         componentstream.h \
         componentvoice.h \
         componenttransfer.h \
+        componentchat.h \
+        components.h \
         audioplayer.h \
         server.h \
         microphone.h \
+        parseHdr.h \
+        client.h \
         client.h
 
 FORMS    += mainwindow.ui \

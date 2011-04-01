@@ -14,8 +14,8 @@
 #include "ui_mainwindow.h"
 
 /******************************************
- * ESSENTIAL METHODS
- ******************************************/
+* ESSENTIAL METHODS
+******************************************/
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent), ui(new Ui::MainWindow)
@@ -32,8 +32,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->portBox->setValidator(validPort);
 
     /**
-     * CONNECTIONS
-     */
+* CONNECTIONS
+*/
 
     //Settings Tab
     connect(ui->connectButton, SIGNAL(pressed()), this, SLOT(appConnect()));
@@ -69,8 +69,8 @@ void MainWindow::initDispatcher() {
 }
 
 /******************************************
- * HELPERS
- ******************************************/
+* HELPERS
+******************************************/
 
 void MainWindow::connected(bool connected) {
     ui->connectButton->setEnabled(!connected);
@@ -97,8 +97,8 @@ void MainWindow::connected(bool connected) {
 }
 
 /******************************************
- * SLOTS
- ******************************************/
+* SLOTS
+******************************************/
 
 void MainWindow::appConnect() {
     settings_ = new Settings();
@@ -153,28 +153,28 @@ void MainWindow::appDisconnect() {
 }
 
 /*
- * TODO:
- *  1. Send request
- */
+* TODO:
+* 1. Send request
+*/
 void MainWindow::downloadSong() {
     QString songName = ui->serverFilesView->currentItem()->text();
 
 }
 
 /*
- * TODO:
- *  1. Send Request
- */
+* TODO:
+* 1. Send Request
+*/
 void MainWindow::downloadCurrentSong() {
     QString songName = ui->currentSongText->text();
 
 }
 
 /*
- * TODO:
- *  1. Send request to update files
- *  2. Update list widget
- */
+* TODO:
+* 1. Send request to update files
+* 2. Update list widget
+*/
 void MainWindow::refreshFiles() {
     QDir dir("C:\\Users\\KCastillo\\Documents");
     QString filter = ui->filterBox->text();
@@ -217,4 +217,3 @@ void MainWindow::pauseSong() {
     notes_.stop();
     player_->pause();
 }
-
