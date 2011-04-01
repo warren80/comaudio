@@ -14,11 +14,6 @@ void ComponentStream::setupAudio(int frequency, int channels, int sampleSize, in
 }
 
 void ComponentStream::receiveData(char *data, int length) {
-<<<<<<< HEAD
-    audioPlayer_->appendBuffer(data, length);
-    // temp.
-    //audioPlayer_->play();
-=======
     short l;
     if (audioPlayer_ != NULL) {
         //parse the wave header packet
@@ -26,7 +21,6 @@ void ComponentStream::receiveData(char *data, int length) {
     }
     memcpy(&l, data + HEADERLENGTH, sizeof(short));
     audioPlayer_->appendBuffer(data + HEADERLENGTH + 2,l);
->>>>>>> warren
 }
 
 void ComponentStream::transmitData(char *data, int length) {

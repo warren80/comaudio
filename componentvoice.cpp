@@ -1,6 +1,6 @@
 #include "componentvoice.h"
 
-ComponentVoice::ComponentVoice(const Socket& socket) : Component(kTransfer, socket) {
+ComponentVoice::ComponentVoice(const Socket& socket) : Component(socket) {
 
     mic_ = new Microphone();
     connect(mic_, SIGNAL(sendVoice(QByteArray*)),this, SLOT(transmitVoice(QByteArray*)));
