@@ -234,3 +234,10 @@ void MainWindow::pauseSong() {
     notes_.stop();
     player_->pause();
 }
+
+void MainWindow::rate(int num) {
+    static int sum = 0;
+    sum += num;
+
+    ui->rate->setText(QString::number(sum));
+}
