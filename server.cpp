@@ -72,7 +72,7 @@ void Server::run() {
             FD_SET(connected, &allset);      // add new descriptor to set
 
             Packet packet;
-            packet.length = 5;
+            packet.length = 5 + sizeof(int);
             packet.type = kTransfer;
             packet.data = "test";
 
