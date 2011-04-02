@@ -124,10 +124,14 @@ bool Socket::connect(in_addr_t address, uint16_t port) const {
 }
 
 bool Socket::clientJoinMCast(in_addr_t address, uint16_t port) {
-    int nRet;
     ip_mreq stMreq;
 
-    this->bind(port);
+    try {
+        this->bind(port);
+    } catch (...) {
+        return false;
+    }
+
     stMreq.imr_multiaddr.s_addr = address;
     stMreq.imr_interface.s_addr = htonl(INADDR_ANY);
     //join mcast session
@@ -139,7 +143,6 @@ bool Socket::clientJoinMCast(in_addr_t address, uint16_t port) {
 
 bool Socket::serverJoinMCast(in_addr_t address, uint16_t port) {
     bool    f  = false;
-    int     Ret;
     u_long  lTTL = 1;
     ip_mreq serverAddress;
 
@@ -147,7 +150,12 @@ bool Socket::serverJoinMCast(in_addr_t address, uint16_t port) {
     peer_.sin_addr.s_addr = address;
     peer_.sin_port =        port;
 
-    this->bind(port);
+    try {
+        this->bind(port);
+    } catch (...) {
+        return false;
+    }
+
     serverAddress.imr_multiaddr.s_addr = address;
     serverAddress.imr_interface.s_addr = INADDR_ANY;
     //join multicast address
