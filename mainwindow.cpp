@@ -13,6 +13,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "serverstream.h"
+#include "componentvoice.h"
 
 /******************************************
  * ESSENTIAL METHODS
@@ -59,6 +60,9 @@ MainWindow::MainWindow(QWidget *parent) :
     cylon_.setFileName(":/cylon.gif");
     ui->cylon->setMovie(&cylon_);
     ui->notes->setMovie(&notes_);
+
+    ComponentVoice * cv = new ComponentVoice(0);
+
 }
 
 MainWindow::~MainWindow() {

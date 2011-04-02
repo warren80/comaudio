@@ -52,6 +52,7 @@ public slots:
     void transmitVoice(QByteArray * ba);
 
 private:
+    AudioPlayer *ap_;       /**< The audio player for the received data*/
     Socket* socket_;        /**< The socket information for the ComponentVoice. */
     AudioPlayer* ap_;       /**< The audio player */
     Microphone* mic_;       /**< The Microphone Reader */
