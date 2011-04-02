@@ -2,7 +2,7 @@
 #define SOCKET_H
 
 #include <stdint.h>
-#include <QMutex>
+#include <QMutexLocker>
 #ifndef _WIN32
 #include <arpa/inet.h>
 #endif
@@ -50,7 +50,7 @@ public:
       @param peer sockaddr_in for destination information.
       @author Nick Huber
       */
-    Socket(int socket, NetMode mode, sockaddr_in peer) : socket_(socket), mode_(mode), peer_(peer) {}
+    Socket(int socket, NetMode mode, sockaddr_in peer) : socket_(socket), mode_(mode), peer_(peer), sync_(new QMutex) {}
 
     /**
       Destructor for the socket. Calls shutdown and close on the file descriptor.
@@ -86,7 +86,7 @@ public:
       @return Number of bytes received.
       @author Nick Huber
       */
-    int receive(char* buffer, int length) const;
+    int receive(char* buffer, int length);
 
     /**
       Transmit length bytes from buffer to the socket. Will transfer data to the
@@ -97,7 +97,7 @@ public:
       @return Number of bytes transmitted.
       @author Nick Huber
       */
-    int transmit(const char* buffer, int length) const;
+    int transmit(const char* buffer, int length);
 
     /**
       Combine all the packet information into a single data stream and transmit it.
@@ -114,7 +114,7 @@ public:
       @return New socket for the accepted connection.
       @author Nick Huber
       */
-    Socket accept() const;
+    Socket* accept() const;
 
     /**
       Connect to the address specified. Returns immediatly with -1 on UDP.
@@ -154,7 +154,7 @@ private:
     int socket_;        /**< Socket file descriptor. */
     NetMode mode_;      /**< Network mode this socket works in. */
     sockaddr_in peer_;  /**< Information about the peer for this socket. */
-    QMutex* sync_;       /**< Stop concurrent reads/writes on the socket. */
+    QMutexLocker sync_; /**< Sync object. */
 };
 
 #endif
