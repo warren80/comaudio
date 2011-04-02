@@ -33,8 +33,6 @@ void ServerStream::slotStartTransfer(){
         return;
     }
 
-    qDebug() << "file size:" << file->size();
-
     if(file->size() < HEADER_LENGTH) {
         qDebug() << "invalid wave file format";
         emit signalTransferDone();
@@ -55,7 +53,7 @@ void ServerStream::slotStartTransfer(){
         s.transmit(pckt);
     }
 
-    //fdelete[] pckt.data;
+    delete[] pckt.data;
 
     file->close();
     emit signalTransferDone();

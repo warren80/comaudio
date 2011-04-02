@@ -4,6 +4,9 @@
 #include <QFile>
 #include <QDebug>
 
+#include "thread.h"
+#include "serverfiletransfer.h"
+
 Server::Server(int port, int backlog) : socket_(new Socket(kTCP)), running_(false) {
 
     socket_->bind(port);
@@ -98,4 +101,13 @@ void Server::run() {
             }
         }
     }
+}
+
+void Server::startFileTransfer(QString fileName, Socket * s) {
+    Thread *thread = new Thread();
+    serverFileTransfer *sft = new serverFileTransfer(fileName, s);
+    connect(this, SIGNAL(signalStreamFile()), sft, SLOT(slotStartTransfer()));
+    connect(sft, SIGNAL(signalTransferDone()), thread, SLOT(deleteLater()));
+    thread->start();
+    emit signalStreamFile();
 }

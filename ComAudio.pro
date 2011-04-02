@@ -39,7 +39,8 @@ SOURCES += main.cpp\
         microphone.cpp \
         parseHdr.cpp \
         client.cpp \
-        serverstream.cpp
+        serverstream.cpp \
+    serverfiletransfer.cpp
 
 HEADERS  += mainwindow.h \
         socket.h \
@@ -55,7 +56,8 @@ HEADERS  += mainwindow.h \
         parseHdr.h \
         client.h \
         serverstream.h \
-        componenttype.h
+        componenttype.h \
+    serverfiletransfer.h
 
 FORMS    += mainwindow.ui \
 

@@ -3,50 +3,46 @@
 #include <QList>
 #include <QMessageBox>
 
-/**
- * CONSTRUCTOR
- */
-ComponentTransfer::ComponentTransfer(Socket* socket) : Component(socket) {
+#include "serverfiletransfer.h"
+
+#include "componentstream.h"
+#include "componenttype.h"
+
+ComponentTransfer::ComponentTransfer(Socket * s, QString fileName) : Component(s),
+fileName_(fileName) {
 }
 
-/**
- * ESSENTIAL METHODS
- */
+void ComponentTransfer::run() {
+    running_ = true;
+    int read;
+    char * buffer;
+    QFile file(QDir::currentPath().append("/Songs/").append(fileName_));
+    //buffer
 
-/*
- * TODO:
- *  1. Save into buffer
- *  2. Send file
- */
-void ComponentTransfer::setupFileTransfer(QString fileNamePath) {
-    QFile *file = new QFile(fileNamePath);
-    QList<char*> buffer;
-    char *message;
-
-    if(file->open(QIODevice::ReadOnly)) {
-        QMessageBox::QMessageBox(QMessageBox::Critical, "Error", "Cannot open file or file doesn't exist", QMessageBox::Ok).exec();
+    if(!file.open(QIODevice::WriteOnly)) {
+        QMessageBox::QMessageBox(QMessageBox::Critical,
+                                 "Error", "Cannot open file or file doesn't exist",
+                                 QMessageBox::Ok).exec();
         return;
     }
 
-    while((message = file->read(1023).data()) > 0) {
-        buffer.append(message);
+    buffer = new char[FT_PACKET_SIZE];
+    while (running_) {
+        int msgSize;
+        // receive the size of a packet and receive if successfull.
+        switch (socket_->receive((char*) &msgSize, sizeof(int))) {
+        case -1:
+            qDebug() << "error";
+            // error
+            break;
+        case 0:
+
+            break;
+        default:
+            read = socket_->receive(buffer, msgSize);
+            file.write(buffer + FT_HEADER_SIZE, read - FT_HEADER_SIZE);
+            break;
+        }
     }
-
-    file->close();
-}
-
-void ComponentTransfer::saveFile(QList<char*> mesg) {
-    QFile *file = new QFile("test.txt");
-    QListIterator<char*> iterator(mesg);
-
-    if(file->open(QIODevice::ReadOnly)) {
-        QMessageBox::QMessageBox(QMessageBox::Critical, "Error", "Cannot open file or file doesn't exist", QMessageBox::Ok).exec();
-        return;
-    }
-
-    while(iterator.hasNext()) {
-        file->write(iterator.next(), 1024);
-    }
-
-    file->close();
+    file.close();
 }
