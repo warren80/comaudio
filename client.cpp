@@ -35,6 +35,19 @@ void Client::run() {
             socket_->receive(buffer, msgSize);
             // temp. echo received data
             // check what data is for and send it to the right component thread
+            int type;
+            memcpy((void*) &type, buffer, sizeof(int));
+            switch (type) {
+            case kTransfer:
+                qDebug() << "transfer";
+                break;
+            case kStream:
+                qDebug() << "stream";
+                break;
+            case kVoice:
+                qDebug() << "voice";
+                break;
+            }
 
             break;
         }

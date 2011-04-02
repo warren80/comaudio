@@ -71,6 +71,13 @@ void Server::run() {
 
             FD_SET(connected, &allset);      // add new descriptor to set
 
+            Packet packet;
+            packet.length = 5;
+            packet.type = kTransfer;
+            packet.data = "test";
+
+            clients.last()->transmit(packet);
+
             // ensure the largest descriptor is still used.
             largest = connected > largest ? connected : largest;
 
