@@ -83,7 +83,8 @@ void MainWindow::clientConnect(bool connected) {
     ui->connectButton->setEnabled(!connected);
     ui->disconnectButton->setEnabled(connected);
     ui->fileTab->setEnabled(connected);
-    ui->voiceTab->setEnabled(connected);
+    ui->startTalkingButton->setEnabled(connected);
+    ui->stopTalkingButton->setEnabled(connected);
     ui->playButton->setEnabled(connected);
     ui->pauseButton->setEnabled(connected);
 
