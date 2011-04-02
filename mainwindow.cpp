@@ -110,10 +110,10 @@ void MainWindow::serverConnect(bool connected) {
 ******************************************/
 
 void MainWindow::appConnectClient() {
-    setWindowTitle("Kidnapster - Client");
     QString ipAddr(ui->serverAddrBox->text());
 
     try {
+        setWindowTitle("Kidnapster - Client");
         appClient_ = new Client();
     } catch (const QString& e) {
         qDebug() << e;
@@ -139,13 +139,14 @@ void MainWindow::appDisconnectClient() {
 }
 
 void MainWindow::appStartServer() {
-    setWindowTitle("Kidnapster - Server");
     try {
+        setWindowTitle("Kidnapster - Server");
         appServer_ = new Server(htons(8001));
     } catch (const QString& e) {
         qDebug() << e;
     }
     appServer_->start();
+    refreshSongList();
     serverConnect(true);
 }
 
@@ -194,6 +195,11 @@ void MainWindow::refreshFiles() {
 
 void MainWindow::broadcastSong() {
     QString songName = ui->songList->currentItem()->text();
+
+    if(songName == "") {
+        return;
+    }
+
     Thread *thread = new Thread();
     notes_.start();
     ui->currentSong->setText(songName);
