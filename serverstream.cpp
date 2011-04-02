@@ -18,7 +18,6 @@ ServerStream::ServerStream(QString fileNamePath)
 }
 
 void ServerStream::slotStartTransfer(){
-    qDebug() << fileNamePath_;
     QFile *file = new QFile(fileNamePath_);
     Packet pckt;
 
@@ -34,7 +33,7 @@ void ServerStream::slotStartTransfer(){
         return;
     }
 
-    qDebug() << file->size();
+    qDebug() << "file size:" << file->size();
 
     if(file->size() < HEADER_LENGTH) {
         qDebug() << "invalid wave file format";

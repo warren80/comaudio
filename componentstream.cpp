@@ -4,7 +4,7 @@
 #include "componenttype.h"
 
 ComponentStream::ComponentStream() : Component(new Socket(kUDP)), audioPlayer_(NULL) {
-    socket_->clientJoinMCast(inet_addr(MULTICAST_IP), MULTICAST_PORT);
+    socket_->clientJoinMCast(inet_addr(MULTICAST_IP), htons(MULTICAST_PORT));
 }
 
 void ComponentStream::setupAudio(int frequency, int channels, int sampleSize, int bufferSize) {
@@ -32,12 +32,15 @@ void ComponentStream::run() {
         // receive the size of a packet and receive if successfull.
         switch (socket_->receive((char*) &msgSize, sizeof(int))) {
         case -1:
+            qDebug() << "error";
             // error
             break;
         case 0:
+            qDebug() << "disconnect";
             // disconnect
             break;
         default:
+            qDebug() << "data";
             // data
             char* buffer = new char[msgSize];
             socket_->receive(buffer, msgSize);
