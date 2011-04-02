@@ -60,6 +60,5 @@ void ServerStream::slotCleanup() {
     delete[] buffer_;
     file_->close();
     delete file_;
-    emit signalTransferDone();
-    qDebug() << "FileTransferDone";
+    QThread::currentThread()->terminate();
 }
