@@ -1,16 +1,14 @@
 #include <QDebug>
 #include "serverstream.h"
 
-/*ServerStream::ServerStream(QString fileNamePath) {
-    Thread *thread = new Thread();
 
-    ServerStream *sfwo = new ServerStream(fileNamePath);
-    connect(this, SIGNAL(signalStreamFile()), sfwo, SLOT(startTransfer()));
-    connect(sfwo, SIGNAL(signalTransferDone()), thread, SLOT(deleteLater()));
-    thread->start();
-    emit signalStreamFile();
-}
-*/
+class Helper: public QThread {
+public:
+	static void msleep(int ms)
+	{
+		QThread::msleep(ms);
+	}
+};
 
 ServerStream::ServerStream(QString fileNamePath)
     :fileNamePath_(fileNamePath) {
@@ -49,15 +47,14 @@ void ServerStream::slotStartTransfer(){
         return;
     }
 
-    int num = 0;
+    Helper sleeper;
     while (!file->atEnd()) {
         memset((void*) (buffer + HEADER_LENGTH), 0, STREAMPACKETSIZE - HEADER_LENGTH);
         int length = file->read(buffer + HEADER_LENGTH, STREAMPACKETSIZE - HEADER_LENGTH) + HEADER_LENGTH;
         s.transmit(buffer, length);
-        num++;
+        sleeper.msleep(85);
     }
 
-    qDebug() << num;
     //delete[] pckt.data;
 
     file->close();
