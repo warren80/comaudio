@@ -53,6 +53,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->playButton, SIGNAL(pressed()), this, SLOT(playSong()));
     connect(ui->pauseButton, SIGNAL(pressed()), this, SLOT(pauseSong()));
 
+    connect(&stream_, SIGNAL(signalReceivedData(int)), this, SLOT(rate(int)));
+
     notes_.setFileName(":/notes.gif");
     cylon_.setFileName(":/cylon.gif");
     ui->cylon->setMovie(&cylon_);
