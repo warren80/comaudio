@@ -13,7 +13,7 @@
 
 #include "socket.h"
 
-Socket::Socket(NetMode mode) : mode_(mode), sync_(new QMutex) {
+Socket::Socket(NetMode mode) : mode_(mode) {
 
     if ((socket_ = socket(PF_INET, mode_, 0)) == -1) {
         QString exception("error creating socket: ");
@@ -63,7 +63,6 @@ void Socket::listen(int backlog) {
 int Socket::receive(char* buffer, int length) {
     int read = 0;
 
-    sync_.unlock();
     if (mode_ == kTCP) {
         while ((read = recv(socket_, buffer, length, 0)) != -1) {
            buffer += read;
@@ -77,20 +76,17 @@ int Socket::receive(char* buffer, int length) {
         read = recvfrom(socket_, buffer, length, 0, NULL, NULL);
     }
 
-    sync_.relock();
     return read;
 }
 
 int Socket::transmit(const char *buffer, int length) {
     int sent = -1;
-    sync_.unlock();
 
     if (mode_ == kTCP) {
         sent = send(socket_, buffer, length, 0);
     } else if (mode_ == kUDP) {
         sent = sendto(socket_, buffer, length, 0, (const sockaddr*) &peer_, sizeof(peer_));
     }
-    sync_.relock();
     return sent;
 
 }

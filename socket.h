@@ -50,7 +50,7 @@ public:
       @param peer sockaddr_in for destination information.
       @author Nick Huber
       */
-    Socket(int socket, NetMode mode, sockaddr_in peer) : socket_(socket), mode_(mode), peer_(peer), sync_(new QMutex) {}
+    Socket(int socket, NetMode mode, sockaddr_in peer) : socket_(socket), mode_(mode), peer_(peer) {}
 
     /**
       Destructor for the socket. Calls shutdown and close on the file descriptor.
@@ -154,7 +154,6 @@ private:
     int socket_;        /**< Socket file descriptor. */
     NetMode mode_;      /**< Network mode this socket works in. */
     sockaddr_in peer_;  /**< Information about the peer for this socket. */
-    QMutexLocker sync_; /**< Sync object. */
 };
 
 #endif
