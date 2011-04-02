@@ -47,13 +47,14 @@ void Client::run() {
 
             switch (type) {
             case kTransfer:
-                qDebug() << "transfer" << size << data;
                 break;
             case kStream:
-                qDebug() << "stream" << size;
+
+                if (size == 0) {
+                    emit signalStopStream();
+                }
                 break;
             case kVoice:
-                qDebug() << "voice" << size;
                 break;
             }
 
