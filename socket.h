@@ -2,7 +2,7 @@
 #define SOCKET_H
 
 #include <stdint.h>
-
+#include <QMutex>
 #ifndef _WIN32
 #include <arpa/inet.h>
 #endif
@@ -154,6 +154,7 @@ private:
     int socket_;        /**< Socket file descriptor. */
     NetMode mode_;      /**< Network mode this socket works in. */
     sockaddr_in peer_;  /**< Information about the peer for this socket. */
+    QMutex* sync_;       /**< Stop concurrent reads/writes on the socket. */
 };
 
 #endif

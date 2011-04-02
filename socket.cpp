@@ -13,7 +13,7 @@
 
 #include "socket.h"
 
-Socket::Socket(NetMode mode) : mode_(mode) {
+Socket::Socket(NetMode mode) : mode_(mode), sync_(new QMutex()) {
 
     if ((socket_ = socket(PF_INET, mode_, 0)) == -1) {
         QString exception("error creating socket: ");
@@ -31,6 +31,7 @@ Socket::Socket(NetMode mode) : mode_(mode) {
 }
 
 Socket::~Socket() {
+    delete sync_;
     shutdown(socket_, SHUT_RDWR);
     CLOSESOCKET(socket_);
 }
@@ -63,6 +64,7 @@ void Socket::listen(int backlog) {
 int Socket::receive(char* buffer, int length) const {
     int read = 0;
 
+    sync_->lock();
     if (mode_ == kTCP) {
         while ((read = recv(socket_, buffer, length, 0)) != -1) {
            buffer += read;
@@ -76,18 +78,21 @@ int Socket::receive(char* buffer, int length) const {
         read = recvfrom(socket_, buffer, length, 0, NULL, NULL);
     }
 
-
-   return read;
+    sync_->unlock();
+    return read;
 }
 
 int Socket::transmit(const char *buffer, int length) const {
+    int sent = -1;
+    sync_->lock();
+
     if (mode_ == kTCP) {
-        return send(socket_, buffer, length, 0);
+        sent = send(socket_, buffer, length, 0);
     } else if (mode_ == kUDP) {
-        return sendto(socket_, buffer, length, 0, (const sockaddr*) &peer_, sizeof(peer_));
-    } else {
-        return -1;
+        sent = sendto(socket_, buffer, length, 0, (const sockaddr*) &peer_, sizeof(peer_));
     }
+    sync_->unlock();
+    return sent;
 
 }
 

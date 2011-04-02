@@ -1,5 +1,6 @@
 #include "componentstream.h"
 #include "componenttype.h"
+#include "parseHdr.h"
 
 ComponentStream::ComponentStream() : Component(new Socket(kUDP)), audioPlayer_(NULL) {
     if (!socket_->clientJoinMCast(inet_addr(MULTICAST_IP), htons(MULTICAST_PORT))) {
@@ -29,7 +30,14 @@ void ComponentStream::run() {
             break;
         default:
             if (audioPlayer_ == NULL) {
-                setupAudio(44100, 2, 16, 358000000);
+                // mohammed's not working wav parser
+//                ParseHdr parser(buffer);
+//                WavHdr hdr = parser.getWavHdr();
+
+//                qDebug() << hdr.sampleRate << hdr.numChan << hdr.bitsPerSample << hdr.dataLen;
+
+//                setupAudio(hdr.sampleRate, hdr.numChan, hdr.bitsPerSample, hdr.dataLen);
+                setupAudio(44100, 2, 16, 39379536);
             }
 
             emit signalReceivedData(STREAMPACKETSIZE);

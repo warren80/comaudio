@@ -1,5 +1,3 @@
-#include "serverfiletransfer.h"
-
 #include <QDebug>
 #include <QMessageBox>
 #include "serverfiletransfer.h"

@@ -35,7 +35,7 @@ void ServerStream::slotStartTransfer(){
     }
     timer_ = new QTimer();
     connect(timer_,SIGNAL(timeout()),this,SLOT(slotTransmitOnTimer()));
-    timer_->start(1); //will need some math on how fast to read
+    timer_->start(20); //will need some math on how fast to read
 }
 
 void ServerStream::slotTransmitOnTimer() {
