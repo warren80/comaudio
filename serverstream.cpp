@@ -53,11 +53,7 @@ void ServerStream::slotStartTransfer(){
         sleeper.msleep(85);
     }
 
-<<<<<<< HEAD
     delete[] pckt.data;
-=======
-    //delete[] pckt.data;
->>>>>>> 6bad6c7d8d444f9874074bc09b95b48ec1c52dec
 
     file->close();
     emit signalTransferDone();
