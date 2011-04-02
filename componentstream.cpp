@@ -29,7 +29,7 @@ void ComponentStream::run() {
             // disconnect
             break;
         default:
-            qDebug() << "data";
+            emit signalReceivedData(4096);
             // data
             char* buffer = new char[msgSize];
             socket_->receive(buffer, msgSize);
@@ -39,6 +39,7 @@ void ComponentStream::run() {
             if (audioPlayer_ == NULL) {
                 setupAudio(44100, 2, 16, 100000);
             }
+
 
             audioPlayer_->appendBuffer(buffer + sizeof(ComponentType) + HEADER_LENGTH, msgSize - HEADER_LENGTH);
 

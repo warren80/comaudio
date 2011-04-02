@@ -39,6 +39,7 @@ private:
     AudioPlayer* audioPlayer_;
 signals:
     void signalStreamFile();
+    void signalReceivedData(int);
 };
 
 #endif // COMPONENTSTREAM_H
