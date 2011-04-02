@@ -2,9 +2,9 @@
 #define COMPONENTTYPE_H
 
 enum ComponentType {
-    kStream,    /**< Multicast Music streaming. */
-    kTransfer,  /**< File transfer. */
-    kVoice,     /**< Server-Client Voice Chat. */
+    kStream   = 0,  /**< Multicast Music streaming. */
+    kTransfer = 1,  /**< File transfer. */
+    kVoice    = 2,  /**< Server-Client Voice Chat. */
 };
 
 #endif // COMPONENTTYPE_H
