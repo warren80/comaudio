@@ -47,16 +47,17 @@ void ServerStream::slotStartTransfer(){
 
     if (file->read(pckt.data,HEADER_LENGTH) != HEADER_LENGTH) {
         emit signalTransferDone();
+        return;
     }
 
     while (!file->atEnd()) {
 
-        pckt.length = file->read(pckt.data + HEADER_LENGTH,STREAMDATALENGTH);
+        pckt.length = file->read(pckt.data + HEADER_LENGTH,STREAMDATALENGTH) + HEADER_LENGTH;
         pckt.type = kStream;
         s.transmit(pckt);
     }
 
-    delete[] pckt.data;
+    //fdelete[] pckt.data;
 
     file->close();
     emit signalTransferDone();
