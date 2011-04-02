@@ -102,14 +102,14 @@ void Server::run() {
 }
 
 void Server::slotDisconnectStream() {
-    foreach (Socket* client, clients) {
+    foreach (Socket* client, clients_) {
         Packet packet;
         packet.length = 0;
         packet.type = kStream;
 
-       client->transmit(packet);
+        client->transmit(packet);
     }
-
+}
 
 void Server::startFileTransfer(QString fileName, Socket * s) {
     Thread *thread = new Thread();
