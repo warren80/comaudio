@@ -154,7 +154,7 @@ QLineEdit:disabled {
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>2</number>
     </property>
     <property name="elideMode">
      <enum>Qt::ElideNone</enum>
@@ -566,6 +566,40 @@ QLineEdit:disabled {
       </property>
       <property name="text">
        <string>Filter:</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="voiceTab">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <attribute name="title">
+      <string>Voice</string>
+     </attribute>
+     <widget class="QPushButton" name="startTalkingButton">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>75</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Start Voice</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="stopTalkingButton">
+      <property name="geometry">
+       <rect>
+        <x>90</x>
+        <y>10</y>
+        <width>75</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Stop Voice</string>
       </property>
      </widget>
     </widget>

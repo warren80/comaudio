@@ -43,6 +43,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->downloadCurrentSongButton, SIGNAL(pressed()), this, SLOT(downloadCurrentSong()));
     connect(ui->refreshServerFilesButton, SIGNAL(pressed()), this, SLOT(refreshFiles()));
 
+    //Voice Tab
+    connect(ui->startTalkingButton, SIGNAL(pressed()), this, SLOT(startVoice()));
+    connect(ui->stopTalkingButton, SIGNAL(pressed()), this, SLOT(stopVoice()));
+
     //Server Tab
     connect(ui->broadcastButton, SIGNAL(pressed()), this, SLOT(broadcastSong()));
     connect(ui->refreshSongs, SIGNAL(pressed()), this, SLOT(refreshSongList()));
@@ -79,6 +83,7 @@ void MainWindow::clientConnect(bool connected) {
     ui->connectButton->setEnabled(!connected);
     ui->disconnectButton->setEnabled(connected);
     ui->fileTab->setEnabled(connected);
+    ui->voiceTab->setEnabled(connected);
     ui->playButton->setEnabled(connected);
     ui->pauseButton->setEnabled(connected);
 
@@ -115,7 +120,6 @@ void MainWindow::appConnectClient() {
     QString ipAddr(ui->serverAddrBox->text());
 
     try {
-        setWindowTitle("Kidnapster - Client");
         appClient_ = new Client();
     } catch (const QString& e) {
         qDebug() << e;
@@ -125,6 +129,7 @@ void MainWindow::appConnectClient() {
         delete appClient_;
         return;
     }
+    setWindowTitle("Kidnapster - Client");
     appClient_->start();
 
     stream_.start();
@@ -141,8 +146,8 @@ void MainWindow::appDisconnectClient() {
 }
 
 void MainWindow::appStartServer() {
+    setWindowTitle("Kidnapster - Server");
     try {
-        setWindowTitle("Kidnapster - Server");
         appServer_ = new Server(htons(8001));
     } catch (const QString& e) {
         qDebug() << e;
@@ -217,6 +222,14 @@ void MainWindow::refreshSongList() {
 
     ui->songList->clear();
     ui->songList->addItems(files);
+}
+
+void MainWindow::startVoice() {
+    // empty slot
+}
+
+void MainWindow::stopVoice() {
+    // empty slot
 }
 
 void MainWindow::playSong() {
