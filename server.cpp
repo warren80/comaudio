@@ -1,5 +1,4 @@
 #include <iostream>
-#include <QVector>
 #include "server.h"
 #include <QFile>
 #include <QDebug>
@@ -26,7 +25,6 @@ void Server::run() {
     int numReady;
     int largest = *socket_;
     int connected;
-    QVector<Socket*> clients;
     socklen_t infoSize;
     sockaddr_in info;
     fd_set rset;
@@ -46,10 +44,10 @@ void Server::run() {
         // check if return was from server shutting down and close all current
         // connections and return if it was.
         if (running_ == false) {
-            for (int i = 0; i < clients.size(); i++) {
-                delete clients[i];
+            for (int i = 0; i < clients_.size(); i++) {
+                delete clients_[i];
             }
-            clients.clear();
+            clients_.clear();
             return;
         }
 
@@ -62,21 +60,14 @@ void Server::run() {
                 return; // TODO: inform main window of failure.
             } else {
                 qDebug() << "Client connected.";
-                clients.append(new Socket(connected, kTCP, info));
+                clients_.append(new Socket(connected, kTCP, info));
             }
 
-            if (clients.size() == FD_SETSIZE) {
+            if (clients_.size() == FD_SETSIZE) {
                 // TODO: Handle too many connections (low priority)
             }
 
             FD_SET(connected, &allset);      // add new descriptor to set
-
-            Packet packet;
-            packet.length = 5;
-            packet.type = kTransfer;
-            packet.data = "test";
-
-            clients.last()->transmit(packet);
 
             // ensure the largest descriptor is still used.
             largest = connected > largest ? connected : largest;
@@ -88,17 +79,17 @@ void Server::run() {
         }
 
         // check the connected sockets for activity
-        for (int i = 0; i < clients.size(); i++) {
-            if (FD_ISSET(*clients[i], &rset)) {
+        for (int i = 0; i < clients_.size(); i++) {
+            if (FD_ISSET(*clients_[i], &rset)) {
                 int msgSize;
                 // If there is no data from the client, it disconnected.
-                if (clients[i]->receive((char*) &msgSize, sizeof(int)) <= 0) {
-                    delete clients[i];
-                    clients.remove(i);
+                if (clients_[i]->receive((char*) &msgSize, sizeof(int)) <= 0) {
+                    delete clients_[i];
+                    clients_.remove(i);
                     continue;
                 }
                 char* buffer = new char[msgSize];
-                clients[i]->receive(buffer, msgSize);
+                clients_[i]->receive(buffer, msgSize);
 
                 // check what the received data is for and send it to that component (through a signal)
 
@@ -109,6 +100,16 @@ void Server::run() {
         }
     }
 }
+
+void Server::slotDisconnectStream() {
+    foreach (Socket* client, clients) {
+        Packet packet;
+        packet.length = 0;
+        packet.type = kStream;
+
+       client->transmit(packet);
+    }
+
 
 void Server::startFileTransfer(QString fileName, Socket * s) {
     Thread *thread = new Thread();

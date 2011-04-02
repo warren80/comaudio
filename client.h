@@ -21,6 +21,8 @@ private:
 
 public slots:
     void slot_transmit(char* data, int length) { socket_->transmit(data, length); };
+signals:
+    void stopStream();
 };
 
 #endif // CLIENT_H

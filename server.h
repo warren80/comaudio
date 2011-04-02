@@ -2,7 +2,7 @@
 #define SERVER_H
 
 #include <QThread>
-
+#include <QVector>
 #include "socket.h"
 
 /**
@@ -43,11 +43,15 @@ protected:
     void run();
 signals:
     void signalStreamFile();
-private:
-    Socket* socket_;        /**< The socket information for the server. */
-    bool running_;          /**< State of the thread, whether it should be running or not. */
 
+public slots:
+    void slotDisconnectStream();
+
+private:
+    Socket* socket_;          /**< The socket information for the server. */
+    bool running_;            /**< State of the thread, whether it should be running or not. */
     void startFileTransfer(QString, Socket *);
+    QVector<Socket*> clients_;
 
 };
 
