@@ -1,5 +1,3 @@
-//#include <QDebug>
-
 #include "componentstream.h"
 #include "componenttype.h"
 
@@ -15,17 +13,6 @@ void ComponentStream::setupAudio(int frequency, int channels, int sampleSize, in
     }
     audioPlayer_ = new AudioPlayer(frequency, channels, sampleSize, bufferSize);
 }
-
-//void ComponentStream::receiveData(char *data, int length) {
-//
-//    short l;
-//    if (audioPlayer_ != NULL) {
-//        //parse the wave header packet
-//        //setupAudio()
-//    }
-//    memcpy(&l, data + HEADERLENGTH, sizeof(short));
-//    audioPlayer_->appendBuffer(data + HEADERLENGTH + 2,l);
-//}
 
 void ComponentStream::run() {
     running_ = true;

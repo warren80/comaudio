@@ -55,6 +55,7 @@ void ServerStream::slotStartTransfer(){
         pckt.length = file->read(pckt.data + HEADER_LENGTH,STREAMDATALENGTH) + HEADER_LENGTH;
         pckt.type = kStream;
         s.transmit(pckt);
+        sleep(1);
     }
 
     //fdelete[] pckt.data;
