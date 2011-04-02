@@ -1,17 +1,14 @@
 #include <QDebug>
 #include "serverstream.h"
-#include "packet.h"
 
-/*ServerStream::ServerStream(QString fileNamePath) {
-    Thread *thread = new Thread();
 
-    ServerStream *sfwo = new ServerStream(fileNamePath);
-    connect(this, SIGNAL(signalStreamFile()), sfwo, SLOT(startTransfer()));
-    connect(sfwo, SIGNAL(signalTransferDone()), thread, SLOT(deleteLater()));
-    thread->start();
-    emit signalStreamFile();
-}
-*/
+class Helper: public QThread {
+public:
+	static void msleep(int ms)
+	{
+		QThread::msleep(ms);
+	}
+};
 
 ServerStream::ServerStream(QString fileNamePath)
     :fileNamePath_(fileNamePath) {
@@ -19,10 +16,12 @@ ServerStream::ServerStream(QString fileNamePath)
 
 void ServerStream::slotStartTransfer(){
     QFile *file = new QFile(fileNamePath_);
-    Packet pckt;
+    char* buffer = new char[STREAMPACKETSIZE];
 
     Socket s(kUDP);
-    s.serverJoinMCast(inet_addr(MULTICAST_IP), htons(MULTICAST_PORT));
+    if (!s.serverJoinMCast(inet_addr(MULTICAST_IP), htons(MULTICAST_PORT))) {
+        qDebug() << "failed to join MultiCast";
+    }
 
 
     if(!file->open(QIODevice::ReadOnly)) {
@@ -39,21 +38,26 @@ void ServerStream::slotStartTransfer(){
         return;
     }
 
-    pckt.data = new char[STREAMDATALENGTH];
+    //pckt.data = new char[STREAMDATALENGTH];
 
-    if (file->read(pckt.data,HEADER_LENGTH) != HEADER_LENGTH) {
+    if (file->read(buffer,HEADER_LENGTH) != HEADER_LENGTH) {
         emit signalTransferDone();
         return;
     }
 
+    Helper sleeper;
     while (!file->atEnd()) {
-
-        pckt.length = file->read(pckt.data + HEADER_LENGTH,STREAMDATALENGTH) + HEADER_LENGTH;
-        pckt.type = kStream;
-        s.transmit(pckt);
+        memset((void*) (buffer + HEADER_LENGTH), 0, STREAMPACKETSIZE - HEADER_LENGTH);
+        int length = file->read(buffer + HEADER_LENGTH, STREAMPACKETSIZE - HEADER_LENGTH) + HEADER_LENGTH;
+        s.transmit(buffer, length);
+        sleeper.msleep(85);
     }
 
+<<<<<<< HEAD
     delete[] pckt.data;
+=======
+    //delete[] pckt.data;
+>>>>>>> 6bad6c7d8d444f9874074bc09b95b48ec1c52dec
 
     file->close();
     emit signalTransferDone();

@@ -143,6 +143,8 @@ private slots:
      */
     void refreshSongList();
 
+    void rate(int num);
+
 signals:
     void playThisSong();
 };

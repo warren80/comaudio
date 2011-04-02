@@ -15,8 +15,8 @@
 #include "serverstream.h"
 
 /******************************************
-* ESSENTIAL METHODS
-******************************************/
+ * ESSENTIAL METHODS
+ ******************************************/
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent), ui(new Ui::MainWindow)
@@ -53,6 +53,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->playButton, SIGNAL(pressed()), this, SLOT(playSong()));
     connect(ui->pauseButton, SIGNAL(pressed()), this, SLOT(pauseSong()));
 
+    connect(&stream_, SIGNAL(signalReceivedData(int)), this, SLOT(rate(int)));
+
     notes_.setFileName(":/notes.gif");
     cylon_.setFileName(":/cylon.gif");
     ui->cylon->setMovie(&cylon_);
@@ -70,8 +72,8 @@ void MainWindow::initDispatcher() {
 }
 
 /******************************************
-* HELPERS
-******************************************/
+ * HELPERS
+ ******************************************/
 
 void MainWindow::clientConnect(bool connected) {
     ui->connectButton->setEnabled(!connected);
@@ -106,8 +108,8 @@ void MainWindow::serverConnect(bool connected) {
 }
 
 /******************************************
-* SLOTS
-******************************************/
+ * SLOTS
+ ******************************************/
 
 void MainWindow::appConnectClient() {
     QString ipAddr(ui->serverAddrBox->text());
@@ -196,10 +198,6 @@ void MainWindow::refreshFiles() {
 void MainWindow::broadcastSong() {
     QString songName = ui->songList->currentItem()->text();
 
-    if(songName == "") {
-        return;
-    }
-
     Thread *thread = new Thread();
     notes_.start();
     ui->currentSong->setText(songName);
@@ -207,6 +205,7 @@ void MainWindow::broadcastSong() {
     ServerStream *sfwo = new ServerStream(QDir::currentPath() + "/Songs/" + songName);
     connect(this, SIGNAL(playThisSong()), sfwo, SLOT(slotStartTransfer()));
     connect(sfwo, SIGNAL(signalTransferDone()), thread, SLOT(deleteLater()));
+    sfwo->moveToThread(thread);
     thread->start();
 
     emit playThisSong();
@@ -233,4 +232,11 @@ void MainWindow::playSong() {
 void MainWindow::pauseSong() {
     notes_.stop();
     player_->pause();
+}
+
+void MainWindow::rate(int num) {
+    static int sum = 0;
+    sum += num;
+
+    ui->rate->setText(QString::number(sum));
 }
