@@ -15,8 +15,8 @@
 #include "serverstream.h"
 
 /******************************************
-* ESSENTIAL METHODS
-******************************************/
+ * ESSENTIAL METHODS
+ ******************************************/
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent), ui(new Ui::MainWindow)
@@ -72,8 +72,8 @@ void MainWindow::initDispatcher() {
 }
 
 /******************************************
-* HELPERS
-******************************************/
+ * HELPERS
+ ******************************************/
 
 void MainWindow::clientConnect(bool connected) {
     ui->connectButton->setEnabled(!connected);
@@ -108,8 +108,8 @@ void MainWindow::serverConnect(bool connected) {
 }
 
 /******************************************
-* SLOTS
-******************************************/
+ * SLOTS
+ ******************************************/
 
 void MainWindow::appConnectClient() {
     QString ipAddr(ui->serverAddrBox->text());
@@ -198,10 +198,6 @@ void MainWindow::refreshFiles() {
 void MainWindow::broadcastSong() {
     QString songName = ui->songList->currentItem()->text();
 
-    if(songName == "") {
-        return;
-    }
-
     Thread *thread = new Thread();
     notes_.start();
     ui->currentSong->setText(songName);
@@ -209,6 +205,7 @@ void MainWindow::broadcastSong() {
     ServerStream *sfwo = new ServerStream(QDir::currentPath() + "/Songs/" + songName);
     connect(this, SIGNAL(playThisSong()), sfwo, SLOT(slotStartTransfer()));
     connect(sfwo, SIGNAL(signalTransferDone()), thread, SLOT(deleteLater()));
+    sfwo->moveToThread(thread);
     thread->start();
 
     emit playThisSong();
