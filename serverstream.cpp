@@ -22,7 +22,9 @@ void ServerStream::slotStartTransfer(){
     Packet pckt;
 
     Socket s(kUDP);
-    s.serverJoinMCast(inet_addr(MULTICAST_IP), htons(MULTICAST_PORT));
+    if (!s.serverJoinMCast(inet_addr(MULTICAST_IP), htons(MULTICAST_PORT))) {
+        qDebug() << "failed to join MultiCast";
+    }
 
 
     if(!file->open(QIODevice::ReadOnly)) {

@@ -4,7 +4,9 @@
 #include "componenttype.h"
 
 ComponentStream::ComponentStream() : Component(new Socket(kUDP)), audioPlayer_(NULL) {
-    socket_->clientJoinMCast(inet_addr(MULTICAST_IP), htons(MULTICAST_PORT));
+    if (!socket_->clientJoinMCast(inet_addr(MULTICAST_IP), htons(MULTICAST_PORT))) {
+        qDebug() << "error joining multicast";
+    }
 }
 
 void ComponentStream::setupAudio(int frequency, int channels, int sampleSize, int bufferSize) {
