@@ -26,7 +26,22 @@
    <string>Kidnapster - Disconnected</string>
   </property>
   <property name="styleSheet">
-   <string notr="true"/>
+   <string notr="true">QPushButton {
+	background: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 		rgba(204, 176, 156, 255), stop:1 rgba(196, 112, 53, 255));
+	border: 1px #c47035 brown;
+	border-radius: 40px 15px;
+	color: white;
+}
+
+QPushButton:hover {
+	background:qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 205, 0, 255), stop:1 rgba(255, 255, 255, 255));
+	color: black;
+}
+
+QPushButton:disabled {
+	background:qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255));
+	color: white;
+}</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <property name="minimumSize">
@@ -57,7 +72,11 @@
      <bool>false</bool>
     </property>
     <property name="styleSheet">
-     <string notr="true">QTabBar::tab {
+     <string notr="true">/**
+ * TABS
+ */
+
+QTabBar::tab {
 background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #E1E1E1, stop: 0.4 #DDDDDD, stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);
 border: 2px solid #C4C4C3;
 border-bottom-color: #C2C7CB;
@@ -78,7 +97,6 @@ margin-top: 2px;
 }
 
 QTabBar::tab:selected {
-/* expand/overlap to the left and right by 4px */
 margin-left: -4px;
 margin-right: -4px;
 }
@@ -92,7 +110,42 @@ QTabBar::tab:only-one {
 margin: 0;
 }
 
-</string>
+/**
+ * PUSH BUTTONS
+ */
+QPushButton {
+	background: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 		rgba(204, 176, 156, 255), stop:1 rgba(196, 112, 53, 255));
+	border: 1px #c47035 brown;
+	border-radius: 32.5px 11px;
+	color: white;
+}
+
+QPushButton:hover {
+	background:qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 205, 0, 255), stop:1 rgba(255, 255, 255, 255));
+	color: black;
+}
+
+QPushButton:disabled {
+	background:qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255));
+	color: white;
+}
+
+/**
+ * LINE EDITS
+ */
+QLineEdit {
+	border: 2px solid gray;
+	border-radius: 5px;
+}
+
+QLineEdit:focus {
+	border-color: blue;
+}
+
+QLineEdit:disabled {
+	border-color: rgb(172, 172, 172);
+	background-color: rgb(226, 226, 226);
+}</string>
     </property>
     <property name="tabPosition">
      <enum>QTabWidget::North</enum>
@@ -120,22 +173,7 @@ margin: 0;
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">QPushButton {
-	background: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 		rgba(204, 176, 156, 255), stop:1 rgba(196, 112, 53, 255));
-	border: 1px #c47035 brown;
-	border-radius: 32.5px 11px;
-	color: white;
-}
-
-QPushButton:hover {
-	background:qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 205, 0, 255), stop:1 rgba(255, 255, 255, 255));
-	color: black;
-}
-
-QPushButton:disabled {
-	background:qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255));
-	color: white;
-}</string>
+       <string notr="true"/>
       </property>
       <property name="text">
        <string>Connect</string>
@@ -154,22 +192,7 @@ QPushButton:disabled {
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">QPushButton {
-	background: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 		rgba(204, 176, 156, 255), stop:1 rgba(196, 112, 53, 255));
-	border: 1px #c47035 brown;
-	border-radius: 32.5px 11px;
-	color: white;
-}
-
-QPushButton:hover {
-	background:qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 205, 0, 255), stop:1 rgba(255, 255, 255, 255));
-	color: black;
-}
-
-QPushButton:disabled {
-	background:qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255));
-	color: white;
-}</string>
+       <string notr="true"/>
       </property>
       <property name="text">
        <string>Disconnect</string>
@@ -219,6 +242,9 @@ QPushButton:disabled {
         <width>321</width>
         <height>121</height>
        </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
       </property>
       <property name="title">
        <string>Song Information</string>
@@ -373,7 +399,7 @@ QPushButton:disabled {
       <property name="geometry">
        <rect>
         <x>190</x>
-        <y>40</y>
+        <y>60</y>
         <width>31</width>
         <height>16</height>
        </rect>
@@ -386,7 +412,7 @@ QPushButton:disabled {
       <property name="geometry">
        <rect>
         <x>230</x>
-        <y>40</y>
+        <y>60</y>
         <width>101</width>
         <height>16</height>
        </rect>
@@ -438,22 +464,7 @@ QPushButton:disabled {
         </rect>
        </property>
        <property name="styleSheet">
-        <string notr="true">QPushButton {
-	background: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 		rgba(204, 176, 156, 255), stop:1 rgba(196, 112, 53, 255));
-	border: 1px #c47035 brown;
-	border-radius: 32.5px 11px;
-	color: white;
-}
-
-QPushButton:hover {
-	background:qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 205, 0, 255), stop:1 rgba(255, 255, 255, 255));
-	color: black;
-}
-
-QPushButton:disabled {
-	background:qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255));
-	color: white;
-}</string>
+        <string notr="true"/>
        </property>
        <property name="text">
         <string>Download</string>
@@ -496,22 +507,7 @@ QPushButton:disabled {
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">QPushButton {
-	background: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 		rgba(204, 176, 156, 255), stop:1 rgba(196, 112, 53, 255));
-	border: 1px #c47035 brown;
-	border-radius: 32.5px 11px;
-	color: white;
-}
-
-QPushButton:hover {
-	background:qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 205, 0, 255), stop:1 rgba(255, 255, 255, 255));
-	color: black;
-}
-
-QPushButton:disabled {
-	background:qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255));
-	color: white;
-}</string>
+       <string notr="true"/>
       </property>
       <property name="text">
        <string>Download</string>
@@ -527,22 +523,7 @@ QPushButton:disabled {
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">QPushButton {
-	background: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 		rgba(204, 176, 156, 255), stop:1 rgba(196, 112, 53, 255));
-	border: 1px #c47035 brown;
-	border-radius: 32.5px 11px;
-	color: white;
-}
-
-QPushButton:hover {
-	background:qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 205, 0, 255), stop:1 rgba(255, 255, 255, 255));
-	color: black;
-}
-
-QPushButton:disabled {
-	background:qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255));
-	color: white;
-}</string>
+       <string notr="true"/>
       </property>
       <property name="text">
        <string>Refresh</string>
@@ -556,6 +537,9 @@ QPushButton:disabled {
         <width>241</width>
         <height>331</height>
        </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border: 1px solid gray;</string>
       </property>
      </widget>
      <widget class="QLineEdit" name="filterBox">
@@ -618,22 +602,7 @@ QPushButton:disabled {
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">QPushButton {
-	background: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 		rgba(204, 176, 156, 255), stop:1 rgba(196, 112, 53, 255));
-	border: 1px #c47035 brown;
-	border-radius: 32.5px 11px;
-	color: white;
-}
-
-QPushButton:hover {
-	background:qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 205, 0, 255), stop:1 rgba(255, 255, 255, 255));
-	color: black;
-}
-
-QPushButton:disabled {
-	background:qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255));
-	color: white;
-}</string>
+       <string notr="true"/>
       </property>
       <property name="text">
        <string>Broadcast</string>
@@ -668,22 +637,7 @@ QPushButton:disabled {
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">QPushButton {
-	background: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 		rgba(204, 176, 156, 255), stop:1 rgba(196, 112, 53, 255));
-	border: 1px #c47035 brown;
-	border-radius: 32.5px 11px;
-	color: white;
-}
-
-QPushButton:hover {
-	background:qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 205, 0, 255), stop:1 rgba(255, 255, 255, 255));
-	color: black;
-}
-
-QPushButton:disabled {
-	background:qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255));
-	color: white;
-}</string>
+       <string notr="true"/>
       </property>
       <property name="text">
        <string>Refresh</string>
@@ -697,8 +651,8 @@ QPushButton:disabled {
        <rect>
         <x>90</x>
         <y>10</y>
-        <width>251</width>
-        <height>20</height>
+        <width>241</width>
+        <height>16</height>
        </rect>
       </property>
       <property name="text">
@@ -715,22 +669,7 @@ QPushButton:disabled {
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">QPushButton {
-	background: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 		rgba(204, 176, 156, 255), stop:1 rgba(196, 112, 53, 255));
-	border: 1px #c47035 brown;
-	border-radius: 32.5px 11px;
-	color: white;
-}
-
-QPushButton:hover {
-	background:qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 205, 0, 255), stop:1 rgba(255, 255, 255, 255));
-	color: black;
-}
-
-QPushButton:disabled {
-	background:qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255));
-	color: white;
-}</string>
+       <string notr="true"/>
       </property>
       <property name="text">
        <string>Start Server</string>
@@ -749,22 +688,7 @@ QPushButton:disabled {
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">QPushButton {
-	background: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 		rgba(204, 176, 156, 255), stop:1 rgba(196, 112, 53, 255));
-	border: 1px #c47035 brown;
-	border-radius: 32.5px 11px;
-	color: white;
-}
-
-QPushButton:hover {
-	background:qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 205, 0, 255), stop:1 rgba(255, 255, 255, 255));
-	color: black;
-}
-
-QPushButton:disabled {
-	background:qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255));
-	color: white;
-}</string>
+       <string notr="true"/>
       </property>
       <property name="text">
        <string>Stop Server</string>
@@ -785,22 +709,7 @@ QPushButton:disabled {
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">QPushButton {
-	background: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 		rgba(204, 176, 156, 255), stop:1 rgba(196, 112, 53, 255));
-	border: 1px #c47035 brown;
-	border-radius: 40px 15px;
-	color: white;
-}
-
-QPushButton:hover {
-	background:qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 205, 0, 255), stop:1 rgba(255, 255, 255, 255));
-	color: black;
-}
-
-QPushButton:disabled {
-	background:qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255));
-	color: white;
-}</string>
+     <string notr="true"/>
     </property>
     <property name="text">
      <string>Tune In</string>
@@ -822,22 +731,7 @@ QPushButton:disabled {
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">QPushButton {
-	background: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 		rgba(204, 176, 156, 255), stop:1 rgba(196, 112, 53, 255));
-	border: 1px #c47035 brown;
-	border-radius: 40px 15px;
-	color: white;
-}
-
-QPushButton:hover {
-	background:qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 205, 0, 255), stop:1 rgba(255, 255, 255, 255));
-	color: black;
-}
-
-QPushButton:disabled {
-	background:qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255));
-	color: white;
-}</string>
+     <string notr="true"/>
     </property>
     <property name="text">
      <string>Pause</string>
@@ -870,8 +764,6 @@ background-position: center;</string>
       <string/>
      </property>
     </widget>
-    <zorder>cylon</zorder>
-    <zorder>playButton</zorder>
    </widget>
    <widget class="QLabel" name="notes">
     <property name="geometry">
