@@ -1,6 +1,5 @@
 #include <QDebug>
 #include "serverstream.h"
-#include "packet.h"
 
 /*ServerStream::ServerStream(QString fileNamePath) {
     Thread *thread = new Thread();
@@ -19,7 +18,7 @@ ServerStream::ServerStream(QString fileNamePath)
 
 void ServerStream::slotStartTransfer(){
     QFile *file = new QFile(fileNamePath_);
-    Packet pckt;
+    char* buffer = new char[STREAMPACKETSIZE];
 
     Socket s(kUDP);
     if (!s.serverJoinMCast(inet_addr(MULTICAST_IP), htons(MULTICAST_PORT))) {
@@ -43,21 +42,23 @@ void ServerStream::slotStartTransfer(){
         return;
     }
 
-    pckt.data = new char[STREAMDATALENGTH];
+    //pckt.data = new char[STREAMDATALENGTH];
 
-    if (file->read(pckt.data,HEADER_LENGTH) != HEADER_LENGTH) {
+    if (file->read(buffer,HEADER_LENGTH) != HEADER_LENGTH) {
         emit signalTransferDone();
         return;
     }
 
+    int num = 0;
     while (!file->atEnd()) {
-
-        pckt.length = file->read(pckt.data + HEADER_LENGTH,STREAMDATALENGTH) + HEADER_LENGTH;
-        pckt.type = kStream;
-        s.transmit(pckt);
+        memset((void*) (buffer + HEADER_LENGTH), 0, STREAMPACKETSIZE - HEADER_LENGTH);
+        int length = file->read(buffer + HEADER_LENGTH, STREAMPACKETSIZE - HEADER_LENGTH) + HEADER_LENGTH;
+        s.transmit(buffer, length);
+        num++;
     }
 
-    //fdelete[] pckt.data;
+    qDebug() << num;
+    //delete[] pckt.data;
 
     file->close();
     emit signalTransferDone();
