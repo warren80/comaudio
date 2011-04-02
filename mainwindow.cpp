@@ -61,7 +61,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->cylon->setMovie(&cylon_);
     ui->notes->setMovie(&notes_);
 
-    ComponentVoice * cv = new ComponentVoice(0);
+    //ComponentVoice * cv = new ComponentVoice(0);
 
 }
 

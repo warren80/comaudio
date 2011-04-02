@@ -10,8 +10,6 @@
 #include "thread.h"
 #include "component.h"
 
-
-
 /**
   Voice function that uses a mutlicast peer to all style.
   a voice client connects as a multicast session and transmits to all others
@@ -54,7 +52,6 @@ public slots:
 private:
     AudioPlayer *ap_;       /**< The audio player for the received data*/
     Socket* socket_;        /**< The socket information for the ComponentVoice. */
-    AudioPlayer* ap_;       /**< The audio player */
     Microphone* mic_;       /**< The Microphone Reader */
     Thread* micThread_;      /**< The thread for running the microphone */
 };

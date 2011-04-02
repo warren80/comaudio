@@ -20,13 +20,16 @@ ComponentVoice::~ComponentVoice() {
 }
 
 void ComponentVoice::transmitVoice(QByteArray * ba) {
-    ap_->appendBuffer(ba->data(),ba->size());
-    qDebug() << ("Bytes sent to audioPlayer %d", ba->size());
+    Packet pckt;
+    pckt.data = ba->data();
+    pckt.length = ba->size();
+    pckt.type = kVoice;
+    socket_->transmit(pckt);
     delete ba;
 }
 
 void ComponentVoice::receiveData(char* data, int length) {
-
+    ap_->appendBuffer(data + (2 * sizeof(int)), length - (2 * sizeof(int)));
 }
 
 void ComponentVoice::run() {
