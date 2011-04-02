@@ -8,9 +8,9 @@ Microphone::Microphone() {
     QAudioFormat *format =  new QAudioFormat();
 
     //Setting audio format
-    format->setFrequency(32000);
+    format->setFrequency(44100);
     format->setChannels(1);
-    format->setSampleSize(32);
+    format->setSampleSize(16);
     format->setCodec("audio/pcm");
     format->setByteOrder(QAudioFormat::LittleEndian);
     format->setSampleType(QAudioFormat::UnSignedInt);
@@ -51,18 +51,18 @@ void Microphone::readData() {
         return;
     }
 
-    qDebug() << QString::number(size);
+    //qDebug() << QString::number(size);
 
     input_->seek(size - dataWritten_);
 
     ba_ = new QByteArray(input_->read(size));
     emit sendVoice(ba_);
-    qDebug() << "ba_ size: " + QString::number(ba_->size());
-    ba_->clear();
-    qDebug() << "ba_ size: " + QString::number(ba_->size());
+    //qDebug() << "ba_ size: " + QString::number(ba_->size());
+    //ba_->clear();
+    //qDebug() << "ba_ size: " + QString::number(ba_->size());
 }
 
 void Microphone::bytesWritten(qint64 data) {
     dataWritten_ = data;
-    qDebug() << QString::number(data);
+    //qDebug() << QString::number(data);
 }
