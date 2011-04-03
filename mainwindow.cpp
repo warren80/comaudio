@@ -34,7 +34,7 @@ MainWindow::MainWindow(QWidget *parent) :
     * CONNECTIONS
     */
 
-    //Settings Tab
+    //Client Tab
     connect(ui->connectButton, SIGNAL(pressed()), this, SLOT(appConnectClient()));
     connect(ui->disconnectButton, SIGNAL(pressed()), this, SLOT(appDisconnectClient()));
 
@@ -130,11 +130,12 @@ void MainWindow::appConnectClient() {
         delete appClient_;
         return;
     }
+    connect(appClient_, SIGNAL(signalStopStream()), this, SLOT(slotStopStream()));
+
     setWindowTitle("Kidnapster - Client");
     appClient_->start();
 
     stream_.start();
-
     cylon_.start();
     clientConnect(true);
 }
@@ -153,6 +154,8 @@ void MainWindow::appStartServer() {
     } catch (const QString& e) {
         qDebug() << e;
     }
+    connect(this, SIGNAL(stopThisSong()), appServer_, SLOT(slotDisconnectStream()));
+
     appServer_->start();
     refreshSongList();
     serverConnect(true);
@@ -221,7 +224,13 @@ void MainWindow::broadcastSong() {
     } else {
         notes_.stop();
         ui->broadcastButton->setText("Broadcast");
+
+        emit stopThisSong();
     }
+}
+
+void MainWindow::slotStopStream() {
+
 }
 
 void MainWindow::refreshSongList() {

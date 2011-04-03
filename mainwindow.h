@@ -55,6 +55,7 @@ private:
     void getFileList();
 
 public slots:
+    void slotStopStream();
 
 private slots:
     /**
@@ -153,6 +154,7 @@ private slots:
 
 signals:
     void playThisSong();
+    void stopThisSong();
 };
 
 #endif // MAINWINDOW_H
