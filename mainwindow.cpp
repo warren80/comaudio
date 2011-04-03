@@ -130,22 +130,15 @@ void MainWindow::appConnectClient() {
         delete appClient_;
         return;
     }
-<<<<<<< HEAD
+
     stream_ = new ComponentStream();
-    connect(stream_, SIGNAL(signalReceivedData(int)), this, SLOT(rate(int)));
     setWindowTitle("Kidnapster - Client");
-    appClient_->start();
-
-    stream_->start();
-
-=======
+    connect(stream_, SIGNAL(signalReceivedData(int)), this, SLOT(rate(int)));
     connect(appClient_, SIGNAL(signalStopStream()), this, SLOT(slotStopStream()));
 
-    setWindowTitle("Kidnapster - Client");
     appClient_->start();
+    stream_->start();
 
-    stream_.start();
->>>>>>> 3863e21062af3fb9f5b921f12237502f1710ea73
     cylon_.start();
     clientConnect(true);
 }
