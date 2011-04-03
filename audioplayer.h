@@ -11,6 +11,12 @@
 
 #include <QtMultimedia>
 
+struct WaveHeader {
+    int frequency;
+    int channels;
+    int bitsPerSample;
+};
+
 /**
   Plays PCM audio through a buffer.
 
@@ -45,7 +51,7 @@ public:
       @author Nick Huber
       */
     void pause();
-
+    static WaveHeader * parseWaveHeader(char hdr[44]);
 private:
     QAudioOutput* audio_; /**< The audio output device. */
     QIODevice* buffer_;     /**< The buffer that audio_ reads from. */

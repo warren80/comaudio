@@ -1,5 +1,6 @@
 #include "parseHdr.h"
 #include <QDebug>
+
 ParseHdr::ParseHdr(QFile * file) {
     hdrParse(file);
 }
@@ -16,9 +17,7 @@ ParseHdr::~ParseHdr() { }
 
 void ParseHdr::hdrParse(char * file) {
     QByteArray array;
-
     array = QByteArray(file, 44);
-
     setNumChan(&array);
     setSampleRate(&array);
     setByteRate(&array);

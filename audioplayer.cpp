@@ -1,6 +1,7 @@
 #include "audioplayer.h"
 #include <QFile>
 #include <QtMultimedia>
+#include "winsock2.h"
 
 AudioPlayer::AudioPlayer(int frequency, int channels, int sampleSize, int bufferSize) {
     QAudioFormat format;
@@ -29,4 +30,27 @@ void AudioPlayer::play() {
 
 void AudioPlayer::pause() {
     audio_->suspend();
+}
+
+void swapBytes(char *a, char *b) {
+    char c;
+    c = *a;
+    *a = *b;
+    *b = c;
+}
+
+WaveHeader * AudioPlayer::parseWaveHeader(char hdr[44]) {
+    WaveHeader *wh = new WaveHeader();
+    short bps, channel;
+
+    memcpy(&bps, hdr + 34, 2);
+    memcpy(&channel, hdr + 22, 2);
+    memcpy(&wh->frequency, hdr + 24,4);
+    wh->bitsPerSample = bps;
+    wh->channels = channel;
+
+    //qDebug() << wh->bitsPerSample;
+    //qDebug() << wh->channels;
+    //qDebug() << wh->frequency;
+    return wh;
 }
