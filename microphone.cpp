@@ -1,4 +1,5 @@
 #include "microphone.h"
+#include <errno.h>
 
 /**
  * CONSTRUCTOR

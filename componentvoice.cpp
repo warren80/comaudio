@@ -1,6 +1,7 @@
 #include "componentvoice.h"
 #include "audioplayer.h"
 #include <QDebug>
+#include <errno.h>
 
 ComponentVoice::ComponentVoice(Socket* socket) : Component(socket) {
     qDebug() << socket;

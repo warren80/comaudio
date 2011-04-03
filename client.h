@@ -30,6 +30,7 @@ signals:
     void signalStopStream();
     void signalFileListReceived(char* data, int length);
     void signalShutdown();
+    void signalSongName(QString songname);
     void signalVoiceMessage(char*, int);
 };
 

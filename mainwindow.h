@@ -152,6 +152,8 @@ private slots:
 
     void slotReceiveFileList(char* data, int length);
 
+    void slotClientSongName(QString songname);
+
 signals:
     void playThisSong(QString);
     void signalStopVoiceComponent();
