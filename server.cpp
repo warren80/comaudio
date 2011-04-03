@@ -132,6 +132,18 @@ void Server::slotDisconnectStream() {
     }
 }
 
+void Server::slotPlayThisSong(QString songname) {
+    QString title = songname.split('/').last();
+    foreach (Socket* client, clients_) {
+        Packet packet;
+        packet.length = title.size() + 1;
+        packet.type = kStream;
+        packet.data = (char*) title.toStdString().c_str();
+
+        client->transmit(packet);
+    }
+}
+
 void Server::startFileTransfer(QString fileName, Socket * s) {
     Thread *thread = new Thread();
     ServerFileTransfer *sft = new ServerFileTransfer(fileName, s);

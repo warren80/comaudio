@@ -49,6 +49,7 @@ signals:
 
 public slots:
     void slotDisconnectStream();
+    void slotPlayThisSong(QString songname);
 
 private:
     void processClientMessage(Socket *clientSocket, char *buffer, int msgSize);

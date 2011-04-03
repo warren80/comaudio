@@ -144,6 +144,7 @@ void MainWindow::appConnectClient() {
     connect(appClient_, SIGNAL(signalStopStream()), this, SLOT(slotStopStream()));
     connect(appClient_, SIGNAL(signalFileListReceived(char*,int)), this, SLOT(slotReceiveFileList(char*,int)));
     connect(appClient_, SIGNAL(signalShutdown()), this, SLOT(appDisconnectClient()));
+    connect(appClient_, SIGNAL(signalSongName(QString)), this, SLOT(slotClientSongName(QString)));
 
     appClient_->start();
     stream_->start();
@@ -175,6 +176,7 @@ void MainWindow::appStartServer() {
     }
     connect(this, SIGNAL(stopThisSong()), appServer_, SLOT(slotDisconnectStream()));
     connect(appServer_, SIGNAL(signalSendFileList(Socket*)), this, SLOT(slotSendFileList(Socket*)));
+    connect(this, SIGNAL(playThisSong(QString)), appServer_, SLOT(slotPlayThisSong(QString)));
 
     appServer_->start();
     refreshSongList();
@@ -182,6 +184,7 @@ void MainWindow::appStartServer() {
 }
 
 void MainWindow::appStopServer() {
+    appServer_->disconnect();
     delete appServer_;
     ui->songList->clear();
     serverConnect(false);
@@ -293,6 +296,10 @@ void MainWindow::stopVoice() {
     emit signalStopVoiceComponent();
     appClient_->getSocket()->transmit(pckt);
 
+}
+
+void MainWindow::slotClientSongName(QString songname) {
+    ui->currentSongText->setText(songname);
 }
 
 void MainWindow::playSong() {
