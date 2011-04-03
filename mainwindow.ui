@@ -154,7 +154,7 @@ QLineEdit:disabled {
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>1</number>
     </property>
     <property name="elideMode">
      <enum>Qt::ElideNone</enum>
@@ -545,22 +545,6 @@ QLineEdit:disabled {
        <string>Download</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="refreshServerFilesButton">
-      <property name="geometry">
-       <rect>
-        <x>260</x>
-        <y>160</y>
-        <width>75</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true"/>
-      </property>
-      <property name="text">
-       <string>Refresh</string>
-      </property>
-     </widget>
      <widget class="QListWidget" name="serverFilesView">
       <property name="geometry">
        <rect>
@@ -572,32 +556,6 @@ QLineEdit:disabled {
       </property>
       <property name="styleSheet">
        <string notr="true">border: 1px solid gray;</string>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="filterBox">
-      <property name="geometry">
-       <rect>
-        <x>261</x>
-        <y>130</y>
-        <width>71</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-     <widget class="QLabel" name="filterLabel">
-      <property name="geometry">
-       <rect>
-        <x>260</x>
-        <y>110</y>
-        <width>71</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Filter:</string>
       </property>
      </widget>
     </widget>

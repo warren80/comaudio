@@ -105,12 +105,6 @@ private slots:
      * @author Karl Castillo
      */
     void downloadCurrentSong();
-    /**
-     * Call this function to refresh the server files list.
-     *
-     * @author Karl Castillo
-     */
-    void refreshFiles();
 
     /******************************************
      * VOICE SLOTS

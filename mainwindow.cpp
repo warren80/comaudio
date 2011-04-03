@@ -42,7 +42,6 @@ MainWindow::MainWindow(QWidget *parent) :
     //Files Tab
     connect(ui->downloadSongButton, SIGNAL(pressed()), this, SLOT(downloadSong()));
     connect(ui->downloadCurrentSongButton, SIGNAL(pressed()), this, SLOT(downloadCurrentSong()));
-    connect(ui->refreshServerFilesButton, SIGNAL(pressed()), this, SLOT(refreshFiles()));
 
     //Voice Tab
     connect(ui->startTalkingButton, SIGNAL(pressed()), this, SLOT(startVoice()));
@@ -198,25 +197,6 @@ void MainWindow::downloadSong() {
 void MainWindow::downloadCurrentSong() {
     QString songName = ui->currentSongText->text();
 
-}
-
-/*
-* TODO:
-* 1. Send request to update files
-* 2. Update list widget
-*/
-void MainWindow::refreshFiles() {
-    QDir dir("C:\\Users\\KCastillo\\Documents");
-    QString filter = ui->filterBox->text();
-    if(filter.length() == 0) {
-        filter = "*.*";
-    } else {
-        filter = "*." + filter;
-    }
-    QStringList files = dir.entryList(QStringList(filter));
-
-    ui->serverFilesView->clear();
-    ui->serverFilesView->addItems(files);
 }
 
 void MainWindow::broadcastSong() {
