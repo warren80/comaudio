@@ -29,6 +29,7 @@ void Client::run() {
             break;
         case 0:
             // disconnect
+            emit signalShutdown();
             break;
         default:
             // data
