@@ -181,6 +181,7 @@ void Server::serverVoiceComponent(Socket * socket, char * buffer, int length) {
             QObject::connect(this, SIGNAL(signalStopVoiceComponent()),cv, SLOT(slotStopVoiceComponent()));
             QObject::connect(this,SIGNAL(serverVoiceMessage(char*,int)), cv,SLOT(receiveData(char*,int)));
             delete[] buffer;
+            return;
         }
     }
     if (clientConnected == true) {
@@ -191,6 +192,7 @@ void Server::serverVoiceComponent(Socket * socket, char * buffer, int length) {
             socket->transmit(pckt);
             delete[] buffer;
         } else {
+
             emit serverVoiceMessage(buffer,length);
         }
     }
