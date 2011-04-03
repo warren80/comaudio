@@ -63,6 +63,14 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->cylon->setMovie(&cylon_);
     ui->notes->setMovie(&notes_);
 
+
+    streamThread_ = new Thread();
+    streamServer_ = new ServerStream();
+    connect(this, SIGNAL(playThisSong(QString)), streamServer_, SLOT(slotStartTransfer(QString)));
+    connect(streamServer_, SIGNAL(signalTransferDone()), streamThread_, SLOT(deleteLater()));
+    connect(this, SIGNAL(stopThisSong()), streamServer_, SLOT(slotCleanup()));
+    streamServer_->moveToThread(streamThread_);
+    streamThread_->start();
 }
 
 MainWindow::~MainWindow() {
@@ -103,16 +111,6 @@ void MainWindow::serverConnect(bool connected) {
     ui->stopServerButton->setEnabled(connected);
     ui->refreshSongs->setEnabled(connected);
     ui->songList->setEnabled(connected);
-
-    if (connected) {
-        Thread *thread = new Thread();
-        streamServer_ = new ServerStream();
-        connect(this, SIGNAL(playThisSong(QString)), streamServer_, SLOT(slotStartTransfer(QString)));
-        connect(streamServer_, SIGNAL(signalTransferDone()), thread, SLOT(deleteLater()));
-        connect(this, SIGNAL(stopThisSong()), streamServer_, SLOT(slotCleanup()));
-        streamServer_->moveToThread(thread);
-        thread->start();
-    }
 
     if(!connected) {
         setWindowTitle("Kidnapster - Disconnected");

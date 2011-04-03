@@ -36,6 +36,7 @@ private:
     QMovie notes_;        /**< The audio animation */
     QMovie cylon_;        /**< Background animation */
     ServerStream* streamServer_;
+    Thread* streamThread_;
 
     void initDispatcher();
     /**
