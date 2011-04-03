@@ -33,17 +33,17 @@ void Client::run() {
             // data
             char* buffer = new char[msgSize];
             socket_->receive(buffer, msgSize);
-            // temp. echo received data
-            // check what data is for and send it to the right component thread
 
             int size;
             memcpy((void*) &size, buffer, sizeof(int));
             int type;
             memcpy((void*) &type, buffer + sizeof(int), sizeof(int));
 
-            char* data = new char[msgSize - sizeof(int)];
-            memcpy(data, buffer + sizeof(int), size - sizeof(int));
-            //memcpy((void*) data, (void*) (buffer + (sizeof(int)), size - sizeof(int)));
+
+            if (size > sizeof(int)) {
+                char* data = new char[msgSize - sizeof(int)];
+                memcpy(data, buffer + sizeof(int), size - sizeof(int));
+            }
 
             switch (type) {
             case kTransfer:

@@ -60,5 +60,5 @@ void ServerStream::slotCleanup() {
     delete[] buffer_;
     file_->close();
     delete file_;
-    QThread::currentThread()->terminate();
+    //QThread::currentThread()->terminate();
 }
