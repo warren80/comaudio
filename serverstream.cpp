@@ -61,6 +61,7 @@ void ServerStream::slotTransmitOnTimer() {
 
 
 void ServerStream::slotCleanup() {
-   timer_->stop();
-
+    if (timer_ != NULL) {
+        timer_->stop();
+    }
 }
