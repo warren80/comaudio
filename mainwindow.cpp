@@ -143,6 +143,7 @@ void MainWindow::appConnectClient() {
     connect(stream_, SIGNAL(signalReceivedData(int)), this, SLOT(rate(int)));
     connect(appClient_, SIGNAL(signalStopStream()), this, SLOT(slotStopStream()));
     connect(appClient_, SIGNAL(signalFileListReceived(char*,int)), this, SLOT(slotReceiveFileList(char*,int)));
+    connect(appClient_, SIGNAL(signalShutdown()), this, SLOT(appDisconnectClient()));
 
     appClient_->start();
     stream_->start();
@@ -179,6 +180,8 @@ void MainWindow::appStopServer() {
     delete appServer_;
     ui->songList->clear();
     serverConnect(false);
+    emit stopThisSong();
+    ui->broadcastButton->setText("Broadcast");
 }
 
 /*

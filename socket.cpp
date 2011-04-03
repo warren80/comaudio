@@ -68,6 +68,10 @@ int Socket::receive(char* buffer, int length) {
            buffer += read;
            length -= read;
 
+           if (read == 0) {
+               return 0;
+           }
+
            if (length == 0) {
                break;
            }

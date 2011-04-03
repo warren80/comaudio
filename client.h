@@ -29,6 +29,7 @@ public slots:
 signals:
     void signalStopStream();
     void signalFileListReceived(char* data, int length);
+    void signalShutdown();
 };
 
 #endif // CLIENT_H
