@@ -114,7 +114,9 @@ int Socket::transmit(const Packet& packet) {
     memcpy((void*) data, (void*) &length, sizeof(packet.length));
     int type = packet.type;
     memcpy((void*) (data + sizeof(packet.length)), (void*) &type, sizeof(int));
-    memcpy((void*) (data + sizeof(packet.length) + sizeof(int)), (void*) packet.data, packet.length);
+    if (packet.length != 0) {
+        memcpy((void*) (data + sizeof(packet.length) + sizeof(int)), (void*) packet.data, packet.length);
+    }
     return transmit(data, totalSize);
 }
 
