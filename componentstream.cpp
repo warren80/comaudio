@@ -1,6 +1,5 @@
 #include "componentstream.h"
 #include "componenttype.h"
-#include "parseHdr.h"
 
 ComponentStream::ComponentStream() : Component(new Socket(kUDP)), audioPlayer_(NULL) {
     if (!socket_->clientJoinMCast(inet_addr(MULTICAST_IP), htons(MULTICAST_PORT))) {
