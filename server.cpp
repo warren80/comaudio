@@ -177,6 +177,7 @@ void Server::serverVoiceComponent(Socket * socket, char * buffer, int length) {
             }
             thread->start();
             cv->moveToThread(thread);
+            cv->start();
             QObject::connect(this, SIGNAL(signalStopVoiceComponent()),cv, SLOT(slotStopVoiceComponent()));
             QObject::connect(this,SIGNAL(serverVoiceMessage(char*,int)), cv,SLOT(receiveData(char*,int)));
             delete[] buffer;

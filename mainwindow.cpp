@@ -297,6 +297,7 @@ void MainWindow::startVoice() {
 
     QObject::connect(this, SIGNAL(signalStopVoiceComponent()),cv, SLOT(slotStopVoiceComponent()));
     connect(appClient_, SIGNAL(signalVoiceMessage(char*, int)),cv,SLOT(receiveData(char*,int)));
+    cv->start();
 
 }
 
