@@ -3,11 +3,11 @@
 #include "serverfiletransfer.h"
 #include "packet.h"
 
-serverFileTransfer::serverFileTransfer(QString filename, Socket *s)
+ServerFileTransfer::ServerFileTransfer(QString filename, Socket *s)
     :fileName_(filename), socket_(s) {
 }
 
-void serverFileTransfer::slotStartTransfer(){
+void ServerFileTransfer::slotStartTransfer(){
     QFile *file = new QFile(fileName_);
     Packet pckt;
 

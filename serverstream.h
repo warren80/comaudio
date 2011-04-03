@@ -26,7 +26,11 @@ public:
      * onto a multicast port
      * @author Warren Voelkl
      */
-    explicit ServerStream();
+    ServerStream();
+    ~ServerStream() {
+        delete socket_;
+    }
+
 public slots:
 
     /**

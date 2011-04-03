@@ -9,7 +9,11 @@ class Component : public QThread {
 
 public:
     Component(Socket* socket);
-    virtual ~Component() {}
+    virtual ~Component() {
+        if (socket_ != 0) {
+            delete socket_;
+        }
+    }
 
 protected:
     virtual void run() = 0;
