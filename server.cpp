@@ -122,7 +122,10 @@ void Server::startFileTransfer(QString fileName, Socket * s) {
 }
 
 void Server::startVoiceComponent(Socket * socket) {
+    Thread *thread = new Thread();
+    thread->start();
     ComponentVoice *cv = new ComponentVoice(socket);
+    cv->moveToThread(thread);
     QObject::connect(this, SIGNAL(signalStopVoiceComponent()),cv, SLOT(slotStopVoiceComponent()));
 }
 

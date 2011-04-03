@@ -252,8 +252,12 @@ void MainWindow::startVoice() {
     pckt.data = 0;
     pckt.length = 0;
     pckt.type = kVoice;
+    Thread *thread = new Thread();
+    thread->start();
     appClient_->getSocket()->transmit(pckt);
     ComponentVoice *cv = new ComponentVoice(appClient_->getSocket());
+    cv->moveToThread(thread);
+
     QObject::connect(this, SIGNAL(signalStopVoiceComponent()),cv, SLOT(slotStopVoiceComponent()));
 
 }
