@@ -153,6 +153,8 @@ void MainWindow::appConnectClient() {
 }
 
 void MainWindow::appDisconnectClient() {
+    appClient_->disconnect();
+    stream_->disconnect();
     delete appClient_;
     delete stream_;
     ui->playButton->setText("Tune In");
