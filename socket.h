@@ -51,7 +51,7 @@ public:
       @param peer sockaddr_in for destination information.
       @author Nick Huber
       */
-    Socket(int socket, NetMode mode, sockaddr_in peer) : socket_(socket), mode_(mode), peer_(peer) {}
+    Socket(int socket, NetMode mode, sockaddr_in peer) : socket_(socket), multicast_(false), mode_(mode), peer_(peer) {}
 
     /**
       Destructor for the socket. Calls shutdown and close on the file descriptor.
@@ -153,6 +153,7 @@ public:
 
 private:
     int socket_;        /**< Socket file descriptor. */
+    bool multicast_;    /**< Whether the socket is multicast or not. */
     NetMode mode_;      /**< Network mode this socket works in. */
     sockaddr_in peer_;  /**< Information about the peer for this socket. */
 };

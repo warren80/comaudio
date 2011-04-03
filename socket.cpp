@@ -1,3 +1,4 @@
+#include <Qdebug>
 #include <QString>
 #include <errno.h>
 
@@ -14,6 +15,7 @@
 #include "socket.h"
 
 Socket::Socket(NetMode mode) : mode_(mode) {
+    multicast_ = false;
 
     if ((socket_ = socket(PF_INET, mode_, 0)) == -1) {
         QString exception("error creating socket: ");
@@ -31,6 +33,15 @@ Socket::Socket(NetMode mode) : mode_(mode) {
 }
 
 Socket::~Socket() {
+    if (multicast_) {
+        ip_mreq stMreq;
+        stMreq.imr_multiaddr.s_addr = inet_addr("234.5.6.7");
+        stMreq.imr_interface.s_addr = htonl(INADDR_ANY);
+        if (setsockopt(socket_, IPPROTO_IP, IP_DROP_MEMBERSHIP, (char *)&stMreq, sizeof(stMreq)) == -1) {
+            qDebug() << "error leaving multicast";
+        }
+    }
+
     shutdown(socket_, SHUT_RDWR);
     CLOSESOCKET(socket_);
 }
@@ -144,6 +155,9 @@ bool Socket::clientJoinMCast(in_addr_t address, uint16_t port) {
     if (setsockopt(socket_, IPPROTO_IP, IP_ADD_MEMBERSHIP, (char *)&stMreq, sizeof(stMreq)) == -1) {
         return false;
     }
+
+    multicast_ = true;
+
     return true;
 }
 
@@ -176,5 +190,8 @@ bool Socket::serverJoinMCast(in_addr_t address, uint16_t port) {
     if (setsockopt(socket_, IPPROTO_IP, IP_MULTICAST_LOOP, (char *)&f, sizeof(f)) == -1) {
         return false;
     }
+
+    multicast_ = true;
+
     return true;
 }
