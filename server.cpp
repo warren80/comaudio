@@ -153,8 +153,17 @@ void Server::serverVoiceComponent(Socket * socket, char * buffer, int length) {
             client = socket;
             clientConnected = true;
             Thread *thread = new Thread();
+            ComponentVoice *cv = 0;
+            try {
+                cv = new ComponentVoice(socket);
+            } catch (const QString& e) {
+                qDebug() << e;
+                delete thread;
+                delete cv;
+                delete[] buffer;
+                return;
+            }
             thread->start();
-            ComponentVoice *cv = new ComponentVoice(socket);
             cv->moveToThread(thread);
             QObject::connect(this, SIGNAL(signalStopVoiceComponent()),cv, SLOT(slotStopVoiceComponent()));
             QObject::connect(this,SIGNAL(serverVoiceMessage(char*,int)), cv,SLOT(receiveData(char*,int)));
