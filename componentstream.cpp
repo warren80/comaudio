@@ -14,6 +14,11 @@ void ComponentStream::setupAudio(int frequency, int channels, int sampleSize, in
     audioPlayer_ = new AudioPlayer(frequency, channels, sampleSize, bufferSize);
 }
 
+void ComponentStream::resetAudio() {
+    delete audioPlayer_;
+    audioPlayer_ = NULL;
+}
+
 void ComponentStream::run() {
     running_ = true;
     while (running_) {

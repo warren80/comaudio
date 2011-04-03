@@ -117,7 +117,7 @@ void Server::processClientMessage(char *buffer, int msgSize) {
 void Server::slotDisconnectStream() {
     foreach (Socket* client, clients_) {
         Packet packet;
-        packet.length = 4;
+        packet.length = 0;
         packet.type = kStream;
 
         client->transmit(packet);
