@@ -30,7 +30,7 @@ public:
       */
     void setupAudio(int frequency, int channels, int sampleSize, int bufferSize);
 
-    void resetAudio() { delete audioPlayer_; }
+    void resetAudio() { delete audioPlayer_; audioPlayer_ = NULL; }
 
 protected:
     void run();
