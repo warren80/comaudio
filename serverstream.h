@@ -6,6 +6,9 @@
 #include "Socket.h"
 #include "Thread.h"
 
+#define BYTERATEOFFSET 28
+#define BYTERATESIZE    4
+
 #include "componentstream.h"
 
 class ServerStream :  public QObject {

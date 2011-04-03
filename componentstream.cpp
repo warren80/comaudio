@@ -30,6 +30,7 @@ void ComponentStream::run() {
             break;
         default:
             if (audioPlayer_ == NULL) {
+                WaveHeader *wh = AudioPlayer::parseWaveHeader(buffer);
                 // mohammed's not working wav parser
 //                ParseHdr parser(buffer);
 //                WavHdr hdr = parser.getWavHdr();
@@ -37,7 +38,10 @@ void ComponentStream::run() {
 //                qDebug() << hdr.sampleRate << hdr.numChan << hdr.bitsPerSample << hdr.dataLen;
 
 //                setupAudio(hdr.sampleRate, hdr.numChan, hdr.bitsPerSample, hdr.dataLen);
-                setupAudio(44100, 2, 16, 39379536);
+                setupAudio(wh->frequency, wh->channels, wh->bitsPerSample, 39379536);
+                qDebug() << wh->frequency;
+                qDebug() << wh->bitsPerSample;
+                qDebug() << wh->channels;
             }
 
             emit signalReceivedData(STREAMPACKETSIZE);
