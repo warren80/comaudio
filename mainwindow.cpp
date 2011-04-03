@@ -35,7 +35,7 @@ MainWindow::MainWindow(QWidget *parent) :
     * CONNECTIONS
     */
 
-    //Settings Tab
+    //Client Tab
     connect(ui->connectButton, SIGNAL(pressed()), this, SLOT(appConnectClient()));
     connect(ui->disconnectButton, SIGNAL(pressed()), this, SLOT(appDisconnectClient()));
 
@@ -130,6 +130,7 @@ void MainWindow::appConnectClient() {
         delete appClient_;
         return;
     }
+<<<<<<< HEAD
     stream_ = new ComponentStream();
     connect(stream_, SIGNAL(signalReceivedData(int)), this, SLOT(rate(int)));
     setWindowTitle("Kidnapster - Client");
@@ -137,6 +138,14 @@ void MainWindow::appConnectClient() {
 
     stream_->start();
 
+=======
+    connect(appClient_, SIGNAL(signalStopStream()), this, SLOT(slotStopStream()));
+
+    setWindowTitle("Kidnapster - Client");
+    appClient_->start();
+
+    stream_.start();
+>>>>>>> 3863e21062af3fb9f5b921f12237502f1710ea73
     cylon_.start();
     clientConnect(true);
 }
@@ -157,6 +166,8 @@ void MainWindow::appStartServer() {
     } catch (const QString& e) {
         qDebug() << e;
     }
+    connect(this, SIGNAL(stopThisSong()), appServer_, SLOT(slotDisconnectStream()));
+
     appServer_->start();
     refreshSongList();
     serverConnect(true);
@@ -206,19 +217,32 @@ void MainWindow::refreshFiles() {
 }
 
 void MainWindow::broadcastSong() {
-    QString songName = ui->songList->currentItem()->text();
+    if(ui->broadcastButton->text() == "Broadcast") {
+        QString songName = ui->songList->currentItem()->text();
 
-    Thread *thread = new Thread();
-    notes_.start();
-    ui->currentSong->setText(songName);
+        Thread *thread = new Thread();
+        notes_.start();
+        ui->currentSong->setText(songName);
 
-    ServerStream *sfwo = new ServerStream(QDir::currentPath() + "/Songs/" + songName);
-    connect(this, SIGNAL(playThisSong()), sfwo, SLOT(slotStartTransfer()));
-    connect(sfwo, SIGNAL(signalTransferDone()), thread, SLOT(deleteLater()));
-    sfwo->moveToThread(thread);
-    thread->start();
+        ServerStream *sfwo = new ServerStream(QDir::currentPath() + "/Songs/" + songName);
+        connect(this, SIGNAL(playThisSong()), sfwo, SLOT(slotStartTransfer()));
+        connect(sfwo, SIGNAL(signalTransferDone()), thread, SLOT(deleteLater()));
+        sfwo->moveToThread(thread);
+        thread->start();
 
-    emit playThisSong();
+        ui->broadcastButton->setText("Stop Song");
+
+        emit playThisSong();
+    } else {
+        notes_.stop();
+        ui->broadcastButton->setText("Broadcast");
+
+        emit stopThisSong();
+    }
+}
+
+void MainWindow::slotStopStream() {
+
 }
 
 void MainWindow::refreshSongList() {

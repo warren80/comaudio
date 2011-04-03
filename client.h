@@ -2,11 +2,15 @@
 #define CLIENT_H
 
 #include <QThread>
+#include <QObject>
 #include "socket.h"
 #include <QDebug>
 
 class Client : public QThread
 {
+
+    Q_OBJECT
+
 public:
 
     Client();
@@ -22,6 +26,8 @@ private:
 
 public slots:
     void slot_transmit(char* data, int length) { socket_->transmit(data, length); };
+signals:
+    void signalStopStream();
 };
 
 #endif // CLIENT_H
