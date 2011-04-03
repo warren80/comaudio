@@ -9,6 +9,7 @@ ComponentVoice::ComponentVoice(Socket* socket) : Component(socket) {
         mic_ = new Microphone();
     } catch (const QString& e) {
         Packet pckt;
+        pckt.length = 0;
         pckt.type = kVoice;
         socket->transmit(pckt);
         qDebug() << e;
