@@ -254,7 +254,7 @@ void MainWindow::slotSendFileList(Socket* socket) {
     QString data;
 
     for (int i = 0; i < strings.size(); i++) {
-        data.append(strings[i]).append(',');
+        data.append(strings[i]).append('|');
     }
 
     packet.data = (char*) data.toStdString().c_str();
@@ -263,7 +263,7 @@ void MainWindow::slotSendFileList(Socket* socket) {
 }
 
 void MainWindow::slotReceiveFileList(char *data, int length) {
-    QStringList list(QString(data).split(','));
+    QStringList list(QString(data).split('|'));
 
     ui->serverFilesView->clear();
     ui->serverFilesView->addItems(list);
