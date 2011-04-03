@@ -4,7 +4,6 @@
 #include <QMessageBox>
 
 #include "serverfiletransfer.h"
-
 #include "componentstream.h"
 #include "componenttype.h"
 

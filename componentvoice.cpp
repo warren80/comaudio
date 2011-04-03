@@ -13,7 +13,6 @@ ComponentVoice::ComponentVoice(Socket* socket) : Component(socket) {
     mic_->startRecording();
 
     ap_ = new AudioPlayer(44100,1,16);
-
 }
 
 ComponentVoice::~ComponentVoice() {
