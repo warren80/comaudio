@@ -25,12 +25,13 @@ private:
     bool running_;
 
 public slots:
-    void slot_transmit(char* data, int length) { socket_->transmit(data, length); };
+    void slot_transmit(char* data, int length) { socket_->transmit(data, length); }
 signals:
     void signalStopStream();
     void signalFileListReceived(char* data, int length);
     void signalShutdown();
     void signalSongName(QString songname);
+    void signalVoiceMessage(char*, int);
 };
 
 #endif // CLIENT_H

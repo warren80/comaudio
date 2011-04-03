@@ -1,4 +1,5 @@
 #include "microphone.h"
+#include <errno.h>
 
 /**
  * CONSTRUCTOR
@@ -16,8 +17,9 @@ Microphone::Microphone() {
     format->setSampleType(QAudioFormat::UnSignedInt);
 
     if(!info.isFormatSupported(*format)) {
-        qDebug() << "Not acceptable format";
-        *format = info.nearestFormat(*format);
+        QString exception("Microphone constructor failure: ");
+        exception.append(strerror(errno));
+        throw exception;
         return;
     }
 
