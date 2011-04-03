@@ -4,6 +4,7 @@
 #include <QThread>
 #include <QObject>
 #include "socket.h"
+#include <QDebug>
 
 class Client : public QThread
 {
@@ -14,8 +15,8 @@ public:
 
     Client();
     ~Client();
-    bool connect(in_addr_t address, uint16_t port) { return socket_->connect(address, port); };
-
+    bool connect(in_addr_t address, uint16_t port) { return socket_->connect(address, port); }
+    Socket* getSocket() {return socket_;}
 protected:
     void run();
 

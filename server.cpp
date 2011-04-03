@@ -5,6 +5,7 @@
 
 #include "thread.h"
 #include "serverfiletransfer.h"
+#include "componentvoice.h"
 
 Server::Server(int port, int backlog) : socket_(new Socket(kTCP)), running_(false) {
 
@@ -119,3 +120,9 @@ void Server::startFileTransfer(QString fileName, Socket * s) {
     thread->start();
     emit signalStreamFile();
 }
+
+void Server::startVoiceComponent(Socket * socket) {
+    ComponentVoice *cv = new ComponentVoice(socket);
+    QObject::connect(this, SIGNAL(signalStopVoiceComponent()),cv, SLOT(slotStopVoiceComponent()));
+}
+

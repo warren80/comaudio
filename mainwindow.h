@@ -32,7 +32,7 @@ private:
     AudioPlayer *player_; /**< Audioplayer for PCM audio. */
     Microphone *mic_;     /**< Recording device for user's voice through a mic. */
     Thread *micThread_;   /**< Thread the mic runs on */
-    ComponentStream stream_; /**< The stream object that will stream the music to this app */
+    ComponentStream *stream_; /**< The stream object that will stream the music to this app */
     QMovie notes_;        /**< The audio animation */
     QMovie cylon_;        /**< Background animation */
     ServerStream* streamServer_;
@@ -156,6 +156,7 @@ private slots:
 
 signals:
     void playThisSong();
+    void signalStopVoiceComponent();
     void stopThisSong();
 };
 

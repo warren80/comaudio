@@ -48,5 +48,4 @@ void ComponentStream::run() {
 
         delete[] buffer;
     }
-
 }
