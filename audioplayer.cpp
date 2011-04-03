@@ -1,7 +1,17 @@
-#include "audioplayer.h"
+
 #include <QFile>
 #include <QtMultimedia>
-#include "winsock2.h"
+
+#ifndef _WIN32
+#include <arpa/inet.h>
+#endif
+
+#ifdef _WIN32
+#include <winsock2.h>
+#endif
+
+#include "audioplayer.h"
+
 
 AudioPlayer::AudioPlayer(int frequency, int channels, int sampleSize, int bufferSize) {
     QAudioFormat format;
