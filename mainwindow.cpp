@@ -214,7 +214,7 @@ void MainWindow::broadcastSong() {
 }
 
 void MainWindow::slotStopStream() {
-
+    stream_->resetAudio();
 }
 
 
