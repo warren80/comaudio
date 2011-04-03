@@ -202,19 +202,26 @@ void MainWindow::refreshFiles() {
 }
 
 void MainWindow::broadcastSong() {
-    QString songName = ui->songList->currentItem()->text();
+    if(ui->broadcastButton->text() == "Broadcast") {
+        QString songName = ui->songList->currentItem()->text();
 
-    Thread *thread = new Thread();
-    notes_.start();
-    ui->currentSong->setText(songName);
+        Thread *thread = new Thread();
+        notes_.start();
+        ui->currentSong->setText(songName);
 
-    ServerStream *sfwo = new ServerStream(QDir::currentPath() + "/Songs/" + songName);
-    connect(this, SIGNAL(playThisSong()), sfwo, SLOT(slotStartTransfer()));
-    connect(sfwo, SIGNAL(signalTransferDone()), thread, SLOT(deleteLater()));
-    sfwo->moveToThread(thread);
-    thread->start();
+        ServerStream *sfwo = new ServerStream(QDir::currentPath() + "/Songs/" + songName);
+        connect(this, SIGNAL(playThisSong()), sfwo, SLOT(slotStartTransfer()));
+        connect(sfwo, SIGNAL(signalTransferDone()), thread, SLOT(deleteLater()));
+        sfwo->moveToThread(thread);
+        thread->start();
 
-    emit playThisSong();
+        ui->broadcastButton->setText("Stop Song");
+
+        emit playThisSong();
+    } else {
+        notes_.stop();
+        ui->broadcastButton->setText("Broadcast");
+    }
 }
 
 void MainWindow::refreshSongList() {
