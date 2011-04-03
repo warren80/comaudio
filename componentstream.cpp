@@ -49,35 +49,4 @@ void ComponentStream::run() {
         delete[] buffer;
     }
 
-//        int msgSize;
-//        // receive the size of a packet and receive if successfull.
-//        switch (socket_->receive((char*) &msgSize, sizeof(int))) {
-//        case -1:
-//            qDebug() << "error";
-//            // error
-//            break;
-//        case 0:
-//            qDebug() << "disconnect";
-//            // disconnect
-//            break;
-//        default:
-//            emit signalReceivedData(4096);
-//            // data
-//            char* buffer = new char[msgSize];
-//            socket_->receive(buffer, msgSize);
-
-//            // check if the wave header stuff is the same
-//            // process buffer to buffer + HEADER_LENGTH - 1
-//            if (audioPlayer_ == NULL) {
-//                setupAudio(44100, 2, 16, 100000);
-//            }
-
-
-//            audioPlayer_->appendBuffer(buffer + sizeof(ComponentType) + HEADER_LENGTH, msgSize - HEADER_LENGTH);
-
-//            // remove the memory since its now in the audio player
-//            delete[] buffer;
-//            break;
-//        }
-
 }
