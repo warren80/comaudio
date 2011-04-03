@@ -28,6 +28,7 @@ public slots:
     void slot_transmit(char* data, int length) { socket_->transmit(data, length); };
 signals:
     void signalStopStream();
+    void signalFileListReceived(char* data, int length);
 };
 
 #endif // CLIENT_H
