@@ -93,7 +93,7 @@ void Server::run() {
                 char* buffer = new char[msgSize];
                 clients_[i]->receive(buffer, msgSize);
 
-                processClientMessage(buffer, msgSize);
+                processClientMessage(clients_[i], buffer, msgSize);
                 // check what the received data is for and send it to that component (through a signal)
 
                 if (--numReady == 0) {
@@ -104,13 +104,21 @@ void Server::run() {
     }
 }
 
-void Server::processClientMessage(char *buffer, int msgSize) {
+void Server::processClientMessage(Socket *clientSocket, char *buffer, int msgSize) {
+
     ComponentType ct;
-    memcpy(&ct,buffer,sizeof(ComponentType));
+    int ctsize = sizeof(int);
+    memcpy(&ct,buffer,ctsize);
     switch (ct) {
     case kVoice:
-    case kTransfer:
+        serverVoiceComponent(clientSocket, buffer, msgSize);
         break;
+    case kTransfer:
+        startFileTransfer(QString(buffer + ctsize), clientSocket);
+    case kFileList:
+    case kStream:
+    default:
+        delete[] buffer;
     }
 }
 
@@ -133,20 +141,35 @@ void Server::startFileTransfer(QString fileName, Socket * s) {
     emit signalStreamFile();
 }
 
-void Server::startVoiceComponent(Socket * socket) {
-    Thread *thread = new Thread();
-    thread->start();
-    ComponentVoice *cv = new ComponentVoice(socket);
-    cv->moveToThread(thread);
-    QObject::connect(this, SIGNAL(signalStopVoiceComponent()),cv, SLOT(slotStopVoiceComponent()));
-}
-
-void Server::startVoice() {
-    Thread *thread = new Thread();
-    thread->start();
-    //appClient_->getSocket()->transmit(pckt);
-    //ComponentVoice *cv = new ComponentVoice(appClient_->getSocket());
-    //cv->moveToThread(thread);
-    //QObject::connect(this, SIGNAL(signalServerStopVoice()),cv, SLOT(slotStopVoiceComponent()));
+void Server::serverVoiceComponent(Socket * socket, char * buffer, int length) {
+    static bool clientConnected = false;
+    static Socket * client;
+    Packet pckt;
+    if (clientConnected == false) {
+        if (length != sizeof(int)) {
+            delete[] buffer;
+            return;
+        } else {
+            client = socket;
+            clientConnected = true;
+            Thread *thread = new Thread();
+            thread->start();
+            ComponentVoice *cv = new ComponentVoice(socket);
+            cv->moveToThread(thread);
+            QObject::connect(this, SIGNAL(signalStopVoiceComponent()),cv, SLOT(slotStopVoiceComponent()));
+            QObject::connect(this,SIGNAL(serverVoiceMessage(char*,int)), cv,SLOT(receiveData(char*,int)));
+            delete[] buffer;
+        }
+    }
+    if (clientConnected == true) {
+        if (socket != client)
+        pckt.type = kVoice;
+        pckt.length = 0;
+        pckt.data = 0;
+        socket->transmit(pckt);
+        delete[] buffer;
+    } else {
+        emit serverVoiceMessage(buffer,length);
+    }
 }
 
