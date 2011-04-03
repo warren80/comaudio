@@ -49,7 +49,7 @@ void Client::run() {
                 break;
             case kStream:
 
-                if (msgSize == 0) {
+                if (msgSize == sizeof(int)) {
                     emit signalStopStream();
                 }
                 break;
