@@ -34,10 +34,8 @@ public:
       */
     ~ComponentVoice();
 
-    /**
-      Parses incoming data and gives it to the audioplayer for playback
-      */
-    void receiveData(char* data, int length);
+
+
 
 protected:
     /**
@@ -49,6 +47,10 @@ protected:
 public slots:
     void transmitVoice(QByteArray * ba);
     void slotStopVoiceComponent();
+    /**
+      Parses incoming data and gives it to the audioplayer for playback
+      */
+    void receiveData(char* data, int length);
 signals:
 
 private:

@@ -45,17 +45,18 @@ signals:
     void signalStreamFile();
     void signalStopVoiceComponent();
     void signalSendFileList(Socket*);
+    void serverVoiceMessage(char *, int);
 
 public slots:
     void slotDisconnectStream();
 
 private:
-    void processClientMessage(char *buffer, int msgSize);
+    void processClientMessage(Socket *clientSocket, char *buffer, int msgSize);
+    void serverVoiceComponent(Socket * socket, char * buffer, int length);
     void startVoice();
     Socket* socket_;          /**< The socket information for the server. */
     bool running_;            /**< State of the thread, whether it should be running or not. */
     void startFileTransfer(QString, Socket *);
-    void startVoiceComponent(Socket * socket);
     QVector<Socket*> clients_;
 };
 
