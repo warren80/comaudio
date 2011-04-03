@@ -9,8 +9,6 @@ ServerStream::ServerStream() :cleanup_(false){
 
 void ServerStream::slotStartTransfer(QString filename){
     int byterate;
-    double numerator;
-    double divisor;
     if (file_->isOpen()) {
         file_->close();
     }
@@ -46,28 +44,9 @@ void ServerStream::slotStartTransfer(QString filename){
 
     connect(timer_,SIGNAL(timeout()),this,SLOT(slotTransmitOnTimer()));
 
-    divisor = STREAMPACKETSIZE - HEADER_LENGTH;
-    qDebug() << "divisor" << divisor;
     memcpy(&byterate,buffer_ + BYTERATEOFFSET, BYTERATESIZE);
-    qDebug() << "byterate" << byterate;
-    numerator = byterate;
-    qDebug() << "num" << numerator;
-    divisor = numerator /  divisor;
-
-    qDebug() << "tics per second" << divisor;
-    divisor = 1 / divisor;
-    qDebug() << "1 / tics per second";// << divisor;
-    qDebug() << divisor;
-    //qDebug() << byterate;
-    divisor *= 1000;
-    qDebug() << divisor;
-    byterate = divisor - 2;
-    qDebug() << byterate;
+    byterate = ((1  / ((double) byterate / ((double) STREAMPACKETSIZE - (double) HEADER_LENGTH))) * 1000) - 2;
     timer_->start(byterate);
-    WaveHeader * wh = AudioPlayer::parseWaveHeader(buffer_);
-    qDebug() << "bits per sample " << wh->bitsPerSample << " Channels " << wh->channels << " frequency " << wh->frequency;
- //   int i = (1000 /(byterate / (STREAMPACKETSIZE - HEADER_LENGTH)) - 3);
-   // qDebug() << i;
 }
 
 void ServerStream::slotTransmitOnTimer() {
