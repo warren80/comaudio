@@ -59,6 +59,11 @@ private:
 
 public slots:
     void slotStopStream();
+    /******************************************
+     * VOICE SLOTS
+     ******************************************/
+    void startVoice();
+    void stopVoice();
 
 private slots:
     /**
@@ -105,12 +110,6 @@ private slots:
      * @author Karl Castillo
      */
     void downloadCurrentSong();
-
-    /******************************************
-     * VOICE SLOTS
-     ******************************************/
-    void startVoice();
-    void stopVoice();
 
     /******************************************
      * AUDIO PLAYER SLOTS

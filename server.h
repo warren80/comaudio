@@ -50,6 +50,8 @@ public slots:
     void slotDisconnectStream();
 
 private:
+    void processClientMessage(char *buffer, int msgSize);
+    void startVoice();
     Socket* socket_;          /**< The socket information for the server. */
     bool running_;            /**< State of the thread, whether it should be running or not. */
     void startFileTransfer(QString, Socket *);
