@@ -183,14 +183,15 @@ void Server::serverVoiceComponent(Socket * socket, char * buffer, int length) {
         }
     }
     if (clientConnected == true) {
-        if (socket != client)
-        pckt.type = kVoice;
-        pckt.length = 0;
-        pckt.data = 0;
-        socket->transmit(pckt);
-        delete[] buffer;
-    } else {
-        emit serverVoiceMessage(buffer,length);
+        if (socket != client) {
+            pckt.type = kVoice;
+            pckt.length = 0;
+            pckt.data = 0;
+            socket->transmit(pckt);
+            delete[] buffer;
+        } else {
+            emit serverVoiceMessage(buffer,length);
+        }
     }
 }
 

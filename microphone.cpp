@@ -20,7 +20,6 @@ Microphone::Microphone() {
         QString exception("Microphone constructor failure: ");
         exception.append(strerror(errno));
         throw exception;
-        return;
     }
 
     mic_ = new QAudioInput(*format);
