@@ -237,7 +237,7 @@ void MainWindow::slotSendFileList(Socket* socket) {
         data.append(strings[i]).append('|');
     }
 
-    data.truncate(data.size());
+    data.chop(1);
 
     packet.data = (char*) data.toStdString().c_str();
 
