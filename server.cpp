@@ -93,6 +93,7 @@ void Server::run() {
                 char* buffer = new char[msgSize];
                 clients_[i]->receive(buffer, msgSize);
 
+                processClientMessage(buffer, msgSize);
                 // check what the received data is for and send it to that component (through a signal)
 
                 if (--numReady == 0) {
@@ -100,6 +101,16 @@ void Server::run() {
                 }
             }
         }
+    }
+}
+
+void Server::processClientMessage(char *buffer, int msgSize) {
+    ComponentType ct;
+    memcpy(&ct,buffer,sizeof(ComponentType));
+    switch (ct) {
+    case kVoice:
+    case kTransfer:
+        break;
     }
 }
 
@@ -128,5 +139,14 @@ void Server::startVoiceComponent(Socket * socket) {
     ComponentVoice *cv = new ComponentVoice(socket);
     cv->moveToThread(thread);
     QObject::connect(this, SIGNAL(signalStopVoiceComponent()),cv, SLOT(slotStopVoiceComponent()));
+}
+
+void Server::startVoice() {
+    Thread *thread = new Thread();
+    thread->start();
+    //appClient_->getSocket()->transmit(pckt);
+    //ComponentVoice *cv = new ComponentVoice(appClient_->getSocket());
+    //cv->moveToThread(thread);
+    //QObject::connect(this, SIGNAL(signalServerStopVoice()),cv, SLOT(slotStopVoiceComponent()));
 }
 
