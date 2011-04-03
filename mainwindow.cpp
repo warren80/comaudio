@@ -222,18 +222,13 @@ void MainWindow::refreshFiles() {
 void MainWindow::broadcastSong() {
     if(ui->broadcastButton->text() == "Broadcast") {
         QString songName = ui->songList->currentItem()->text();
-
-
         notes_.start();
         ui->currentSong->setText(songName);
-
         ui->broadcastButton->setText("Stop Song");
-
         emit playThisSong(QDir::currentPath() + "/Songs/" + songName);
     } else {
         notes_.stop();
         ui->broadcastButton->setText("Broadcast");
-
         emit stopThisSong();
     }
 }
