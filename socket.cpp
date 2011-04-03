@@ -95,7 +95,8 @@ int Socket::transmit(const char *buffer, int length) {
 int Socket::transmit(const Packet& packet) {
     int totalSize = packet.length + sizeof(packet.length) + sizeof(packet.type);
     char* data = new char[totalSize];
-    memcpy((void*) data, (void*) &packet.length, sizeof(packet.length));
+    int length = packet.length + sizeof(int);
+    memcpy((void*) data, (void*) &length, sizeof(packet.length));
     int type = packet.type;
     memcpy((void*) (data + sizeof(packet.length)), (void*) &type, sizeof(int));
     memcpy((void*) (data + sizeof(packet.length) + sizeof(int)), (void*) packet.data, packet.length);

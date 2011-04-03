@@ -34,15 +34,13 @@ void Client::run() {
             char* buffer = new char[msgSize];
             socket_->receive(buffer, msgSize);
 
-            int size;
-            memcpy((void*) &size, buffer, sizeof(int));
             int type;
             memcpy((void*) &type, buffer + sizeof(int), sizeof(int));
 
-
-            if (size > sizeof(int)) {
-                char* data = new char[msgSize - sizeof(int)];
-                memcpy(data, buffer + sizeof(int), size - sizeof(int));
+            char* data;
+            if (msgSize > sizeof(int)) {
+                data = new char[msgSize - sizeof(int)];
+                memcpy(data, buffer + sizeof(int), msgSize - sizeof(int));
             }
 
             switch (type) {
@@ -50,7 +48,7 @@ void Client::run() {
                 break;
             case kStream:
 
-                if (size == 0) {
+                if (msgSize == 0) {
                     emit signalStopStream();
                 }
                 break;
@@ -58,6 +56,9 @@ void Client::run() {
                 break;
             }
 
+            if (msgSize > sizeof(int)) {
+                delete[] data;
+            }
             break;
         }
     }
