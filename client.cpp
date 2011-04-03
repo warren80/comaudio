@@ -36,7 +36,7 @@ void Client::run() {
             socket_->receive(buffer, msgSize);
 
             int type;
-            memcpy((void*) &type, buffer + sizeof(int), sizeof(int));
+            memcpy((void*) &type, buffer, sizeof(int));
 
             char* data;
             if (msgSize > sizeof(int)) {
