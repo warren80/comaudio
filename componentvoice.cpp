@@ -4,7 +4,6 @@
 #include <errno.h>
 
 ComponentVoice::ComponentVoice(Socket* socket) : Component(socket) {
-    qDebug() << socket;
     socket_ = socket;
     try {
         mic_ = new Microphone();
@@ -16,7 +15,6 @@ ComponentVoice::ComponentVoice(Socket* socket) : Component(socket) {
         qDebug() << e;
         QString exception("Component Voice constructor failed: ");
         exception.append(strerror(errno));
-        throw exception;
         return;
     }
 
