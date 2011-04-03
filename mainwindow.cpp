@@ -179,6 +179,8 @@ void MainWindow::appStopServer() {
     delete appServer_;
     ui->songList->clear();
     serverConnect(false);
+    emit stopThisSong();
+    ui->broadcastButton->setText("Broadcast");
 }
 
 /*
