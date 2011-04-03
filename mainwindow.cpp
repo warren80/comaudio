@@ -239,8 +239,8 @@ void MainWindow::slotStopStream() {
 
 
 void MainWindow::slotSendFileList(Socket* socket) {
-    QAbstractItemModel* model = ui->songList->model() ;
-    QStringList strings ;
+    QAbstractItemModel* model = ui->songList->model();
+    QStringList strings;
     int size = 0;
     for (int i = 0; i < model->rowCount(); ++i) {
       strings << model->index(i, 0).data(Qt::DisplayRole).toString();
@@ -254,7 +254,7 @@ void MainWindow::slotSendFileList(Socket* socket) {
     QString data;
 
     for (int i = 0; i < strings.size(); i++) {
-        data.append(strings[i]);
+        data.append(strings[i]).append(',');
     }
 
     packet.data = (char*) data.toStdString().c_str();
@@ -263,20 +263,12 @@ void MainWindow::slotSendFileList(Socket* socket) {
 }
 
 void MainWindow::slotReceiveFileList(char *data, int length) {
-    QStringList list;
-    char* orig = data;
-
-    int i = 0;
-    while (i < length) {
-        QString temp(data);
-        i += temp.size() + 1;
-        list << temp;
-    }
+    QStringList list(QString(data).split(','));
 
     ui->serverFilesView->clear();
     ui->serverFilesView->addItems(list);
 
-    delete[] orig;
+    delete[] data;
 
 }
 
