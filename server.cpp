@@ -115,7 +115,7 @@ void Server::slotDisconnectStream() {
 void Server::startFileTransfer(QString fileName, Socket * s) {
     Thread *thread = new Thread();
     serverFileTransfer *sft = new serverFileTransfer(fileName, s);
-    connect(this, SIGNAL(signalStreamFile()), sft, SLOT(slotStartTransfer()));
+    //connect(this, SIGNAL(), sft, SLOT(slotStartTransfer()));  FIX THIS
     connect(sft, SIGNAL(signalTransferDone()), thread, SLOT(deleteLater()));
     thread->start();
     emit signalStreamFile();

@@ -104,6 +104,16 @@ void MainWindow::serverConnect(bool connected) {
     ui->refreshSongs->setEnabled(connected);
     ui->songList->setEnabled(connected);
 
+    if (connected) {
+        Thread *thread = new Thread();
+        streamServer_ = new ServerStream();
+        connect(this, SIGNAL(playThisSong(QString)), streamServer_, SLOT(slotStartTransfer(QString)));
+        connect(streamServer_, SIGNAL(signalTransferDone()), thread, SLOT(deleteLater()));
+        connect(this, SIGNAL(stopThisSong()), streamServer_, SLOT(slotCleanup()));
+        streamServer_->moveToThread(thread);
+        thread->start();
+    }
+
     if(!connected) {
         setWindowTitle("Kidnapster - Disconnected");
         cylon_.stop();
@@ -213,20 +223,13 @@ void MainWindow::broadcastSong() {
     if(ui->broadcastButton->text() == "Broadcast") {
         QString songName = ui->songList->currentItem()->text();
 
-        Thread *thread = new Thread();
+
         notes_.start();
         ui->currentSong->setText(songName);
 
-        streamServer_ = new ServerStream(QDir::currentPath() + "/Songs/" + songName);
-        connect(this, SIGNAL(playThisSong()), streamServer_, SLOT(slotStartTransfer()));
-        connect(streamServer_, SIGNAL(signalTransferDone()), thread, SLOT(deleteLater()));
-        connect(this, SIGNAL(stopThisSong()), streamServer_, SLOT(slotCleanup()));
-        streamServer_->moveToThread(thread);
-        thread->start();
-
         ui->broadcastButton->setText("Stop Song");
 
-        emit playThisSong();
+        emit playThisSong(QDir::currentPath() + "/Songs/" + songName);
     } else {
         notes_.stop();
         ui->broadcastButton->setText("Broadcast");

@@ -1,13 +1,19 @@
 #include <QDebug>
 #include "serverstream.h"
 
-ServerStream::ServerStream(QString fileName) :cleanup_(false){
-    fileName_ = fileName;
+ServerStream::ServerStream() :cleanup_(false){
+    file_ = new QFile();
+    buffer_ = new char[STREAMPACKETSIZE];
+
 }
 
-void ServerStream::slotStartTransfer(){
-    file_ = new QFile(fileName_);
-    buffer_ = new char[STREAMPACKETSIZE];
+void ServerStream::slotStartTransfer(QString filename){
+    if (file_->isOpen()) {
+        file_->close();
+    }
+    timer_ = new QTimer();
+
+    file_->setFileName(filename);
 
     socket_ = new Socket(kUDP);
     if (!socket_->serverJoinMCast(inet_addr(MULTICAST_IP), htons(MULTICAST_PORT))) {
@@ -33,7 +39,7 @@ void ServerStream::slotStartTransfer(){
     if (file_->read(buffer_,HEADER_LENGTH) != HEADER_LENGTH) {
         emit signalTransferDone();
     }
-    timer_ = new QTimer();
+
     connect(timer_,SIGNAL(timeout()),this,SLOT(slotTransmitOnTimer()));
     timer_->start(20); //will need some math on how fast to read
 }
@@ -45,20 +51,12 @@ void ServerStream::slotTransmitOnTimer() {
         socket_->transmit(buffer_, length);
         return;
     }
-
-    if (!cleanup_) {
-        cleanup_ = true;
-        timer_->stop();
-        connect(this, SIGNAL(signalCleanup()), this, SLOT(slotCleanup()));
-        emit signalCleanup();
-    }
+    timer_->stop();
 }
 
+
+
 void ServerStream::slotCleanup() {
-    delete timer_;
-    delete socket_;
-    delete[] buffer_;
-    file_->close();
-    delete file_;
-    //QThread::currentThread()->terminate();
+   timer_->stop();
+
 }

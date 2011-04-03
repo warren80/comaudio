@@ -23,7 +23,7 @@ public:
      * onto a multicast port
      * @author Warren Voelkl
      */
-    explicit ServerStream(QString fileName);
+    explicit ServerStream();
 public slots:
 
     /**
@@ -32,7 +32,7 @@ public slots:
      * sets up the timer for this object
      * @author Warren Voelkl
      */
-    void slotStartTransfer();
+    void slotStartTransfer(QString filename);
     /**
      * When the timer ticks this function will packetize some data
      * and transmit it.

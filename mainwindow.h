@@ -155,7 +155,7 @@ private slots:
     void rate(int num);
 
 signals:
-    void playThisSong();
+    void playThisSong(QString);
     void signalStopVoiceComponent();
     void stopThisSong();
 };
