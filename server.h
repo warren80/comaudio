@@ -44,6 +44,7 @@ protected:
 signals:
     void signalStreamFile();
     void signalStopVoiceComponent();
+    void signalSendFileList(Socket*);
 
 public slots:
     void slotDisconnectStream();

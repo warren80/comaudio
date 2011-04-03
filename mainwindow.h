@@ -155,6 +155,10 @@ private slots:
 
     void rate(int num);
 
+    void slotSendFileList(Socket* socket);
+
+    void slotReceiveFileList(char* data, int length);
+
 signals:
     void playThisSong(QString);
     void signalStopVoiceComponent();

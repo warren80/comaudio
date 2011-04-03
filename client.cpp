@@ -20,6 +20,7 @@ void Client::run() {
 
     running_ = true;
     while (running_) {
+        bool deleteData = true;
         int msgSize;
         // receive the size of a packet and receive if successfull.
         switch (socket_->receive((char*) &msgSize, sizeof(int))) {
@@ -35,7 +36,7 @@ void Client::run() {
             socket_->receive(buffer, msgSize);
 
             int type;
-            memcpy((void*) &type, buffer + sizeof(int), sizeof(int));
+            memcpy((void*) &type, buffer, sizeof(int));
 
             char* data;
             if (msgSize > sizeof(int)) {
@@ -54,9 +55,14 @@ void Client::run() {
                 break;
             case kVoice:
                 break;
+
+            case kFileList:
+                emit signalFileListReceived(data, msgSize - sizeof(int));
+                deleteData = false;
+                break;
             }
 
-            if (msgSize > sizeof(int)) {
+            if (deleteData && msgSize > sizeof(int)) {
                 delete[] data;
             }
             break;

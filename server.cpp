@@ -62,6 +62,7 @@ void Server::run() {
             } else {
                 qDebug() << "Client connected.";
                 clients_.append(new Socket(connected, kTCP, info));
+                emit signalSendFileList(clients_.last());
             }
 
             if (clients_.size() == FD_SETSIZE) {

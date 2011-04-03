@@ -143,6 +143,7 @@ void MainWindow::appConnectClient() {
     setWindowTitle("Kidnapster - Client");
     connect(stream_, SIGNAL(signalReceivedData(int)), this, SLOT(rate(int)));
     connect(appClient_, SIGNAL(signalStopStream()), this, SLOT(slotStopStream()));
+    connect(appClient_, SIGNAL(signalFileListReceived(char*,int)), this, SLOT(slotReceiveFileList(char*,int)));
 
     appClient_->start();
     stream_->start();
@@ -168,6 +169,7 @@ void MainWindow::appStartServer() {
         qDebug() << e;
     }
     connect(this, SIGNAL(stopThisSong()), appServer_, SLOT(slotDisconnectStream()));
+    connect(appServer_, SIGNAL(signalSendFileList(Socket*)), this, SLOT(slotSendFileList(Socket*)));
 
     appServer_->start();
     refreshSongList();
@@ -232,6 +234,41 @@ void MainWindow::broadcastSong() {
 }
 
 void MainWindow::slotStopStream() {
+
+}
+
+
+void MainWindow::slotSendFileList(Socket* socket) {
+    QAbstractItemModel* model = ui->songList->model();
+    QStringList strings;
+    int size = 0;
+    for (int i = 0; i < model->rowCount(); ++i) {
+      strings << model->index(i, 0).data(Qt::DisplayRole).toString();
+      size += model->index( i, 0 ).data( Qt::DisplayRole ).toString().length() + 1;
+    }
+
+    Packet packet;
+    packet.length = size;
+    packet.type = kFileList;
+
+    QString data;
+
+    for (int i = 0; i < strings.size(); i++) {
+        data.append(strings[i]).append('|');
+    }
+
+    packet.data = (char*) data.toStdString().c_str();
+
+    socket->transmit(packet);
+}
+
+void MainWindow::slotReceiveFileList(char *data, int length) {
+    QStringList list(QString(data).split('|'));
+
+    ui->serverFilesView->clear();
+    ui->serverFilesView->addItems(list);
+
+    delete[] data;
 
 }
 
