@@ -48,6 +48,8 @@ protected:
     void run();
 public slots:
     void transmitVoice(QByteArray * ba);
+    void slotStopVoiceComponent();
+signals:
 
 private:
     AudioPlayer *ap_;       /**< The audio player for the received data*/

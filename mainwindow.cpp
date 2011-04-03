@@ -58,14 +58,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->playButton, SIGNAL(pressed()), this, SLOT(playSong()));
     connect(ui->pauseButton, SIGNAL(pressed()), this, SLOT(pauseSong()));
 
-    connect(&stream_, SIGNAL(signalReceivedData(int)), this, SLOT(rate(int)));
-
     notes_.setFileName(":/notes.gif");
     cylon_.setFileName(":/cylon.gif");
     ui->cylon->setMovie(&cylon_);
     ui->notes->setMovie(&notes_);
-
-    //ComponentVoice * cv = new ComponentVoice(0);
 
 }
 
@@ -134,10 +130,12 @@ void MainWindow::appConnectClient() {
         delete appClient_;
         return;
     }
+    stream_ = new ComponentStream();
+    connect(stream_, SIGNAL(signalReceivedData(int)), this, SLOT(rate(int)));
     setWindowTitle("Kidnapster - Client");
     appClient_->start();
 
-    stream_.start();
+    stream_->start();
 
     cylon_.start();
     clientConnect(true);
@@ -145,9 +143,11 @@ void MainWindow::appConnectClient() {
 
 void MainWindow::appDisconnectClient() {
     delete appClient_;
+    delete stream_;
     ui->playButton->setText("Tune In");
     ui->serverFilesView->clear();
     clientConnect(false);
+
 }
 
 void MainWindow::appStartServer() {
@@ -230,17 +230,30 @@ void MainWindow::refreshSongList() {
 }
 
 void MainWindow::startVoice() {
-    // empty slot
+    Packet pckt;
+    pckt.data = 0;
+    pckt.length = 0;
+    pckt.type = kVoice;
+    appClient_->getSocket()->transmit(pckt);
+    ComponentVoice *cv = new ComponentVoice(appClient_->getSocket());
+    QObject::connect(this, SIGNAL(signalStopVoiceComponent()),cv, SLOT(slotStopVoiceComponent()));
+
 }
 
 void MainWindow::stopVoice() {
-    // empty slot
+    Packet pckt;
+    pckt.data = 0;
+    pckt.length = 0;
+    pckt.type = kVoice;
+    emit signalStopVoiceComponent();
+    appClient_->getSocket()->transmit(pckt);
+
 }
 
 void MainWindow::playSong() {
     if(ui->playButton->text() == "Tune In") {
         ui->playButton->setText("Play");
-        stream_.start();
+        stream_->start();
     } else {
         notes_.start();
         player_->play();

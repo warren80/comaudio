@@ -43,12 +43,13 @@ protected:
     void run();
 signals:
     void signalStreamFile();
+    void signalStopVoiceComponent();
 private:
     Socket* socket_;        /**< The socket information for the server. */
     bool running_;          /**< State of the thread, whether it should be running or not. */
 
     void startFileTransfer(QString, Socket *);
-
+    void startVoiceComponent(Socket * socket);
 };
 
 #endif // SERVER_H

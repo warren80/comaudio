@@ -1,8 +1,10 @@
 #include "componentvoice.h"
 #include "audioplayer.h"
+#include <QDebug>
 
 ComponentVoice::ComponentVoice(Socket* socket) : Component(socket) {
-
+    qDebug() << socket;
+    socket_ = socket;
     mic_ = new Microphone();
     connect(mic_, SIGNAL(sendVoice(QByteArray*)),this, SLOT(transmitVoice(QByteArray*)));
     micThread_ = new Thread();
@@ -35,6 +37,16 @@ void ComponentVoice::receiveData(char* data, int length) {
 void ComponentVoice::run() {
     mic_->startRecording();
 
+}
+
+void ComponentVoice::slotStopVoiceComponent() {
+    mic_->stopRecording();
+    ap_->pause();
+    micThread_->exit();
+    delete mic_;
+    delete ap_;
+    disconnect();
+    QThread::currentThread()->exit();
 }
 
 

@@ -16,6 +16,7 @@ typedef int socklen_t;
 
 #include "packet.h"
 
+
 /**
   Which mode the socket operates in.
   @author Nick Huber
