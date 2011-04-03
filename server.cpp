@@ -106,7 +106,7 @@ void Server::run() {
 void Server::slotDisconnectStream() {
     foreach (Socket* client, clients_) {
         Packet packet;
-        packet.length = 0;
+        packet.length = 4;
         packet.type = kStream;
 
         client->transmit(packet);
