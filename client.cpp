@@ -51,7 +51,6 @@ void Client::run() {
 
                 if (msgSize == 0) {
                     emit signalStopStream();
-                    deleteData = false;
                 }
                 break;
             case kVoice:
@@ -59,6 +58,7 @@ void Client::run() {
 
             case kFileList:
                 emit signalFileListReceived(data, msgSize - sizeof(int));
+                deleteData = false;
                 break;
             }
 

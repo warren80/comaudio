@@ -276,7 +276,7 @@ void MainWindow::slotReceiveFileList(char *data, int length) {
     ui->serverFilesView->clear();
     ui->serverFilesView->addItems(list);
 
-    delete[] data;
+    delete[] orig;
 
 }
 
