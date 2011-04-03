@@ -10,6 +10,7 @@
 #include "microphone.h"
 #include "componentvoice.h"
 #include "componentstream.h"
+#include "serverstream.h"
 
 namespace Ui {
     class MainWindow;
@@ -34,6 +35,7 @@ private:
     ComponentStream stream_; /**< The stream object that will stream the music to this app */
     QMovie notes_;        /**< The audio animation */
     QMovie cylon_;        /**< Background animation */
+    ServerStream* streamServer_;
 
     void initDispatcher();
     /**

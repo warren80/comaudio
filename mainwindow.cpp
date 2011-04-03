@@ -212,10 +212,10 @@ void MainWindow::broadcastSong() {
         notes_.start();
         ui->currentSong->setText(songName);
 
-        ServerStream *sfwo = new ServerStream(QDir::currentPath() + "/Songs/" + songName);
-        connect(this, SIGNAL(playThisSong()), sfwo, SLOT(slotStartTransfer()));
-        connect(sfwo, SIGNAL(signalTransferDone()), thread, SLOT(deleteLater()));
-        sfwo->moveToThread(thread);
+        streamServer_ = new ServerStream(QDir::currentPath() + "/Songs/" + songName);
+        connect(this, SIGNAL(playThisSong()), streamServer_, SLOT(slotStartTransfer()));
+        connect(streamServer_, SIGNAL(signalTransferDone()), thread, SLOT(deleteLater()));
+        streamServer_->moveToThread(thread);
         thread->start();
 
         ui->broadcastButton->setText("Stop Song");
@@ -226,6 +226,7 @@ void MainWindow::broadcastSong() {
         ui->broadcastButton->setText("Broadcast");
 
         emit stopThisSong();
+        streamServer_->slotCleanup();
     }
 }
 
