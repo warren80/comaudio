@@ -392,10 +392,12 @@ void MainWindow::slotStartTransmit(QString filename) {
 }
 
 void MainWindow::slotReceiveTransmitData(char *data, int length) {
+    qDebug() << "recv" << length;
     receivedFile_->write(data, length);
 }
 
 void MainWindow::slotFinishTransmit() {
+    qDebug() << "done";
     receivedFile_->close();
     delete receivedFile_;
 }
