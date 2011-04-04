@@ -377,7 +377,12 @@ void MainWindow::slotStartTransmitCurrent() {
 }
 
 void MainWindow::slotStartTransmitSelected() {
+    if(!ui->waiting->isHidden()) {
+        ui->waiting->show();
+    }
     waiting_.start();
+    ui->downloadCurrentSongButton->setEnabled(false);
+    ui->downloadSongButton->setEnabled(false);
     slotStartTransmit(ui->serverFilesView->selectedItems().first()->text());
 }
 
@@ -401,6 +406,9 @@ void MainWindow::slotReceiveTransmitData(char *data, int length) {
 
 void MainWindow::slotFinishTransmit() {
     waiting_.stop();
+    ui->downloadCurrentSongButton->setEnabled(true);
+    ui->downloadSongButton->setEnabled(true);
+    ui->waiting->hide();
     receivedFile_->close();
     delete receivedFile_;
 }
