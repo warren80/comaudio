@@ -12,9 +12,6 @@ void ServerFileTransfer::slotStartTransfer(){
     Packet pckt;
 
     if(!file->open(QIODevice::ReadOnly)) {
-        QMessageBox::QMessageBox(QMessageBox::Critical,
-                                 "Error", "Cannot open file or file doesn't exist",
-                                 QMessageBox::Ok).exec();
         emit signalTransferDone();
         return;
     }
