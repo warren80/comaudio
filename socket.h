@@ -129,7 +129,7 @@ public:
       Conversion operator for Socket, acts as a c-style socket descriptor.
       @return The socket descriptor.
       */
-    operator const int() const { return socket_; }
+    operator int() const { return socket_; }
 
     /**
       Connect a server to the multicast address specified.

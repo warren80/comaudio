@@ -32,7 +32,6 @@ SOURCES += main.cpp\
         component.cpp \
         componentstream.cpp \
         componentvoice.cpp \
-        componenttransfer.cpp \
         audioplayer.cpp \
         socket.cpp \
         server.cpp \
@@ -48,7 +47,6 @@ HEADERS  += mainwindow.h \
         packet.h \
         componentstream.h \
         componentvoice.h \
-        componenttransfer.h \
         audioplayer.h \
         server.h \
         microphone.h \
