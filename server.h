@@ -52,14 +52,44 @@ public slots:
     void slotPlayThisSong(QString songname);
 
 private:
+    /**
+     * Creates a new thread for the voice audio component to run in.
+     *
+     * @author Warren Voelkl
+     */
+    void setupVoiceComponent(Socket * socket);
+
+    /**
+     * Creates a new thread for the file transfer component to run in.
+     *
+     * @author Warren Voelkl
+     */
+    void startFileTransfer(QString, Socket *);
+
+    /**
+     * Reads the message type from the buffer and then calls the correct fn.
+     *
+     * @author Warren Voelkl
+     */
     void processClientMessage(Socket *clientSocket, char *buffer, int msgSize);
+
+    /**
+     * Contains the logic for the voice component.
+     *
+     * Either starts, stops or passes a buffer to the voice componet
+     */
     void serverVoiceComponent(Socket * socket, char * buffer, int length);
+
+    /**
+     * Creates a new thread for the file transfer component to run in.
+     *
+     * @author Warren Voelkl
+     */
     void startVoice();
+
     Socket* socket_;          /**< The socket information for the server. */
     bool running_;            /**< State of the thread, whether it should be running or not. */
-    void startFileTransfer(QString, Socket *);
-    QVector<Socket*> clients_;
-    void setupVoiceComponent(Socket * socket);
+    QVector<Socket*> clients_;/**< Container for all socket objects. */
 };
 
 #endif // SERVER_H
