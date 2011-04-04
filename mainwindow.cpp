@@ -151,6 +151,7 @@ void MainWindow::appConnectClient() {
 
     cylon_.start();
     clientConnect(true);
+    ui->tabWidget->setTabEnabled(2, false);
 }
 
 void MainWindow::appDisconnectClient() {
@@ -164,7 +165,7 @@ void MainWindow::appDisconnectClient() {
     ui->playButton->setText("Tune In");
     ui->serverFilesView->clear();
     clientConnect(false);
-
+    ui->tabWidget->setTabEnabled(2, true);
 }
 
 void MainWindow::appStartServer() {
@@ -181,6 +182,8 @@ void MainWindow::appStartServer() {
     appServer_->start();
     refreshSongList();
     serverConnect(true);
+    ui->tabWidget->setTabEnabled(0, false);
+    ui->tabWidget->setTabEnabled(1, false);
 }
 
 void MainWindow::appStopServer() {
@@ -190,6 +193,8 @@ void MainWindow::appStopServer() {
     serverConnect(false);
     emit stopThisSong();
     ui->broadcastButton->setText("Broadcast");
+    ui->tabWidget->setTabEnabled(0, true);
+    ui->tabWidget->setTabEnabled(1, true);
 }
 
 /*
@@ -313,6 +318,7 @@ void MainWindow::stopVoice() {
 
 void MainWindow::slotClientSongName(QString songname) {
     ui->currentSongText->setText(songname);
+    ui->songNameText->setText(songname);
 }
 
 void MainWindow::playSong() {
