@@ -145,6 +145,7 @@ void MainWindow::appConnectClient() {
     connect(appClient_, SIGNAL(signalFileListReceived(char*,int)), this, SLOT(slotReceiveFileList(char*,int)));
     connect(appClient_, SIGNAL(signalShutdown()), this, SLOT(appDisconnectClient()));
     connect(appClient_, SIGNAL(signalSongName(QString)), this, SLOT(slotClientSongName(QString)));
+    connect(stream_, SIGNAL(signalSongData(WaveHeader*)), this, SLOT(slotClientSongInfo(WaveHeader*)));
 
     appClient_->start();
     stream_->start();
@@ -152,6 +153,7 @@ void MainWindow::appConnectClient() {
     cylon_.start();
     clientConnect(true);
     ui->tabWidget->setTabEnabled(2, false);
+    ui->serverAddrBox->setEnabled(false);
 }
 
 void MainWindow::appDisconnectClient() {
@@ -166,6 +168,7 @@ void MainWindow::appDisconnectClient() {
     ui->serverFilesView->clear();
     clientConnect(false);
     ui->tabWidget->setTabEnabled(2, true);
+    ui->serverAddrBox->setEnabled(true);
 }
 
 void MainWindow::appStartServer() {
@@ -320,6 +323,22 @@ void MainWindow::stopVoice() {
 void MainWindow::slotClientSongName(QString songname) {
     ui->currentSongText->setText(songname);
     ui->songNameText->setText(songname);
+    if (songname.size() == 0) {
+        slotClientSongInfo(NULL);
+    }
+}
+
+void MainWindow::slotClientSongInfo(WaveHeader* header) {
+    if (header == 0) {
+        ui->sampleRateText->clear();
+        ui->sampleSizeText->clear();
+        ui->channelsText->clear();
+        return;
+    }
+    ui->sampleRateText->setText(QString().setNum(header->frequency));
+    ui->sampleSizeText->setText(QString().setNum(header->bitsPerSample));
+    ui->channelsText->setText(QString().setNum(header->channels));
+    delete header;
 }
 
 void MainWindow::playSong() {
