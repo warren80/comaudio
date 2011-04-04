@@ -2,7 +2,6 @@
   @file
   Plays PCM audio through a buffering system.
 
-  @bug At start of playback there is a 'pop', probably from WAVE header information.
   @author Nick Huber
   */
 
@@ -12,9 +11,9 @@
 #include <QtMultimedia>
 
 struct WaveHeader {
-    int frequency;
-    int channels;
-    int bitsPerSample;
+    int frequency;      /**< The sample rate of the pcm audio file */
+    int channels;       /**< The number of channels in a audio file */
+    int bitsPerSample;  /**< The number of bits to describe each audio sample */
 };
 
 /**
@@ -51,6 +50,13 @@ public:
       @author Nick Huber
       */
     void pause();
+    /**
+     * Reads the header from a wav pcm audio file
+     * and then fills a struct to be used in setting up the
+     * audio player.
+     *
+     * @author Warren Voelkl
+     */
     static WaveHeader * parseWaveHeader(char hdr[44]);
 private:
     QAudioOutput* audio_;   /**< The audio output device. */
