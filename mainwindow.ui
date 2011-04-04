@@ -154,7 +154,7 @@ QLineEdit:disabled {
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>2</number>
     </property>
     <property name="elideMode">
      <enum>Qt::ElideNone</enum>
@@ -199,29 +199,6 @@ QLineEdit:disabled {
       </property>
       <property name="checkable">
        <bool>false</bool>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="serverAddrBox">
-      <property name="geometry">
-       <rect>
-        <x>90</x>
-        <y>10</y>
-        <width>241</width>
-        <height>20</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QLabel" name="serverAddrLabel">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>81</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Server Address:</string>
       </property>
      </widget>
      <widget class="QGroupBox" name="groupBox">
@@ -340,32 +317,6 @@ QLineEdit:disabled {
        </layout>
       </widget>
      </widget>
-     <widget class="QLabel" name="label_6">
-      <property name="geometry">
-       <rect>
-        <x>190</x>
-        <y>60</y>
-        <width>31</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Rate:</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="rate">
-      <property name="geometry">
-       <rect>
-        <x>230</x>
-        <y>60</y>
-        <width>101</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>0</string>
-      </property>
-     </widget>
      <widget class="QPushButton" name="startTalkingButton">
       <property name="enabled">
        <bool>false</bool>
@@ -398,6 +349,28 @@ QLineEdit:disabled {
        <string>Stop Voice</string>
       </property>
      </widget>
+     <widget class="QWidget" name="formLayoutWidget_2">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>321</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <layout class="QFormLayout" name="formLayout_2">
+       <item row="0" column="0">
+        <widget class="QLabel" name="serverAddrLabel">
+         <property name="text">
+          <string>Server Address:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="serverAddrBox"/>
+       </item>
+      </layout>
+     </widget>
     </widget>
     <widget class="QWidget" name="fileTab">
      <property name="enabled">
@@ -418,19 +391,6 @@ QLineEdit:disabled {
       <property name="title">
        <string>Download Current Song</string>
       </property>
-      <widget class="QLabel" name="currentSongLabel">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>71</width>
-         <height>16</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Current Song:</string>
-       </property>
-      </widget>
       <widget class="QPushButton" name="downloadCurrentSongButton">
        <property name="geometry">
         <rect>
@@ -447,18 +407,31 @@ QLineEdit:disabled {
         <string>Download</string>
        </property>
       </widget>
-      <widget class="QLabel" name="currentSongText">
+      <widget class="QWidget" name="formLayoutWidget_3">
        <property name="geometry">
         <rect>
-         <x>90</x>
+         <x>10</x>
          <y>20</y>
-         <width>131</width>
+         <width>211</width>
          <height>16</height>
         </rect>
        </property>
-       <property name="text">
-        <string/>
-       </property>
+       <layout class="QFormLayout" name="formLayout_3">
+        <item row="0" column="0">
+         <widget class="QLabel" name="currentSongLabel">
+          <property name="text">
+           <string>Current Song:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLabel" name="currentSongText">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </widget>
      </widget>
      <widget class="QLabel" name="serverFilesLabel">
@@ -556,22 +529,6 @@ QLineEdit:disabled {
        <string>Broadcast</string>
       </property>
      </widget>
-     <widget class="QLabel" name="curSongLabel">
-      <property name="enabled">
-       <bool>true</bool>
-      </property>
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>71</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Current Song:</string>
-      </property>
-     </widget>
      <widget class="QPushButton" name="refreshSongs">
       <property name="enabled">
        <bool>false</bool>
@@ -589,22 +546,6 @@ QLineEdit:disabled {
       </property>
       <property name="text">
        <string>Refresh</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="currentSong">
-      <property name="enabled">
-       <bool>true</bool>
-      </property>
-      <property name="geometry">
-       <rect>
-        <x>90</x>
-        <y>10</y>
-        <width>241</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>None</string>
       </property>
      </widget>
      <widget class="QPushButton" name="startServerButton">
@@ -642,48 +583,39 @@ QLineEdit:disabled {
        <string>Stop Server</string>
       </property>
      </widget>
+     <widget class="QWidget" name="formLayoutWidget_4">
+      <property name="geometry">
+       <rect>
+        <x>9</x>
+        <y>10</y>
+        <width>321</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <layout class="QFormLayout" name="formLayout_4">
+       <item row="0" column="0">
+        <widget class="QLabel" name="curSongLabel">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="text">
+          <string>Current Song:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLabel" name="currentSong">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="text">
+          <string>None</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
     </widget>
-   </widget>
-   <widget class="QPushButton" name="playButton">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>400</y>
-      <width>81</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true"/>
-    </property>
-    <property name="text">
-     <string>Tune In</string>
-    </property>
-    <property name="checkable">
-     <bool>false</bool>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pauseButton">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>230</x>
-      <y>400</y>
-      <width>81</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true"/>
-    </property>
-    <property name="text">
-     <string>Pause</string>
-    </property>
    </widget>
    <widget class="QWidget" name="backgroundChatScreen" native="true">
     <property name="geometry">
@@ -716,9 +648,9 @@ background-position: center;</string>
    <widget class="QLabel" name="notes">
     <property name="geometry">
      <rect>
-      <x>95</x>
-      <y>400</y>
-      <width>131</width>
+      <x>0</x>
+      <y>410</y>
+      <width>321</width>
       <height>31</height>
      </rect>
     </property>
@@ -728,44 +660,8 @@ background-position: center;</string>
    </widget>
    <zorder>backgroundChatScreen</zorder>
    <zorder>tabWidget</zorder>
-   <zorder>playButton</zorder>
-   <zorder>pauseButton</zorder>
    <zorder>notes</zorder>
   </widget>
-  <action name="actionConnect">
-   <property name="text">
-    <string>Connect</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+C</string>
-   </property>
-  </action>
-  <action name="actionDisconnect">
-   <property name="text">
-    <string>Disconnect</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+D</string>
-   </property>
-  </action>
-  <action name="actionExit">
-   <property name="text">
-    <string>Exit</string>
-   </property>
-  </action>
-  <action name="actionAbout">
-   <property name="text">
-    <string>About</string>
-   </property>
-  </action>
-  <action name="actionManual">
-   <property name="text">
-    <string>Manual</string>
-   </property>
-   <property name="shortcut">
-    <string>F1</string>
-   </property>
-  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

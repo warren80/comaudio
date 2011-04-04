@@ -136,23 +136,6 @@ private slots:
     void downloadCurrentSong();
 
     /******************************************
-     * AUDIO PLAYER SLOTS
-     ******************************************/
-
-    /**
-     * Call this function to play the current song.
-     *
-     * @author Karl Castillo
-     */
-    void playSong();
-    /**
-     * Call this function to pause the current song.
-     *
-     * @author Karl Castillo
-     */
-    void pauseSong();
-
-    /******************************************
      * SERVER SLOTS
      ******************************************/
 
