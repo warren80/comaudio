@@ -53,12 +53,12 @@ public:
     void pause();
     static WaveHeader * parseWaveHeader(char hdr[44]);
 private:
-    QAudioOutput* audio_; /**< The audio output device. */
+    QAudioOutput* audio_;   /**< The audio output device. */
     QIODevice* buffer_;     /**< The buffer that audio_ reads from. */
-    int frequency_;
-    int channels_;
-    int sampleSize_;
-    int bufferSize_;
+    int frequency_;         /**< The sample rate of the pcm audio file */
+    int channels_;          /**< The number of channels in a audio file */
+    int sampleSize_;        /**< The number of bits to describe each audio sample */
+    int bufferSize_;        /**< The size of the audio buffer */
 };
 
 #endif // AUDIOPLAYER_H
