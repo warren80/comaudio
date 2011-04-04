@@ -177,14 +177,17 @@ void Server::serverVoiceComponent(Socket * socket, char * buffer, int length) {
             }
             thread->start();
             cv->moveToThread(thread);
-            cv->start();
             QObject::connect(this, SIGNAL(signalStopVoiceComponent()),cv, SLOT(slotStopVoiceComponent()));
             QObject::connect(this,SIGNAL(serverVoiceMessage(char*,int)), cv,SLOT(receiveData(char*,int)));
+            cv->start();
             delete[] buffer;
             return;
         }
-    }
-    if (clientConnected == true) {
+    } else {
+        if (length = sizeof(int)) {
+            qDebug() << "disconnect message";
+            clientConnected = false;
+        }
         if (socket != client) {
             pckt.type = kVoice;
             pckt.length = 0;
@@ -192,7 +195,6 @@ void Server::serverVoiceComponent(Socket * socket, char * buffer, int length) {
             socket->transmit(pckt);
             delete[] buffer;
         } else {
-
             emit serverVoiceMessage(buffer,length);
         }
     }
