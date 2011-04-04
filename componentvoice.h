@@ -48,8 +48,10 @@ public slots:
     void transmitVoice(QByteArray * ba);
     void slotStopVoiceComponent();
     /**
-      Parses incoming data and gives it to the audioplayer for playback
-      */
+     * Parses incoming data and gives it to the audioplayer for playback
+     *
+     * @author Warren Voelkl
+     */
     void receiveData(char* data, int length);
 signals:
 

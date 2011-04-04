@@ -17,6 +17,11 @@
 class ComponentStream : public Component {
 Q_OBJECT
 public:
+    /**
+     * Sets up the multicast socket and connects the slots and signals for
+     * this object
+     * @author Warren Voelkl
+     */
     ComponentStream();
 
     /**
@@ -29,16 +34,22 @@ public:
       @author Nick Huber
       */
     void setupAudio(int frequency, int channels, int sampleSize, int bufferSize);
-
+    /**
+     * Deletes the audiocomponent object thereby stopping audio playback.
+     * @author Warren Voelkl
+     */
     void resetAudio();
 
 protected:
+    /**
+     *  Sets up the audio player and starts playback from the stream.
+     *  starts a while loop which reads from the multicast socket
+     *  @author Warren Voelkl
+     */
     void run();
-//    void streamFileTransfer(QString fileNamePath);
-
 
 private:
-    AudioPlayer* audioPlayer_;
+    AudioPlayer* audioPlayer_; /**< The object used to play all streaming audio */
 signals:
     void signalStreamFile();
     void signalReceivedData(int);
