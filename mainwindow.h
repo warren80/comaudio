@@ -25,7 +25,6 @@ public:
     ~MainWindow();
 
 private:
-    Thread * dispatcherThread_;
     Ui::MainWindow *ui;   /**< Qt form UI. */
     Server *appServer_;   /**< For when the application is running as server. */
     Client *appClient_;   /**< For when the application is running as client. */
@@ -35,10 +34,10 @@ private:
     ComponentStream *stream_; /**< The stream object that will stream the music to this app */
     QMovie notes_;        /**< The audio animation */
     QMovie cylon_;        /**< Background animation */
-    QMovie waiting_;
-    ServerStream* streamServer_;
-    Thread* streamThread_;
-    QFile* receivedFile_;
+    QMovie waiting_;      /**< Animation while transfering files */
+    ServerStream* streamServer_; /**< The serverstream object for steaming audio. */
+    Thread* streamThread_;/**< The thread that the serverstream runs in */
+    QFile* receivedFile_; /**< The file that a file is stored in */
 
     void initDispatcher();
     /**
@@ -50,6 +49,12 @@ private:
      *                  false, if the application is not connected
      */
     void clientConnect(bool connected);
+    /**
+     * Call this function to enable or disable specific widgets. This depends on whether
+     * the application is connected or not.
+     * @arg connected - true, if the application is connected
+     *                  false, if the application is not connected
+     */
     void serverConnect(bool connected);
     /**
      * Call this function to get the list of available music files in the server and show them
