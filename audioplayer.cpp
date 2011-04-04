@@ -42,13 +42,6 @@ void AudioPlayer::pause() {
     audio_->suspend();
 }
 
-void swapBytes(char *a, char *b) {
-    char c;
-    c = *a;
-    *a = *b;
-    *b = c;
-}
-
 WaveHeader * AudioPlayer::parseWaveHeader(char hdr[44]) {
     WaveHeader *wh = new WaveHeader();
     short bps, channel;
