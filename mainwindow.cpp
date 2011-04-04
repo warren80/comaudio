@@ -42,6 +42,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //Files Tab
     connect(ui->downloadSongButton, SIGNAL(pressed()), this, SLOT(downloadSong()));
     connect(ui->downloadCurrentSongButton, SIGNAL(pressed()), this, SLOT(downloadCurrentSong()));
+    connect(ui->refreshServerFiles, SIGNAL(pressed()), this, SLOT(refreshServerFilesList()));
 
     //Voice Tab
     connect(ui->startTalkingButton, SIGNAL(pressed()), this, SLOT(startVoice()));
@@ -273,8 +274,13 @@ void MainWindow::slotReceiveFileList(char *data, int length) {
 
     ui->serverFilesView->clear();
     ui->serverFilesView->addItems(list);
+    ui->serverFilesView->setCurrentItem(ui->serverFilesView->item(0));
 
     delete[] data;
+
+}
+
+void MainWindow::refreshServerFilesList() {
 
 }
 
@@ -284,6 +290,7 @@ void MainWindow::refreshSongList() {
 
     ui->songList->clear();
     ui->songList->addItems(files);
+    ui->songList->setCurrentItem(ui->songList->item(0));
 }
 
 void MainWindow::startVoice() {
