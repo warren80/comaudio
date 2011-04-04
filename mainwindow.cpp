@@ -145,6 +145,7 @@ void MainWindow::appConnectClient() {
     connect(appClient_, SIGNAL(signalFileListReceived(char*,int)), this, SLOT(slotReceiveFileList(char*,int)));
     connect(appClient_, SIGNAL(signalShutdown()), this, SLOT(appDisconnectClient()));
     connect(appClient_, SIGNAL(signalSongName(QString)), this, SLOT(slotClientSongName(QString)));
+    connect(stream_, SIGNAL(signalSongData(WaveHeader*)), this, SLOT(slotClientSongInfo(WaveHeader*)));
 
     appClient_->start();
     stream_->start();
@@ -319,6 +320,13 @@ void MainWindow::stopVoice() {
 void MainWindow::slotClientSongName(QString songname) {
     ui->currentSongText->setText(songname);
     ui->songNameText->setText(songname);
+}
+
+void MainWindow::slotClientSongInfo(WaveHeader* header) {
+    ui->sampleRateText->setText(QString(header->frequency));
+    ui->sampleSizeText->setText(QString(header->bitsPerSample));
+    ui->channelsText->setText(QString(header->channels));
+    delete header;
 }
 
 void MainWindow::playSong() {

@@ -52,8 +52,8 @@ void Client::run() {
                 break;
             case kStream:
                 if (msgSize == sizeof(int)) {
-                    emit signalStopStream();
                     emit signalSongName(QString());
+                    emit signalStopStream();
                 } else {
                     emit signalSongName(QString(buffer + sizeof(int)));
                 }

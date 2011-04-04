@@ -40,6 +40,7 @@ void ComponentStream::run() {
                 qDebug() << wh->frequency;
                 qDebug() << wh->bitsPerSample;
                 qDebug() << wh->channels;
+                emit signalSongData(wh);
             }
 
             emit signalReceivedData(STREAMPACKETSIZE);

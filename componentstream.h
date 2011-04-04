@@ -42,6 +42,7 @@ private:
 signals:
     void signalStreamFile();
     void signalReceivedData(int);
+    void signalSongData(WaveHeader* header);
 };
 
 #endif // COMPONENTSTREAM_H
