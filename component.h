@@ -8,6 +8,10 @@
 class Component : public QThread {
 
 public:
+    /**
+     * Stores the socket information upon creation of a component.
+     * @author Warren Voelkl, Nick Huber
+     */
     Component(Socket* socket);
     virtual ~Component() {
         if (socket_ != 0) {
@@ -19,9 +23,8 @@ protected:
     virtual void run() = 0;
 
 protected:
-    Socket* socket_;
-    bool running_;
-
+    Socket* socket_; /**< the socket for future transmissions on this object */
+    bool running_;   /**< Used in run loops to determine if the component should be running */
 };
 
 #endif // COMPONENT_H

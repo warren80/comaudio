@@ -18,9 +18,6 @@ void ServerStream::slotStartTransfer(QString filename){
         qDebug() << "failed to join MultiCast";
     }
     if(!file_->open(QIODevice::ReadOnly)) {
-        QMessageBox::QMessageBox(QMessageBox::Critical,
-                                 "Error", "Cannot open file or file doesn't exist",
-                                 QMessageBox::Ok).exec();
         emit signalTransferDone();
         return;
     }

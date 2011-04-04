@@ -65,6 +65,10 @@ private:
     void getFileList();
 
 public slots:
+    /**
+     * Stops the streaming audio
+     * by calling reset on the audiostream component
+     */
     void slotStopStream();
     /******************************************
      * VOICE SLOTS
@@ -149,24 +153,36 @@ private slots:
      */
     void refreshSongList();
 
+    /**
+     * Transmits a list of files to the client from the server for file transfer.
+     *
+     * takes all the files from the song directory and puts them all in a string.
+     * then transmits that string over the socket.
+     * @author Nick Huber
+     */
     void slotSendFileList(Socket* socket);
 
+    /**
+     * Recieves a list of files from the server for selecting a file to download.
+     *
+     * parses a string from the socket to be displayed in the GUI.
+     * @author Nick Huber
+     */
     void slotReceiveFileList(char* data, int length);
-
+    /** Sets the text of the current song streaming from the server. */
     void slotClientSongName(QString songname);
-
+    /** Sets the song info of the current song streaming from the server. */
     void slotClientSongInfo(WaveHeader* header);
-
+    /** initiates the transmission of a file to the client */
     void slotStartTransmit(QString filename);
-
+    /** writes the recieved data to a file. */
     void slotReceiveTransmitData(char* data, int length);
-
+    /** Closes the file on compleation of a file transmission*/
     void slotFinishTransmit();
-
+    /** Sets the text for the transmitted file */
     void slotStartTransmitCurrent();
-
+    /** shows the selected file transmited in the gui.*/
     void slotStartTransmitSelected();
-
 signals:
     void playThisSong(QString);
     void signalStopVoiceComponent();
