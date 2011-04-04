@@ -1,4 +1,4 @@
-#include <Qdebug>
+#include <QDebug>
 #include <QString>
 #include <errno.h>
 
