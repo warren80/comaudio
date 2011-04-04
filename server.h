@@ -59,6 +59,7 @@ private:
     bool running_;            /**< State of the thread, whether it should be running or not. */
     void startFileTransfer(QString, Socket *);
     QVector<Socket*> clients_;
+    void setupVoiceComponent(Socket * socket);
 };
 
 #endif // SERVER_H

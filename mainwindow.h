@@ -37,6 +37,7 @@ private:
     QMovie cylon_;        /**< Background animation */
     ServerStream* streamServer_;
     Thread* streamThread_;
+    QFile* receivedFile_;
 
     void initDispatcher();
     /**
@@ -156,7 +157,15 @@ private slots:
 
     void slotClientSongInfo(WaveHeader* header);
 
-    void slotFileDataRecieved(char* data, int length);
+    void slotStartTransmit(QString filename);
+
+    void slotReceiveTransmitData(char* data, int length);
+
+    void slotFinishTransmit();
+
+    void slotStartTransmitCurrent();
+
+    void slotStartTransmitSelected();
 
 signals:
     void playThisSong(QString);

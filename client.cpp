@@ -49,6 +49,11 @@ void Client::run() {
 
             switch (type) {
             case kTransfer:
+                if (msgSize == sizeof(int)) {
+                    emit signalFileFinished();
+                    break;
+                }
+                emit signalFileDataReceived(data, msgSize - sizeof(int));
                 break;
             case kStream:
                 if (msgSize == sizeof(int)) {
@@ -59,11 +64,13 @@ void Client::run() {
                 }
                 break;
             case kVoice:
-                if(msgSize == sizeof(int)) {
-                    //emit this->signalStopVoiceMessage();
-                } else {
-                    signalVoiceMessage(buffer,msgSize);
+                if(msgSize == sizeof(int) + 1) {
+                    if (buffer[sizeof(int)]) {
+                        emit signalStopVoiceMessage();
+                        return;
+                    }
                 }
+                signalVoiceMessage(buffer,msgSize);
                 break;
 
             case kFileList:

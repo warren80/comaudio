@@ -63,6 +63,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->notes->setMovie(&notes_);
 
 
+    // stream (radio)
     streamThread_ = new Thread();
     streamServer_ = new ServerStream();
     connect(this, SIGNAL(playThisSong(QString)), streamServer_, SLOT(slotStartTransfer(QString)));
@@ -70,6 +71,11 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(this, SIGNAL(stopThisSong()), streamServer_, SLOT(slotCleanup()));
     streamServer_->moveToThread(streamThread_);
     streamThread_->start();
+
+
+    // file transmits
+    connect(ui->downloadCurrentSongButton, SIGNAL(clicked()), this, SLOT(slotStartTransmitCurrent()));
+    connect(ui->downloadSongButton, SIGNAL(clicked()), this, SLOT(slotStartTransmitSelected()));
 }
 
 MainWindow::~MainWindow() {
@@ -146,6 +152,7 @@ void MainWindow::appConnectClient() {
     connect(appClient_, SIGNAL(signalShutdown()), this, SLOT(appDisconnectClient()));
     connect(appClient_, SIGNAL(signalSongName(QString)), this, SLOT(slotClientSongName(QString)));
     connect(stream_, SIGNAL(signalSongData(WaveHeader*)), this, SLOT(slotClientSongInfo(WaveHeader*)));
+    connect(appClient_, SIGNAL(signalFileFinished()), this, SLOT(slotFinishTransmit()));
 
     appClient_->start();
     stream_->start();
@@ -284,13 +291,13 @@ void MainWindow::refreshSongList() {
 void MainWindow::startVoice() {
     ComponentVoice *cv = 0;
     Packet pckt;
-    pckt.data = 0;
-    pckt.length = 0;
+    pckt.data = new char;
+    *pckt.data = 1;
+    pckt.length = 1;
     pckt.type = kVoice;
-    Thread *thread = new Thread();
 
     appClient_->getSocket()->transmit(pckt);
-
+    Thread *thread = new Thread();
     try {
         cv = new ComponentVoice(appClient_->getSocket());
     } catch (const QString& e) {
@@ -304,6 +311,7 @@ void MainWindow::startVoice() {
     cv->moveToThread(thread);
 
     QObject::connect(this, SIGNAL(signalStopVoiceComponent()),cv, SLOT(slotStopVoiceComponent()));
+    QObject::connect(appClient_,SIGNAL(signalStopVoiceMessage()),this,SLOT(stopVoice()));
     connect(appClient_, SIGNAL(signalVoiceMessage(char*, int)),cv,SLOT(receiveData(char*,int)));
     cv->start();
 
@@ -360,4 +368,34 @@ void MainWindow::rate(int num) {
     sum += num;
 
     ui->rate->setText(QString::number(sum));
+}
+
+void MainWindow::slotStartTransmitCurrent() {
+    slotStartTransmit(ui->currentSong->text());
+}
+
+void MainWindow::slotStartTransmitSelected() {
+    slotStartTransmit(ui->serverFilesView->selectedItems().first()->text());
+}
+
+void MainWindow::slotStartTransmit(QString filename) {
+    if (!QDir("Songs").exists()) {
+        QDir().mkdir("Songs");
+    }
+    receivedFile_ = new QFile("./Songs/" + filename);
+    receivedFile_->open(QFile::WriteOnly);
+    Packet packet;
+    packet.length = filename.size() + 1;
+    packet.type = kTransfer;
+    packet.data = (char*) filename.toStdString().c_str();
+    appClient_->getSocket()->transmit(packet);
+}
+
+void MainWindow::slotReceiveTransmitData(char *data, int length) {
+    receivedFile_->write(data, length);
+}
+
+void MainWindow::slotFinishTransmit() {
+    receivedFile_->close();
+    delete receivedFile_;
 }

@@ -153,50 +153,38 @@ void Server::startFileTransfer(QString fileName, Socket * s) {
     emit signalStreamFile();
 }
 
+void Server::setupVoiceComponent(Socket * socket) {
+    Thread *thread = new Thread();
+    ComponentVoice *cv = 0;
+    try {
+        cv = new ComponentVoice(socket);
+    } catch (const QString& e) {
+        qDebug() << e;
+        delete thread;
+        delete cv;
+        return;
+    }
+    thread->start();
+    cv->moveToThread(thread);
+    QObject::connect(this, SIGNAL(signalStopVoiceComponent()),cv, SLOT(slotStopVoiceComponent()));
+    QObject::connect(this,SIGNAL(serverVoiceMessage(char*,int)), cv,SLOT(receiveData(char*,int)));
+    cv->start();
+    return;
+}
+
 void Server::serverVoiceComponent(Socket * socket, char * buffer, int length) {
-    static bool clientConnected = false;
-    static Socket * client;
-    Packet pckt;
-    if (clientConnected == false) {
-        if (length != sizeof(int)) {
-            delete[] buffer;
-            return;
-        } else {
-            client = socket;
-            clientConnected = true;
-            Thread *thread = new Thread();
-            ComponentVoice *cv = 0;
-            try {
-                cv = new ComponentVoice(socket);
-            } catch (const QString& e) {
-                qDebug() << e;
-                delete thread;
-                delete cv;
-                delete[] buffer;
-                return;
-            }
-            thread->start();
-            cv->moveToThread(thread);
-            QObject::connect(this, SIGNAL(signalStopVoiceComponent()),cv, SLOT(slotStopVoiceComponent()));
-            QObject::connect(this,SIGNAL(serverVoiceMessage(char*,int)), cv,SLOT(receiveData(char*,int)));
-            cv->start();
+    if (length == sizeof(int) + 1) {
+        if (buffer[sizeof(int)] == 1) {
+            setupVoiceComponent(socket);
             delete[] buffer;
             return;
         }
-    } else {
-        if (length = sizeof(int)) {
-            qDebug() << "disconnect message";
-            clientConnected = false;
-        }
-        if (socket != client) {
-            pckt.type = kVoice;
-            pckt.length = 0;
-            pckt.data = 0;
-            socket->transmit(pckt);
+        if (buffer[sizeof(int)] == 0) {
+            emit signalStopVoiceComponent();
             delete[] buffer;
-        } else {
-            emit serverVoiceMessage(buffer,length);
+            return;
         }
     }
+    emit serverVoiceMessage(buffer,length);
 }
 

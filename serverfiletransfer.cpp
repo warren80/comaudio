@@ -29,6 +29,12 @@ void ServerFileTransfer::slotStartTransfer(){
 
     delete[] pckt.data;
 
+    // empty packet for end of transfer
+    pckt.data = 0;
+    pckt.length = 0;
+    pckt.type = kTransfer;
+    socket_->transmit(pckt);
+
     file->close();
     emit signalTransferDone();
 }

@@ -47,7 +47,6 @@ void ComponentVoice::receiveData(char* data, int length) {
 
 void ComponentVoice::run() {
     mic_->startRecording();
-
 }
 
 void ComponentVoice::slotStopVoiceComponent() {
