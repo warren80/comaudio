@@ -609,7 +609,7 @@ QLineEdit:disabled {
           <bool>true</bool>
          </property>
          <property name="text">
-          <string>None</string>
+          <string/>
          </property>
         </widget>
        </item>
@@ -649,9 +649,9 @@ background-position: center;</string>
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>410</y>
+      <y>420</y>
       <width>321</width>
-      <height>31</height>
+      <height>18</height>
      </rect>
     </property>
     <property name="text">
