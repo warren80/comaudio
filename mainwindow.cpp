@@ -320,12 +320,20 @@ void MainWindow::stopVoice() {
 void MainWindow::slotClientSongName(QString songname) {
     ui->currentSongText->setText(songname);
     ui->songNameText->setText(songname);
+    if (songname.size() == 0) {
+        slotClientSongInfo(new WaveHeader);
+    }
 }
 
 void MainWindow::slotClientSongInfo(WaveHeader* header) {
-    ui->sampleRateText->setText(QString().append(header->frequency));
-    ui->sampleSizeText->setText(QString().append(header->bitsPerSample));
-    ui->channelsText->setText(QString().append(header->channels));
+    if (header == 0) {
+        ui->sampleRateText->clear();
+        ui->sampleSizeText->clear();
+        ui->channelsText->clear();
+    }
+    ui->sampleRateText->setText(QString().setNum(header->frequency));
+    ui->sampleSizeText->setText(QString().setNum(header->bitsPerSample));
+    ui->channelsText->setText(QString().setNum(header->channels));
     delete header;
 }
 
