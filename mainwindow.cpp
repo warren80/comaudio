@@ -230,6 +230,7 @@ void MainWindow::broadcastSong() {
     } else {
         notes_.stop();
         ui->broadcastButton->setText("Broadcast");
+        ui->currentSong->clear();
         emit stopThisSong();
     }
 }
