@@ -18,6 +18,13 @@ private:
     QString fileName_;
     Socket *socket_;
 public:
+    /**
+     * Constructor for a file transfer object.
+     *
+     * This is a one shot object that transmits a
+     * file and then ends upon compleation.
+     * @author Warren Voelkl
+     */
     ServerFileTransfer(QString, Socket *);
     ~ServerFileTransfer() {
         delete socket_;

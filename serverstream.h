@@ -46,6 +46,11 @@ public slots:
      * @author Warren Voelkl
      */
     void slotTransmitOnTimer();
+    /**
+     * Performs any needed cleanup tasks to stop a file from streaming.
+     *
+     * @author Warren Voelkl
+     */
     void slotCleanup();
 signals:
     void signalCleanup();
