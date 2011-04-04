@@ -134,6 +134,12 @@ private slots:
      * @author Karl Castillo
      */
     void downloadCurrentSong();
+    /**
+     * Call this function to get an updated list of all the server files.
+     *
+     * @author Karl Castillo
+     */
+    void refreshServerFilesList();
 
     /******************************************
      * SERVER SLOTS
