@@ -35,8 +35,6 @@ void ServerFileTransfer::slotStartTransfer(){
     pckt.type = kTransfer;
     socket_->transmit(pckt);
 
-    qDebug() << "done";
-
     file->close();
     emit signalTransferDone();
 }

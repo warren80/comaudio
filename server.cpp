@@ -106,15 +106,14 @@ void Server::run() {
 
 void Server::processClientMessage(Socket *clientSocket, char *buffer, int msgSize) {
 
-    ComponentType ct;
-    int ctsize = sizeof(int);
-    memcpy(&ct,buffer,ctsize);
-    switch (ct) {
+    int type;
+    memcpy(&type, buffer, sizeof(int));
+    switch (type) {
     case kVoice:
         serverVoiceComponent(clientSocket, buffer, msgSize);
         break;
     case kTransfer:
-        startFileTransfer(QString(buffer + ctsize), clientSocket);
+        startFileTransfer(QString(buffer + sizeof(int)), clientSocket);
         break;
     case kFileList:
         break;
@@ -154,6 +153,7 @@ void Server::startFileTransfer(QString fileName, Socket * s) {
     connect(this, SIGNAL(signalStreamFile()), sft, SLOT(slotStartTransfer()));
     connect(sft, SIGNAL(signalTransferDone()), thread, SLOT(deleteLater()));
     thread->start();
+    sft->moveToThread(thread);
     emit signalStreamFile();
 }
 

@@ -52,8 +52,11 @@ void Client::run() {
                 if (msgSize == sizeof(int)) {
                     emit signalFileFinished();
                     break;
+                } else {
+                    emit signalFileDataReceived(data, msgSize - sizeof(int));
+                    deleteData = false;
                 }
-                emit signalFileDataReceived(data, msgSize - sizeof(int));
+
                 break;
             case kStream:
                 if (msgSize == sizeof(int)) {
