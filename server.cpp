@@ -115,11 +115,15 @@ void Server::processClientMessage(Socket *clientSocket, char *buffer, int msgSiz
         break;
     case kTransfer:
         startFileTransfer(QString(buffer + ctsize), clientSocket);
+        break;
     case kFileList:
+        break;
     case kStream:
+        break;
     default:
-        delete[] buffer;
+        break;
     }
+    delete[] buffer;
 }
 
 void Server::slotDisconnectStream() {

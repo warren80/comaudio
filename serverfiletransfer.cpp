@@ -8,7 +8,7 @@ ServerFileTransfer::ServerFileTransfer(QString filename, Socket *s)
 }
 
 void ServerFileTransfer::slotStartTransfer(){
-    QFile *file = new QFile(fileName_);
+    QFile *file = new QFile("./Songs/" + fileName_);
     Packet pckt;
 
     if(!file->open(QIODevice::ReadOnly)) {
