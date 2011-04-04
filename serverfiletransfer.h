@@ -5,7 +5,7 @@
 #include <QFile>
 #include <QString>
 #include "socket.h"
-#include "Thread.h"
+#include "thread.h"
 
 #define FT_PACKET_SIZE 4096
 #define FT_HEADER_SIZE (sizeof(int) + sizeof(ComponentType))

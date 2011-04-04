@@ -3,8 +3,8 @@
 #include <QObject>
 #include <QFile>
 #include <QTimer>
-#include "Socket.h"
-#include "Thread.h"
+#include "socket.h"
+#include "thread.h"
 
 #define BYTERATEOFFSET 28
 #define BYTERATESIZE    4
