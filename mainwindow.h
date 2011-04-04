@@ -148,8 +148,6 @@ private slots:
      */
     void refreshSongList();
 
-    void rate(int num);
-
     void slotSendFileList(Socket* socket);
 
     void slotReceiveFileList(char* data, int length);

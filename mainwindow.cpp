@@ -365,19 +365,12 @@ void MainWindow::pauseSong() {
     player_->pause();
 }
 
-void MainWindow::rate(int num) {
-    static int sum = 0;
-    sum += num;
-
-    ui->rate->setText(QString::number(sum));
-}
-
 void MainWindow::slotStartTransmitCurrent() {
     slotStartTransmit(ui->currentSong->text());
 }
 
 void MainWindow::slotStartTransmitSelected() {
-    if(!ui->waiting->isHidden()) {
+    if(ui->waiting->isHidden()) {
         ui->waiting->show();
     }
     waiting_.start();
