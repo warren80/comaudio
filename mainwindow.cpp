@@ -321,7 +321,7 @@ void MainWindow::slotClientSongName(QString songname) {
     ui->currentSongText->setText(songname);
     ui->songNameText->setText(songname);
     if (songname.size() == 0) {
-        slotClientSongInfo(new WaveHeader);
+        slotClientSongInfo(NULL);
     }
 }
 
@@ -330,6 +330,7 @@ void MainWindow::slotClientSongInfo(WaveHeader* header) {
         ui->sampleRateText->clear();
         ui->sampleSizeText->clear();
         ui->channelsText->clear();
+        return;
     }
     ui->sampleRateText->setText(QString().setNum(header->frequency));
     ui->sampleSizeText->setText(QString().setNum(header->bitsPerSample));
