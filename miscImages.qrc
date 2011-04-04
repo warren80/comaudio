@@ -3,5 +3,6 @@
         <file>chatBG.png</file>
         <file>cylon.gif</file>
         <file>notes.gif</file>
+        <file>waiting.gif</file>
     </qresource>
 </RCC>

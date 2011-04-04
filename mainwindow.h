@@ -35,6 +35,7 @@ private:
     ComponentStream *stream_; /**< The stream object that will stream the music to this app */
     QMovie notes_;        /**< The audio animation */
     QMovie cylon_;        /**< Background animation */
+    QMovie waiting_;
     ServerStream* streamServer_;
     Thread* streamThread_;
     QFile* receivedFile_;

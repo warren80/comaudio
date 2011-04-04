@@ -59,9 +59,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     notes_.setFileName(":/notes.gif");
     cylon_.setFileName(":/cylon.gif");
+    waiting_.setFileName(":/waiting.gif");
     ui->cylon->setMovie(&cylon_);
     ui->notes->setMovie(&notes_);
-
+    ui->waiting->setMovie(&waiting_);
 
     // stream (radio)
     streamThread_ = new Thread();
@@ -376,6 +377,7 @@ void MainWindow::slotStartTransmitCurrent() {
 }
 
 void MainWindow::slotStartTransmitSelected() {
+    waiting_.start();
     slotStartTransmit(ui->serverFilesView->selectedItems().first()->text());
 }
 
@@ -398,6 +400,7 @@ void MainWindow::slotReceiveTransmitData(char *data, int length) {
 }
 
 void MainWindow::slotFinishTransmit() {
+    waiting_.stop();
     receivedFile_->close();
     delete receivedFile_;
 }

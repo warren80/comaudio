@@ -154,7 +154,7 @@ QLineEdit:disabled {
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <property name="elideMode">
      <enum>Qt::ElideNone</enum>
@@ -556,6 +556,19 @@ QLineEdit:disabled {
       </property>
       <property name="styleSheet">
        <string notr="true">border: 1px solid gray;</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="waiting">
+      <property name="geometry">
+       <rect>
+        <x>260</x>
+        <y>100</y>
+        <width>71</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
       </property>
      </widget>
     </widget>
