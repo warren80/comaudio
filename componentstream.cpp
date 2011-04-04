@@ -35,11 +35,7 @@ void ComponentStream::run() {
         default:
             if (audioPlayer_ == NULL) {
                 WaveHeader *wh = AudioPlayer::parseWaveHeader(buffer);
-
                 setupAudio(wh->frequency, wh->channels, wh->bitsPerSample, 39379536);
-                qDebug() << wh->frequency;
-                qDebug() << wh->bitsPerSample;
-                qDebug() << wh->channels;
                 emit signalSongData(wh);
             }
 
