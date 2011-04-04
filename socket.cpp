@@ -146,7 +146,7 @@ bool Socket::clientJoinMCast(in_addr_t address, uint16_t port) {
     ip_mreq stMreq;
 
     try {
-        this->bind(port);
+        this->bind(port, htonl(INADDR_ANY));
     } catch (...) {
         return false;
     }
@@ -173,7 +173,7 @@ bool Socket::serverJoinMCast(in_addr_t address, uint16_t port) {
     peer_.sin_port =        port;
 
     try {
-        this->bind(port);
+        this->bind(port, htonl(INADDR_ANY));
     } catch (...) {
         return false;
     }

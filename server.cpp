@@ -9,7 +9,7 @@
 
 Server::Server(int port, int backlog) : socket_(new Socket(kTCP)), running_(false) {
 
-    socket_->bind(port);
+    socket_->bind(port, htonl(INADDR_ANY));
     socket_->listen(backlog);
 }
 
@@ -33,8 +33,6 @@ void Server::run() {
 
     FD_ZERO(&allset);
     FD_SET(*socket_, &allset);
-
-    running_ = true;
 
     running_ = true;
 

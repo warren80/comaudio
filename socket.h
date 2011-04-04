@@ -66,7 +66,7 @@ public:
       @param listenTo IP address to listen to (network byte order). Defaults to INADDR_ANY
       @author Nick Huber
       */
-    void bind(int port, in_addr_t listenTo = htonl(INADDR_ANY));
+    void bind(int port, in_addr_t listenTo);
 
     /**
       Make socket willing to listen to new connections, with the specified
