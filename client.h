@@ -32,6 +32,7 @@ signals:
     void signalShutdown();
     void signalSongName(QString songname);
     void signalVoiceMessage(char*, int);
+    void signalStopVoiceMessage();
 };
 
 #endif // CLIENT_H

@@ -281,13 +281,13 @@ void MainWindow::refreshSongList() {
 void MainWindow::startVoice() {
     ComponentVoice *cv = 0;
     Packet pckt;
-    pckt.data = 0;
-    pckt.length = 0;
+    pckt.data = new char;
+    *pckt.data = 1;
+    pckt.length = 1;
     pckt.type = kVoice;
-    Thread *thread = new Thread();
 
     appClient_->getSocket()->transmit(pckt);
-
+    Thread *thread = new Thread();
     try {
         cv = new ComponentVoice(appClient_->getSocket());
     } catch (const QString& e) {
@@ -301,6 +301,7 @@ void MainWindow::startVoice() {
     cv->moveToThread(thread);
 
     QObject::connect(this, SIGNAL(signalStopVoiceComponent()),cv, SLOT(slotStopVoiceComponent()));
+    QObject::connect(appClient_,SIGNAL(signalStopVoiceMessage()),this,SLOT(stopVoice()));
     connect(appClient_, SIGNAL(signalVoiceMessage(char*, int)),cv,SLOT(receiveData(char*,int)));
     cv->start();
 

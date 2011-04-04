@@ -59,11 +59,13 @@ void Client::run() {
                 }
                 break;
             case kVoice:
-                if(msgSize == sizeof(int)) {
-                    //emit this->signalStopVoiceMessage();
-                } else {
-                    signalVoiceMessage(buffer,msgSize);
+                if(msgSize == sizeof(int) + 1) {
+                    if (buffer[sizeof(int)]) {
+                        emit signalStopVoiceMessage();
+                        return;
+                    }
                 }
+                signalVoiceMessage(buffer,msgSize);
                 break;
 
             case kFileList:
