@@ -47,8 +47,7 @@ void ServerStream::slotStartTransfer(QString filename){
 void ServerStream::slotTransmitOnTimer() {
     if (!file_->atEnd()) {
         memset((void*) (buffer_ + HEADER_LENGTH), 0, STREAMPACKETSIZE - HEADER_LENGTH);
-        int length = file_->read(buffer_ + HEADER_LENGTH,
-                                 STREAMPACKETSIZE - HEADER_LENGTH) + HEADER_LENGTH;
+        int length = file_->read(buffer_ + HEADER_LENGTH, STREAMPACKETSIZE - HEADER_LENGTH) + HEADER_LENGTH;
         socket_->transmit(buffer_, length);
         return;
     }
