@@ -50,11 +50,11 @@ void ServerStream::slotTransmitOnTimer() {
         int length = file_->read(buffer_ + HEADER_LENGTH, STREAMPACKETSIZE - HEADER_LENGTH) + HEADER_LENGTH;
         socket_->transmit(buffer_, length);
         return;
+    } else {
+        timer_->stop();
     }
-    timer_->stop();
+
 }
-
-
 
 void ServerStream::slotCleanup() {
     if (timer_ != NULL) {

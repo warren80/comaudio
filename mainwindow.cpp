@@ -163,6 +163,8 @@ void MainWindow::appDisconnectClient() {
     appClient_->disconnect();
     stream_->disconnect();
     stream_->terminate();
+
+    slotClientSongName(QString());
     stream_->wait();
 
     delete appClient_;
