@@ -34,8 +34,6 @@ public:
 
 protected:
     void run();
-//    void streamFileTransfer(QString fileNamePath);
-
 
 private:
     AudioPlayer* audioPlayer_;
