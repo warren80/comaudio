@@ -153,6 +153,7 @@ void MainWindow::appConnectClient() {
     connect(appClient_, SIGNAL(signalSongName(QString)), this, SLOT(slotClientSongName(QString)));
     connect(stream_, SIGNAL(signalSongData(WaveHeader*)), this, SLOT(slotClientSongInfo(WaveHeader*)));
     connect(appClient_, SIGNAL(signalFileFinished()), this, SLOT(slotFinishTransmit()));
+    connect(appClient_, SIGNAL(signalFileDataReceived(char*,int)), this, SLOT(slotReceiveTransmitData(char*,int)));
 
     appClient_->start();
     stream_->start();
@@ -394,6 +395,7 @@ void MainWindow::slotStartTransmit(QString filename) {
 void MainWindow::slotReceiveTransmitData(char *data, int length) {
     qDebug() << "recv" << length;
     receivedFile_->write(data, length);
+    delete[] data;
 }
 
 void MainWindow::slotFinishTransmit() {
