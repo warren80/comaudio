@@ -153,6 +153,7 @@ void MainWindow::appConnectClient() {
     cylon_.start();
     clientConnect(true);
     ui->tabWidget->setTabEnabled(2, false);
+    ui->serverAddrBox->setEnabled(false);
 }
 
 void MainWindow::appDisconnectClient() {
@@ -167,6 +168,7 @@ void MainWindow::appDisconnectClient() {
     ui->serverFilesView->clear();
     clientConnect(false);
     ui->tabWidget->setTabEnabled(2, true);
+    ui->serverAddrBox->setEnabled(true);
 }
 
 void MainWindow::appStartServer() {
