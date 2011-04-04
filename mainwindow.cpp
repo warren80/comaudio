@@ -354,10 +354,14 @@ void MainWindow::slotClientSongInfo(WaveHeader* header) {
 }
 
 void MainWindow::slotStartTransmitCurrent() {
-    slotStartTransmit(ui->currentSong->text());
+    slotStartTransmit(ui->currentSongText->text());
 }
 
 void MainWindow::slotStartTransmitSelected() {
+    if (ui->serverFilesView->selectedItems().count() == 0) {
+        return;
+    }
+
     if(ui->waiting->isHidden()) {
         ui->waiting->show();
     }
@@ -368,6 +372,7 @@ void MainWindow::slotStartTransmitSelected() {
 }
 
 void MainWindow::slotStartTransmit(QString filename) {
+
     if (!QDir("Songs").exists()) {
         QDir().mkdir("Songs");
     }

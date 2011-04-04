@@ -51,9 +51,5 @@ WaveHeader * AudioPlayer::parseWaveHeader(char hdr[44]) {
     memcpy(&wh->frequency, hdr + 24,4);
     wh->bitsPerSample = bps;
     wh->channels = channel;
-
-    //qDebug() << wh->bitsPerSample;
-    //qDebug() << wh->channels;
-    //qDebug() << wh->frequency;
     return wh;
 }
