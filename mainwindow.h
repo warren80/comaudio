@@ -156,6 +156,8 @@ private slots:
 
     void slotClientSongInfo(WaveHeader* header);
 
+    void slotFileDataRecieved(char* data, int length);
+
 signals:
     void playThisSong(QString);
     void signalStopVoiceComponent();
