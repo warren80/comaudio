@@ -355,7 +355,7 @@ QLineEdit:disabled {
         <x>10</x>
         <y>10</y>
         <width>321</width>
-        <height>21</height>
+        <height>22</height>
        </rect>
       </property>
       <layout class="QFormLayout" name="formLayout_2">
@@ -649,9 +649,9 @@ background-position: center;</string>
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>357</y>
+      <y>420</y>
       <width>319</width>
-      <height>81</height>
+      <height>18</height>
      </rect>
     </property>
     <property name="text">
