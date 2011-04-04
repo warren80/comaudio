@@ -147,7 +147,6 @@ void MainWindow::appConnectClient() {
 
     stream_ = new ComponentStream();
     setWindowTitle("Kidnapster - Client");
-    connect(stream_, SIGNAL(signalReceivedData(int)), this, SLOT(rate(int)));
     connect(appClient_, SIGNAL(signalStopStream()), this, SLOT(slotStopStream()));
     connect(appClient_, SIGNAL(signalFileListReceived(char*,int)), this, SLOT(slotReceiveFileList(char*,int)));
     connect(appClient_, SIGNAL(signalShutdown()), this, SLOT(appDisconnectClient()));
@@ -363,13 +362,6 @@ void MainWindow::playSong() {
 void MainWindow::pauseSong() {
     notes_.stop();
     player_->pause();
-}
-
-void MainWindow::rate(int num) {
-    static int sum = 0;
-    sum += num;
-
-    ui->rate->setText(QString::number(sum));
 }
 
 void MainWindow::slotStartTransmitCurrent() {

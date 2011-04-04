@@ -69,7 +69,20 @@ public slots:
     /******************************************
      * VOICE SLOTS
      ******************************************/
+    /**
+     * Used to start a client voice session with the server
+     *
+     * signals the server to start running its voice component
+     * then starts the voice component in its own thread
+     * @author Warren Voelkl
+     */
     void startVoice();
+    /**
+     * Used to stop a client voice session with the server
+     *
+     * sends a packet signaling disconnecting the voice component
+     * @author Warren Voelkl
+     */
     void stopVoice();
 
 private slots:
@@ -153,7 +166,6 @@ private slots:
      */
     void refreshSongList();
 
-    void rate(int num);
 
     void slotSendFileList(Socket* socket);
 
