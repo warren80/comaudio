@@ -53,10 +53,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->startServerButton, SIGNAL(pressed()), this, SLOT(appStartServer()));
     connect(ui->stopServerButton, SIGNAL(pressed()), this, SLOT(appStopServer()));
 
-    //Audio Player
-    connect(ui->playButton, SIGNAL(pressed()), this, SLOT(playSong()));
-    connect(ui->pauseButton, SIGNAL(pressed()), this, SLOT(pauseSong()));
-
     notes_.setFileName(":/notes.gif");
     cylon_.setFileName(":/cylon.gif");
     waiting_.setFileName(":/waiting.gif");
@@ -99,8 +95,6 @@ void MainWindow::clientConnect(bool connected) {
     ui->fileTab->setEnabled(connected);
     ui->startTalkingButton->setEnabled(connected);
     ui->stopTalkingButton->setEnabled(connected);
-    ui->playButton->setEnabled(connected);
-    ui->pauseButton->setEnabled(connected);
 
     if(!connected) {
         setWindowTitle("Kidnapster - Disconnected");
@@ -108,6 +102,7 @@ void MainWindow::clientConnect(bool connected) {
         notes_.stop();
     } else {
         cylon_.start();
+        notes_.start();
     }
 }
 
@@ -147,7 +142,6 @@ void MainWindow::appConnectClient() {
 
     stream_ = new ComponentStream();
     setWindowTitle("Kidnapster - Client");
-    connect(stream_, SIGNAL(signalReceivedData(int)), this, SLOT(rate(int)));
     connect(appClient_, SIGNAL(signalStopStream()), this, SLOT(slotStopStream()));
     connect(appClient_, SIGNAL(signalFileListReceived(char*,int)), this, SLOT(slotReceiveFileList(char*,int)));
     connect(appClient_, SIGNAL(signalShutdown()), this, SLOT(appDisconnectClient()));
@@ -173,7 +167,6 @@ void MainWindow::appDisconnectClient() {
 
     delete appClient_;
     delete stream_;
-    ui->playButton->setText("Tune In");
     ui->serverFilesView->clear();
     clientConnect(false);
     ui->tabWidget->setTabEnabled(2, true);
@@ -348,21 +341,6 @@ void MainWindow::slotClientSongInfo(WaveHeader* header) {
     ui->sampleSizeText->setText(QString().setNum(header->bitsPerSample));
     ui->channelsText->setText(QString().setNum(header->channels));
     delete header;
-}
-
-void MainWindow::playSong() {
-    if(ui->playButton->text() == "Tune In") {
-        ui->playButton->setText("Play");
-        stream_->start();
-    } else {
-        notes_.start();
-        player_->play();
-    }
-}
-
-void MainWindow::pauseSong() {
-    notes_.stop();
-    player_->pause();
 }
 
 void MainWindow::slotStartTransmitCurrent() {

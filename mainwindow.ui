@@ -617,47 +617,6 @@ QLineEdit:disabled {
      </widget>
     </widget>
    </widget>
-   <widget class="QPushButton" name="playButton">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>400</y>
-      <width>81</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true"/>
-    </property>
-    <property name="text">
-     <string>Tune In</string>
-    </property>
-    <property name="checkable">
-     <bool>false</bool>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pauseButton">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>230</x>
-      <y>400</y>
-      <width>81</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true"/>
-    </property>
-    <property name="text">
-     <string>Pause</string>
-    </property>
-   </widget>
    <widget class="QWidget" name="backgroundChatScreen" native="true">
     <property name="geometry">
      <rect>
@@ -689,9 +648,9 @@ background-position: center;</string>
    <widget class="QLabel" name="notes">
     <property name="geometry">
      <rect>
-      <x>95</x>
-      <y>400</y>
-      <width>131</width>
+      <x>0</x>
+      <y>410</y>
+      <width>321</width>
       <height>31</height>
      </rect>
     </property>
@@ -701,44 +660,8 @@ background-position: center;</string>
    </widget>
    <zorder>backgroundChatScreen</zorder>
    <zorder>tabWidget</zorder>
-   <zorder>playButton</zorder>
-   <zorder>pauseButton</zorder>
    <zorder>notes</zorder>
   </widget>
-  <action name="actionConnect">
-   <property name="text">
-    <string>Connect</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+C</string>
-   </property>
-  </action>
-  <action name="actionDisconnect">
-   <property name="text">
-    <string>Disconnect</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+D</string>
-   </property>
-  </action>
-  <action name="actionExit">
-   <property name="text">
-    <string>Exit</string>
-   </property>
-  </action>
-  <action name="actionAbout">
-   <property name="text">
-    <string>About</string>
-   </property>
-  </action>
-  <action name="actionManual">
-   <property name="text">
-    <string>Manual</string>
-   </property>
-   <property name="shortcut">
-    <string>F1</string>
-   </property>
-  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

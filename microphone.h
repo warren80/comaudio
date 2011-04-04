@@ -28,26 +28,11 @@ public:
     void stopRecording();
 
 private:
-    /**
-     * The buffer that will hold the captured raw data from the mic.
-     */
-    QBuffer *recordFile_;
-    /**
-     * The array that will hold the raw data that was read from input_.
-     */
-    QByteArray *ba_;
-    /**
-     * A copy of the recordFile_. This will be where the reading would happen.
-     */
-    QIODevice *input_;
-    /**
-     * The input device that will capture the raw data.
-     */
-    QAudioInput *mic_;
-    /**
-     * The number of bytes written on to the QIODevice.
-     */
-    qint64 dataWritten_;
+    QBuffer *recordFile_; /** The buffer that will hold the captured raw data from the mic. */
+    QByteArray *ba_; /**< The array that will hold the raw data that was read from input_. */
+    QIODevice *input_; /** A copy of the recordFile_. This will be where the reading would happen. */
+    QAudioInput *mic_; /**< * The input device that will capture the raw data. */
+    qint64 dataWritten_; /**< The number of bytes written on to the QIODevice. */
 
 private slots:
     /**
