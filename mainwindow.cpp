@@ -95,7 +95,7 @@ void MainWindow::clientConnect(bool connected) {
     ui->disconnectButton->setEnabled(connected);
     ui->fileTab->setEnabled(connected);
     ui->startTalkingButton->setEnabled(connected);
-    ui->stopTalkingButton->setEnabled(connected);
+    ui->stopTalkingButton->setEnabled(!connected);
 
     if(!connected) {
         setWindowTitle("Kidnapster - Disconnected");
@@ -312,6 +312,9 @@ void MainWindow::startVoice() {
         return;
     }
 
+    ui->startTalkingButton->setEnabled(false);
+    ui->stopTalkingButton->setEnabled(true);
+
     thread->start();
     cv->moveToThread(thread);
 
@@ -329,6 +332,8 @@ void MainWindow::stopVoice() {
     pckt.type = kVoice;
     emit signalStopVoiceComponent();
     appClient_->getSocket()->transmit(pckt);
+    ui->startTalkingButton->setEnabled(true);
+    ui->stopTalkingButton->setEnabled(false);
 
 }
 
