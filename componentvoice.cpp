@@ -23,7 +23,7 @@ ComponentVoice::ComponentVoice(Socket* socket) : Component(socket) {
     micThread_->start();
     mic_->moveToThread(micThread_);
     mic_->startRecording();
-    ap_ = new AudioPlayer(44100,1,16);
+    ap_ = new AudioPlayer(44100,2,16);
 }
 
 ComponentVoice::~ComponentVoice() {

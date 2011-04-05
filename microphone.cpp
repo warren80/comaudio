@@ -10,7 +10,7 @@ Microphone::Microphone() {
 
     //Setting audio format
     format->setFrequency(44100);
-    format->setChannels(1);
+    format->setChannels(2);
     format->setSampleSize(16);
     format->setCodec("audio/pcm");
     format->setByteOrder(QAudioFormat::LittleEndian);
