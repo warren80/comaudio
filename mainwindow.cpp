@@ -155,6 +155,10 @@ void MainWindow::serverConnect(bool connected) {
     }
 }
 
+void MainWindow::printF(const char *debug) {
+    ui->debug->appendPlainText(debug);
+}
+
 /******************************************
  * SLOTS
  ******************************************/
@@ -240,24 +244,6 @@ void MainWindow::appStopServer() {
     ui->broadcastButton->setText("Broadcast");
     ui->tabWidget->setTabEnabled(0, true);
     ui->tabWidget->setTabEnabled(1, true);
-}
-
-/*
-* TODO:
-* 1. Send request
-*/
-void MainWindow::downloadSong() {
-    QString songName = ui->serverFilesView->currentItem()->text();
-
-}
-
-/*
-* TODO:
-* 1. Send Request
-*/
-void MainWindow::downloadCurrentSong() {
-    QString songName = ui->currentSongText->text();
-
 }
 
 void MainWindow::broadcastSong() {
@@ -394,6 +380,10 @@ void MainWindow::slotClientSongInfo(WaveHeader* header) {
 }
 
 void MainWindow::slotStartTransmitCurrent() {
+    if(ui->waiting->isHidden()) {
+        ui->waiting->show();
+    }
+    waiting_.start();
     slotStartTransmit(ui->currentSongText->text());
 }
 

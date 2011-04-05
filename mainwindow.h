@@ -62,6 +62,13 @@ private:
      * @author Karl Castillo
      */
     void getFileList();
+    /**
+     * Call this function to print out a message to the debug form.
+     *
+     * @author Karl Casitllo
+     * @arg debug - the message to be printed out
+     */
+    void printF(const char *debug);
 
 public slots:
     /**
@@ -120,19 +127,6 @@ private slots:
     /******************************************
      * FILE SLOTS
      ******************************************/
-
-    /**
-     * Call this function to download a selected song.
-     *
-     * @author Karl Castillo
-     */
-    void downloadSong();
-    /**
-     * Call this function to download the current song that is playing.
-     *
-     * @author Karl Castillo
-     */
-    void downloadCurrentSong();
     /**
      * Call this function to get an updated list of all the server files.
      *
