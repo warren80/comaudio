@@ -21,9 +21,8 @@ ComponentVoice::ComponentVoice(Socket* socket) : Component(socket) {
 
     connect(mic_, SIGNAL(sendVoice(QByteArray*)),this, SLOT(transmitVoice(QByteArray*)));
     micThread_ = new Thread();
-    micThread_->start();
     mic_->moveToThread(micThread_);
-    //mic_->startRecording();
+    micThread_->start();
     ap_ = new AudioPlayer(44100,2,16);
 }
 
@@ -54,6 +53,7 @@ void ComponentVoice::run() {
 }
 
 void ComponentVoice::slotStopVoiceComponent() {
+    qDebug() << "Stopping voice component";
     mic_->stopRecording();
     ap_->pause();
     micThread_->exit();
