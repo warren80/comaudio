@@ -193,6 +193,7 @@ signals:
     void playThisSong(QString);
     void signalStopVoiceComponent();
     void stopThisSong();
+    void signalStartComponentVoice();
 };
 
 #endif // MAINWINDOW_H

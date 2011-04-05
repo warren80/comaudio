@@ -294,7 +294,6 @@ void MainWindow::refreshSongList() {
 }
 
 void MainWindow::startVoice() {
-    ComponentVoice *cv = 0;
     Packet pckt;
     pckt.data = new char;
     *pckt.data = 1;
@@ -303,26 +302,24 @@ void MainWindow::startVoice() {
 
     appClient_->getSocket()->transmit(pckt);
     Thread *thread = new Thread();
+    ComponentVoice *cv = 0;
     try {
         cv = new ComponentVoice(appClient_->getSocket());
     } catch (const QString& e) {
         qDebug() << e;
+        thread->terminate();
         delete thread;
         delete cv;
         return;
     }
-
-    ui->startTalkingButton->setEnabled(false);
-    ui->stopTalkingButton->setEnabled(true);
-
     thread->start();
     cv->moveToThread(thread);
-
-    connect(this, SIGNAL(signalStopVoiceComponent()),cv, SLOT(slotStopVoiceComponent()));
-    connect(appClient_,SIGNAL(signalStopVoiceMessage()),this,SLOT(stopVoice()));
-    connect(appClient_, SIGNAL(signalVoiceMessage(char*, int)),cv,SLOT(receiveData(char*,int)));
-    //cv->start();
-
+    QObject::connect(this, SIGNAL(signalStopVoiceComponent()),cv, SLOT(slotStopVoiceComponent()));
+    QObject::connect(this,SIGNAL(serverVoiceMessage(char*,int)), cv,SLOT(receiveData(char*,int)));
+    QObject::connect(this,SIGNAL(signalStartComponentVoice()),cv,SLOT(slotStartComponentVoice()));
+    emit signalStartComponentVoice();
+    ui->startTalkingButton->setEnabled(false);
+    ui->stopTalkingButton->setEnabled(true);
 }
 
 void MainWindow::stopVoice() {
