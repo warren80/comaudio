@@ -47,7 +47,7 @@ void ComponentVoice::slotStartComponentVoice() {
 void ComponentVoice::receiveData(char* data, int length) {
     qDebug() << "recv: " << length;
     ap_->appendBuffer(data + (2 * sizeof(int)), length - (2 * sizeof(int)));
-    delete[] data;
+    //delete[] data;
 }
 
 void ComponentVoice::slotStopVoiceComponent() {
