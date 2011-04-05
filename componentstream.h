@@ -29,9 +29,7 @@ public:
 
       @author Nick Huber
       */
-    ~ComponentStream() {
-        delete audioPlayer_;
-    }
+    ~ComponentStream();
 
     /**
       Create a new AudioPlayer.

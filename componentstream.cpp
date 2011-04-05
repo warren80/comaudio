@@ -7,6 +7,12 @@ ComponentStream::ComponentStream() : Component(new Socket(kUDP)), audioPlayer_(N
     }
 }
 
+ComponentStream::~ComponentStream() {
+    if (audioPlayer_ != 0) {
+        delete audioPlayer_;
+    }
+}
+
 void ComponentStream::setupAudio(int frequency, int channels, int sampleSize, int bufferSize) {
     if (audioPlayer_ != NULL) {
         delete audioPlayer_;

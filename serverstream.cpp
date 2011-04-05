@@ -1,9 +1,24 @@
 #include <QDebug>
 #include "serverstream.h"
 
-ServerStream::ServerStream() :cleanup_(false){
+ServerStream::ServerStream() :cleanup_(false),timer_(0), file_(0), socket_(0){
     file_ = new QFile();
     buffer_ = new char[STREAMPACKETSIZE];
+}
+
+ServerStream::~ServerStream() {
+    if (socket_ != 0) {
+        delete socket_;
+    }
+    if (file_ != 0) {
+        delete file_;
+    }
+    if (timer_ != 0) {
+        delete timer_;
+    }
+    if (buffer_ != 0) {
+        delete[] buffer_;
+    }
 }
 
 void ServerStream::slotStartTransfer(QString filename){
