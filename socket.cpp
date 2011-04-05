@@ -143,7 +143,6 @@ bool Socket::connect(in_addr_t address, uint16_t port) const {
 
 bool Socket::clientJoinMCast(in_addr_t address, uint16_t port) {
     ip_mreq stMreq;
-    int val = 30000;
 
     try {
         this->bind(port, htonl(INADDR_ANY));
@@ -157,12 +156,6 @@ bool Socket::clientJoinMCast(in_addr_t address, uint16_t port) {
     if (setsockopt(socket_, IPPROTO_IP, IP_ADD_MEMBERSHIP, (char *)&stMreq, sizeof(stMreq)) == -1) {
         return false;
     }
-    if (setsockopt(socket_, IPPROTO_IP, IP_ADD_MEMBERSHIP, (char *)&stMreq, sizeof(stMreq)) == -1) {
-        return false;
-    }
-    if (setsockopt(socket_, SOL_SOCKET, SO_RCVBUF, (char *) &val,sizeof(int)) == -1) {
-        return false;
-    }
 
     multicast_ = true;
 
@@ -170,7 +163,6 @@ bool Socket::clientJoinMCast(in_addr_t address, uint16_t port) {
 }
 
 bool Socket::serverJoinMCast(in_addr_t address, uint16_t port) {
-    int val = 30000;
     bool    f  = false;
     u_long  lTTL = 1;
     ip_mreq serverAddress;
@@ -197,9 +189,6 @@ bool Socket::serverJoinMCast(in_addr_t address, uint16_t port) {
     }
     //disable loop back
     if (setsockopt(socket_, IPPROTO_IP, IP_MULTICAST_LOOP, (char *)&f, sizeof(f)) == -1) {
-        return false;
-    }
-    if (setsockopt(socket_, SOL_SOCKET, SO_SNDBUF, (char *) &val,sizeof(int)) == -1) {
         return false;
     }
 

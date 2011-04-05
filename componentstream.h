@@ -10,8 +10,9 @@
 #define MULTICAST_IP                    "234.5.6.7"
 #define MULTICAST_PORT                  8888
 #define HEADER_LENGTH                   44
-//#define HEADER_WAVE_AND_PACKETHEADER    (HEADER_LENGTH + sizeof(Packet) - sizeof(char *))
-#define STREAMPACKETSIZE                10000
+#define HEADER_WAVE_AND_PACKETHEADER    (HEADER_LENGTH + sizeof(Packet) - sizeof(char *))
+#define STREAMPACKETSIZE                4096
+#define STREAMDATALENGTH                (STREAMPACKETSIZE - HEADER_WAVE_AND_PACKETHEADER)
 
 class ComponentStream : public Component {
 Q_OBJECT
