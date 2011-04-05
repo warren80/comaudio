@@ -10,8 +10,9 @@ ComponentVoice::ComponentVoice(Socket* socket) :socket_(socket) {
         mic_ = new Microphone();
     } catch (const QString& e) {
         Packet pckt;
-        pckt.length = 0;
+        pckt.length = 1;
         pckt.type = kVoice;
+        pckt.data = 0;
         socket->transmit(pckt);
         qDebug() << e;
         QString exception("Component Voice constructor failed: ");
@@ -19,8 +20,6 @@ ComponentVoice::ComponentVoice(Socket* socket) :socket_(socket) {
         throw exception;
         return;
     }
-
-
     micThread_ = new Thread();
     mic_->moveToThread(micThread_);
     micThread_->start();
@@ -30,6 +29,7 @@ ComponentVoice::ComponentVoice(Socket* socket) :socket_(socket) {
 }
 
 ComponentVoice::~ComponentVoice() {
+    qDebug() << "destruct voice";
 }
 
 void ComponentVoice::transmitVoice(QByteArray * ba) {
@@ -37,7 +37,8 @@ void ComponentVoice::transmitVoice(QByteArray * ba) {
     pckt.data = ba->data();
     pckt.length = ba->size();
     pckt.type = kVoice;
-    socket_->transmit(pckt);
+    qDebug() << "sent:" << socket_->transmit(pckt);
+
     delete ba;
 }
 
