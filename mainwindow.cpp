@@ -213,6 +213,7 @@ void MainWindow::appDisconnectClient() {
     clientConnect(false);
     ui->tabWidget->setTabEnabled(2, true);
     ui->serverAddrBox->setEnabled(true);
+    ui->stopTalkingButton->setEnabled(false);
 }
 
 void MainWindow::appStartServer() {
