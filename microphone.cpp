@@ -4,7 +4,7 @@
 /**
  * CONSTRUCTOR
  */
-Microphone::Microphone() {
+Microphone::Microphone() :ba_(0), input_(0), mic_(0) {
     QAudioDeviceInfo info = QAudioDeviceInfo::defaultInputDevice();
     QAudioFormat *format =  new QAudioFormat();
 
@@ -24,6 +24,18 @@ Microphone::Microphone() {
 
     mic_ = new QAudioInput(*format);
     recordFile_ = new QBuffer();
+}
+
+Microphone::~Microphone () {
+    if (ba_ != 0) {
+        delete ba_;
+    }
+    if (input_ != 0) {
+        delete input_;
+    }
+    if (mic_ != 0) {
+        delete mic_;
+    }
 }
 
 /**

@@ -39,8 +39,6 @@ void ComponentStream::run() {
                 emit signalSongData(wh);
             }
 
-            emit signalReceivedData(STREAMPACKETSIZE);
-
             audioPlayer_->appendBuffer(buffer + HEADER_LENGTH, STREAMPACKETSIZE - HEADER_LENGTH);
 
         }

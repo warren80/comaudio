@@ -4,10 +4,26 @@
 #include <errno.h>
 
 ComponentVoice::ComponentVoice(Socket* socket) :socket_(socket) {
-
+    ap_ = 0;
+    mic_ = 0;
+    micThread_ = 0;
 }
 
 ComponentVoice::~ComponentVoice() {
+    if (ap_ != 0) {
+        delete ap_;
+    }
+    if (socket_ != 0) {
+        delete socket_;
+    }
+    if (mic_ != 0) {
+        delete mic_;
+    }
+    if (micThread_ != 0) {
+        micThread_->terminate();
+        micThread_->wait();
+        delete micThread_;
+    }
     qDebug() << "destruct voice";
 }
 
@@ -17,6 +33,7 @@ void ComponentVoice::transmitVoice(QByteArray * ba) {
     pckt.length = ba->size();
     pckt.type = kVoice;
     delete ba;
+    ba = 0;
 }
 
 void ComponentVoice::slotStartComponentVoice() {
@@ -46,6 +63,7 @@ void ComponentVoice::slotStartComponentVoice() {
 void ComponentVoice::receiveData(char* data, int length) {
     ap_->appendBuffer(data + (2 * sizeof(int)), length - (2 * sizeof(int)));
     delete[] data;
+    data = 0;
 }
 
 void ComponentVoice::slotStopVoiceComponent() {
@@ -54,7 +72,9 @@ void ComponentVoice::slotStopVoiceComponent() {
     ap_->pause();
     micThread_->exit();
     delete mic_;
+    mic_ = 0;
     delete ap_;
+    ap_ = 0;
     disconnect();
     QThread::currentThread()->exit();
 }

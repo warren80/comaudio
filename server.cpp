@@ -20,6 +20,13 @@ Server::~Server() {
     delete socket_;
 
     // wait for the thread to finish.
+    QThread::terminate();
+
+    // destroy all sockets in the server.
+    foreach (Socket* socket, clients_) {
+        delete socket;
+    }
+
     QThread::wait();
 }
 
@@ -149,7 +156,6 @@ void Server::startFileTransfer(QString fileName, Socket * s) {
     Thread *thread = new Thread();
     ServerFileTransfer *sft = new ServerFileTransfer(fileName, s);
     connect(this, SIGNAL(signalStreamFile()), sft, SLOT(slotStartTransfer()));
-    //connect(sft, SIGNAL(signalTransferDone()), thread, SLOT(deleteLater()));
     thread->start();
     sft->moveToThread(thread);
     emit signalStreamFile();

@@ -25,6 +25,15 @@ public:
     ComponentStream();
 
     /**
+      Destructor for the ComponentStream.
+
+      @author Nick Huber
+      */
+    ~ComponentStream() {
+        delete audioPlayer_;
+    }
+
+    /**
       Create a new AudioPlayer.
 
       @param frequency Frequency of the wav.
@@ -51,8 +60,13 @@ protected:
 private:
     AudioPlayer* audioPlayer_; /**< The object used to play all streaming audio */
 signals:
-    void signalStreamFile();
-    void signalReceivedData(int);
+    /**
+      * Song data received.
+      *
+      * @param header Wave header for the song.
+      *
+      * @author Nick Huber
+      */
     void signalSongData(WaveHeader* header);
 };
 

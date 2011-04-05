@@ -16,6 +16,13 @@ public:
     Microphone();
 
     /**
+      Destructor for the microphone.
+
+      @author Nick Huber, Warren Voelkl
+      */
+    ~Microphone();
+
+    /**
      * Call this function to stop the recording.
      *
      * @author Karl Castillo

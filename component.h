@@ -20,6 +20,12 @@ public:
     }
 
 protected:
+    /**
+      Threaded action,
+      Must be implemented by component extending this.
+
+      @author Nick Huber
+      */
     virtual void run() = 0;
 
 protected:

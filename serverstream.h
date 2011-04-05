@@ -27,8 +27,16 @@ public:
      * @author Warren Voelkl
      */
     ServerStream();
+    /**
+      Destructor for ServerStream.
+
+      @author Nick Huber
+      */
     ~ServerStream() {
         delete socket_;
+        delete timer_;
+        delete file_;
+        delete buffer_;
     }
 
 public slots:
@@ -53,7 +61,19 @@ public slots:
      */
     void slotCleanup();
 signals:
+
+    /**
+      Cleanup the stream server.
+
+      @author Warren Voelkl
+      */
     void signalCleanup();
+
+    /**
+      Stream transfer completed.
+
+      @author Warren Voelkl
+      */
     void signalTransferDone();
 
 };
