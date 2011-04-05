@@ -250,6 +250,7 @@ void MainWindow::appStopServer() {
     ui->broadcastButton->setText("Broadcast");
     ui->tabWidget->setTabEnabled(0, true);
     ui->tabWidget->setTabEnabled(1, true);
+    ui->fileTab->setEnabled(false);
 }
 
 void MainWindow::broadcastSong() {
