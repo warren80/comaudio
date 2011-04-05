@@ -32,7 +32,7 @@ void Server::run() {
     fd_set allset;
 
     FD_ZERO(&allset);
-    FD_SET(*socket_, &allset);
+    FD_SET((unsigned)*socket_, &allset);
 
     running_ = true;
 
@@ -67,7 +67,7 @@ void Server::run() {
                 // TODO: Handle too many connections (low priority)
             }
 
-            FD_SET(connected, &allset);      // add new descriptor to set
+            FD_SET((unsigned)connected, &allset);      // add new descriptor to set
 
             // ensure the largest descriptor is still used.
             largest = connected > largest ? connected : largest;
@@ -140,7 +140,6 @@ void Server::slotPlayThisSong(QString songname) {
         packet.length = title.size() + 1;
         packet.type = kStream;
         packet.data = (char*) title.toStdString().c_str();
-
         client->transmit(packet);
     }
 }
@@ -149,10 +148,11 @@ void Server::startFileTransfer(QString fileName, Socket * s) {
     Thread *thread = new Thread();
     ServerFileTransfer *sft = new ServerFileTransfer(fileName, s);
     connect(this, SIGNAL(signalStreamFile()), sft, SLOT(slotStartTransfer()));
-    connect(sft, SIGNAL(signalTransferDone()), thread, SLOT(deleteLater()));
+    //connect(sft, SIGNAL(signalTransferDone()), thread, SLOT(deleteLater()));
     thread->start();
     sft->moveToThread(thread);
     emit signalStreamFile();
+    emit signalSendFileList(s);
 }
 
 void Server::setupVoiceComponent(Socket * socket) {

@@ -281,7 +281,7 @@ void MainWindow::slotReceiveFileList(char *data, int length) {
 }
 
 void MainWindow::refreshServerFilesList() {
-
+    slotSendFileList(appClient_->getSocket());
 }
 
 void MainWindow::refreshSongList() {
