@@ -34,7 +34,6 @@ Microphone::~Microphone () {
     if (mic_ != 0) {
         delete mic_;
     }
-    QThread::currentThread()->terminate();
 }
 
 /**
