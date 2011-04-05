@@ -37,10 +37,7 @@ public:
 
       @author Nick Huber
       */
-    ~AudioPlayer() {
-        delete buffer_;
-        delete audio_;
-    }
+    ~AudioPlayer();
 
     /**
       Appends data to the buffer to be played.

@@ -84,7 +84,10 @@ void Client::run() {
             }
 
             if (deleteData && msgSize > (int) sizeof(int)) {
-                delete[] data;
+                if (data != 0) {
+                    delete[] data;
+                    data = 0;
+                }
             }
             break;
         }

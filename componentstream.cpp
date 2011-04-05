@@ -16,6 +16,7 @@ ComponentStream::~ComponentStream() {
 void ComponentStream::setupAudio(int frequency, int channels, int sampleSize, int bufferSize) {
     if (audioPlayer_ != NULL) {
         delete audioPlayer_;
+        audioPlayer_  = 0;
     }
     audioPlayer_ = new AudioPlayer(frequency, channels, sampleSize, bufferSize);
 }
@@ -48,7 +49,9 @@ void ComponentStream::run() {
             audioPlayer_->appendBuffer(buffer + HEADER_LENGTH, STREAMPACKETSIZE - HEADER_LENGTH);
 
         }
-
-        delete[] buffer;
+        if (buffer != 0) {
+            delete[] buffer;
+            buffer = 0;
+        }
     }
 }

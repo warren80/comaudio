@@ -29,6 +29,10 @@ AudioPlayer::AudioPlayer(int frequency, int channels, int sampleSize, int buffer
     buffer_ = audio_->start();
 
 }
+AudioPlayer::~AudioPlayer() {
+    delete buffer_;
+    delete audio_;
+}
 
 void AudioPlayer::appendBuffer(char* data, int length) {
     buffer_->write(data, length);

@@ -13,11 +13,7 @@ public:
      * @author Warren Voelkl, Nick Huber
      */
     Component(Socket* socket);
-    virtual ~Component() {
-        if (socket_ != 0) {
-            delete socket_;
-        }
-    }
+    virtual ~Component();
 
 protected:
     /**

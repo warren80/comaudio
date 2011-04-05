@@ -40,6 +40,7 @@ Socket::~Socket() {
         if (setsockopt(socket_, IPPROTO_IP, IP_DROP_MEMBERSHIP, (char *)&stMreq, sizeof(stMreq)) == -1) {
             qDebug() << "error leaving multicast";
         }
+        multicast_ = false;
     }
 
     shutdown(socket_, SHUT_RDWR);
