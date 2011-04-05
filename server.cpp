@@ -157,7 +157,7 @@ void Server::startFileTransfer(QString fileName, Socket * s) {
 
 void Server::setupVoiceComponent(Socket * socket) {
     Thread *thread = new Thread();
-    ComponentVoice *cv;
+    ComponentVoice *cv = 0;
     try {
         cv = new ComponentVoice(socket);
     } catch (const QString& e) {

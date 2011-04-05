@@ -12,7 +12,7 @@ ComponentVoice::ComponentVoice(Socket* socket) :socket_(socket) {
         Packet pckt;
         pckt.length = 1;
         pckt.type = kVoice;
-        pckt.data = 0;
+        *pckt.data = 0;
         socket->transmit(pckt);
         qDebug() << e;
         QString exception("Component Voice constructor failed: ");
