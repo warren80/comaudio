@@ -17,7 +17,6 @@ ComponentVoice::ComponentVoice(Socket* socket) :socket_(socket) {
         QString exception("Component Voice constructor failed: ");
         exception.append(strerror(errno));
         throw exception;
-        return;
     }
     micThread_ = new Thread();
     mic_->moveToThread(micThread_);
