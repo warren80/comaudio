@@ -49,13 +49,64 @@ public slots:
      */
     void slot_transmit(char* data, int length) { socket_->transmit(data, length); }
 signals:
+    /**
+      * The stream has stopped.
+      *
+      * @author Nick Huber
+      */
     void signalStopStream();
+    /**
+      * Received list of files.
+      *
+      * @param data | seperated list of files.
+      * @param length length of the data.
+      *
+      * @author Nick Huber
+      */
     void signalFileListReceived(char* data, int length);
+    /**
+      * Client has shutdown.
+      *
+      * @author Nick Huber
+      */
     void signalShutdown();
+    /**
+      * Song name received.
+      *
+      * @param songname Name of the song playing.
+      *
+      * @author Nick Huber
+      */
     void signalSongName(QString songname);
-    void signalVoiceMessage(char*, int);
+    /**
+      * Voice message received.
+      *
+      * @param data Voice message data.
+      * @param length Amount of voice data.
+      *
+      * @author Nick Huber
+      */
+    void signalVoiceMessage(char* data, int length);
+    /**
+      * File transfer data received.
+      *
+      * @param data transfer message data.
+      * @param length Amount of transferred data.
+      *
+      * @author Nick Huber
+      */
     void signalFileDataReceived(char* data, int length);
+    /**
+      * File transfer finished.
+      *
+      * @author Nick Huber
+      */
     void signalFileFinished();
+    /**
+      * Voice communication stopped
+      *
+      * @author Nick Huber
+      */
     void signalStopVoiceMessage();
 };
 
