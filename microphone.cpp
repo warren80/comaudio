@@ -4,14 +4,9 @@
 /**
  * CONSTRUCTOR
  */
-Microphone::Microphone() {
+Microphone::Microphone() :ba_(0), input_(0), mic_(0) {
     QAudioDeviceInfo info = QAudioDeviceInfo::defaultInputDevice();
     QAudioFormat *format =  new QAudioFormat();
-
-    recordFile_ = 0;
-    ba_ = 0;
-    input_ = 0;
-    mic_ = 0;
 
     //Setting audio format
     format->setFrequency(44100);
@@ -32,9 +27,6 @@ Microphone::Microphone() {
 }
 
 Microphone::~Microphone () {
-    if (recordFile_ != 0) {
-        delete recordFile_;
-    }
     if (ba_ != 0) {
         delete ba_;
     }

@@ -20,8 +20,11 @@ ComponentVoice::~ComponentVoice() {
         delete mic_;
     }
     if (micThread_ != 0) {
+        micThread_->terminate();
+        micThread_->wait();
         delete micThread_;
     }
+    qDebug() << "destruct voice";
 }
 
 void ComponentVoice::transmitVoice(QByteArray * ba) {

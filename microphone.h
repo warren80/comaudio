@@ -14,6 +14,12 @@ public:
      * @author Karl Castillo
      */
     Microphone();
+
+    /**
+      Destructor for the microphone.
+
+      @author Nick Huber, Warren Voelkl
+      */
     ~Microphone();
 
     /**
