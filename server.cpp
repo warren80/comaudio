@@ -162,6 +162,7 @@ void Server::setupVoiceComponent(Socket * socket) {
         cv = new ComponentVoice(socket);
     } catch (const QString& e) {
         qDebug() << e;
+        thread->terminate();
         delete thread;
         delete cv;
         return;
@@ -170,6 +171,8 @@ void Server::setupVoiceComponent(Socket * socket) {
     cv->moveToThread(thread);
     QObject::connect(this, SIGNAL(signalStopVoiceComponent()),cv, SLOT(slotStopVoiceComponent()));
     QObject::connect(this,SIGNAL(serverVoiceMessage(char*,int)), cv,SLOT(receiveData(char*,int)));
+    QObject::connect(this,SIGNAL(signalStartComponentVoice()),cv,SLOT(slotStartComponentVoice()));
+    emit signalStartComponentVoice();
     //cv->start();
     return;
 }
@@ -178,13 +181,11 @@ void Server::serverVoiceComponent(Socket * socket, char * buffer, int length) {
     if (length == sizeof(int) + 1) {
         if (buffer[sizeof(int)] == 1) {
             setupVoiceComponent(socket);
-            delete[] buffer;
             return;
         }
         if (buffer[sizeof(int)] == 0) {
             qDebug() << "Deleting microphone on server";
-            emit signalStopVoiceComponent();
-            delete[] buffer;
+            //emit signalStopVoiceComponent();
             return;
         }
     }

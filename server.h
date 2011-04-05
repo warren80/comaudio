@@ -46,6 +46,7 @@ signals:
     void signalStopVoiceComponent();
     void signalSendFileList(Socket*);
     void serverVoiceMessage(char *, int);
+    void signalStartComponentVoice();
 
 public slots:
     /** Transmits and empty packet to indicate the end of a file stream */

@@ -51,8 +51,9 @@ public slots:
      * @author Warren Voelkl
      */
     void receiveData(char* data, int length);
+    void slotStartComponentVoice();
 signals:
-
+    void signalStartMic();
 private:
     AudioPlayer *ap_;       /**< The audio player for the received data*/
     Socket* socket_;        /**< The socket information for the ComponentVoice. */

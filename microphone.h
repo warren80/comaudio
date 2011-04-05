@@ -14,18 +14,20 @@ public:
      * @author Karl Castillo
      */
     Microphone();
-    /**
-     * Call this function to start recording via microphone.
-     *
-     * @author Karl Castillo
-     */
-    void startRecording();
+
     /**
      * Call this function to stop the recording.
      *
      * @author Karl Castillo
      */
     void stopRecording();
+public slots:
+    /**
+     * Call this function to start recording via microphone.
+     *
+     * @author Karl Castillo
+     */
+    void startRecording();
 
 private:
     QBuffer *recordFile_; /** The buffer that will hold the captured raw data from the mic. */
