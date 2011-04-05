@@ -78,7 +78,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow() {
     if (appServer_ != 0) {
-        qDebug() << "deleting appSever_";
+        qDebug() << "deleting appServer_";
         delete appServer_;
     }
     if (appClient_ != 0) {
