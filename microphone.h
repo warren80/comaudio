@@ -14,6 +14,7 @@ public:
      * @author Karl Castillo
      */
     Microphone();
+    ~Microphone();
 
     /**
      * Call this function to stop the recording.

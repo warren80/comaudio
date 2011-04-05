@@ -29,12 +29,8 @@ public:
      * @author Warren Voelkl
      */
     ServerFileTransfer(QString, Socket *);
-    /**
-      Destructor for the ServerFileTransfer
-      */
-    ~ServerFileTransfer() {
-        delete socket_;
-    }
+    ~ServerFileTransfer();
+
 
 public slots:
     /**

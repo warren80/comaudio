@@ -6,6 +6,10 @@ ServerFileTransfer::ServerFileTransfer(QString filename, Socket *s)
     :fileName_(filename), socket_(s) {
 }
 
+ServerFileTransfer::~ServerFileTransfer() {
+    delete socket_;
+}
+
 void ServerFileTransfer::slotStartTransfer(){
     fileTransferInProgress.lock();
     QFile *file = new QFile("./Songs/" + fileName_);
@@ -23,14 +27,20 @@ void ServerFileTransfer::slotStartTransfer(){
         pckt.type = kTransfer;
         socket_->transmit(pckt);
     }
-    delete[] pckt.data;
+    if (pckt.data != 0) {
+        delete[] pckt.data;
+        pckt.data = 0;
+    }
     file->close();
     cleanup();
 }
 
 void ServerFileTransfer::cleanup() {
     Packet pckt;
-    pckt.data = 0;
+    if (pckt.data != 0) {
+        delete[] pckt.data;
+        pckt.data = 0;
+    }
     pckt.length = 0;
     pckt.type = kTransfer;
     socket_->transmit(pckt);
