@@ -327,8 +327,9 @@ void MainWindow::startVoice() {
 
 void MainWindow::stopVoice() {
     Packet pckt;
-    pckt.data = 0;
-    pckt.length = 0;
+    pckt.data = new char;
+    pckt.length = 1;
+    *pckt.data = 0;
     pckt.type = kVoice;
     emit signalStopVoiceComponent();
     appClient_->getSocket()->transmit(pckt);
