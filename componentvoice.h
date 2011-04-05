@@ -3,6 +3,7 @@
 
 #include <QThread>
 #include <QDebug>
+#include <QObject>
 
 #include "audioplayer.h"
 #include "socket.h"
@@ -17,7 +18,7 @@
 
   @author Warren Voelkl
   */
-class ComponentVoice : public Component
+class ComponentVoice : public QObject
 {
     Q_OBJECT
 
@@ -33,9 +34,6 @@ public:
       @author Warren Voelkl
       */
     ~ComponentVoice();
-
-
-
 
 protected:
     /**
@@ -60,6 +58,7 @@ private:
     Socket* socket_;        /**< The socket information for the ComponentVoice. */
     Microphone* mic_;       /**< The Microphone Reader */
     Thread* micThread_;      /**< The thread for running the microphone */
+    bool running_;   /**< Used in run loops to determine if the component should be running */
 };
 
 #endif // SERVER_H

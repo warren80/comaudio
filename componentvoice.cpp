@@ -3,8 +3,9 @@
 #include <QDebug>
 #include <errno.h>
 
-ComponentVoice::ComponentVoice(Socket* socket) : Component(socket) {
-    socket_ = socket;
+ComponentVoice::ComponentVoice(Socket* socket) :socket_(socket) {
+    qDebug () << "Socket" << socket << " Socket_ " << socket;
+    //socket_ = socket;
     try {
         mic_ = new Microphone();
     } catch (const QString& e) {
@@ -18,17 +19,16 @@ ComponentVoice::ComponentVoice(Socket* socket) : Component(socket) {
         return;
     }
 
-    connect(mic_, SIGNAL(sendVoice(QByteArray*)),this, SLOT(transmitVoice(QByteArray*)));
+
     micThread_ = new Thread();
     mic_->moveToThread(micThread_);
     micThread_->start();
+    connect(mic_, SIGNAL(sendVoice(QByteArray*)),this, SLOT(transmitVoice(QByteArray*)));
     mic_->startRecording();
     ap_ = new AudioPlayer(44100,2,16);
 }
 
 ComponentVoice::~ComponentVoice() {
-    delete socket_;
-    //QThread::wait();
 }
 
 void ComponentVoice::transmitVoice(QByteArray * ba) {
@@ -43,11 +43,6 @@ void ComponentVoice::transmitVoice(QByteArray * ba) {
 void ComponentVoice::receiveData(char* data, int length) {
     ap_->appendBuffer(data + (2 * sizeof(int)), length - (2 * sizeof(int)));
     delete[] data;
-}
-
-void ComponentVoice::run() {
-    mic_->startRecording();
-    this->exec();
 }
 
 void ComponentVoice::slotStopVoiceComponent() {

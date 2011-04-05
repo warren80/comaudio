@@ -118,10 +118,9 @@ void Server::processClientMessage(Socket *clientSocket, char *buffer, int msgSiz
     case kStream:
         break;
     default:
-        delete[] buffer;
         break;
     }
-
+    delete[] buffer;
 }
 
 void Server::slotDisconnectStream() {
@@ -171,7 +170,7 @@ void Server::setupVoiceComponent(Socket * socket) {
     cv->moveToThread(thread);
     QObject::connect(this, SIGNAL(signalStopVoiceComponent()),cv, SLOT(slotStopVoiceComponent()));
     QObject::connect(this,SIGNAL(serverVoiceMessage(char*,int)), cv,SLOT(receiveData(char*,int)));
-    cv->start();
+    //cv->start();
     return;
 }
 
@@ -179,10 +178,13 @@ void Server::serverVoiceComponent(Socket * socket, char * buffer, int length) {
     if (length == sizeof(int) + 1) {
         if (buffer[sizeof(int)] == 1) {
             setupVoiceComponent(socket);
+            delete[] buffer;
             return;
         }
         if (buffer[sizeof(int)] == 0) {
+            qDebug() << "Deleting microphone on server";
             emit signalStopVoiceComponent();
+            delete[] buffer;
             return;
         }
     }
