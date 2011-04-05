@@ -773,9 +773,34 @@ QPushButton:pressed {
       <rect>
        <x>60</x>
        <y>30</y>
-       <width>181</width>
+       <width>161</width>
        <height>22</height>
       </rect>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="refreshLocalSongList">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>30</y>
+       <width>21</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	background-image: url(:/refresh.gif);
+	background-repeat: no-repeat;
+	background-position: center;
+	background-color: rgba(255,255,255,0%);
+}
+
+QPushButton:hover {
+	background-image: url(:/refreshHover.gif);
+}</string>
+     </property>
+     <property name="text">
+      <string/>
      </property>
     </widget>
    </widget>
