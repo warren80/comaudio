@@ -107,6 +107,7 @@ MainWindow::~MainWindow() {
     }
     if (streamThread_ != 0) {
         qDebug() << "deleting streamThread_";
+        streamThread_->terminate();
         delete streamThread_;
     }
     if (receivedFile_ != 0) {

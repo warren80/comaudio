@@ -1,7 +1,7 @@
 #include <QDebug>
 #include "serverstream.h"
 
-ServerStream::ServerStream() :cleanup_(false), socket_(0), file_(0), timer_(0){
+ServerStream::ServerStream() :cleanup_(false),timer_(0), file_(0), socket_(0){
     file_ = new QFile();
     buffer_ = new char[STREAMPACKETSIZE];
 }
