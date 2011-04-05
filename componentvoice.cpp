@@ -75,8 +75,9 @@ void ComponentVoice::slotStopVoiceComponent() {
     qDebug() << "Stopping voice component";
     mic_->stopRecording();
     ap_->pause();
-    micThread_->exit();
     delete mic_;
+    micThread_->terminate();
+    micThread_->wait();
     mic_ = 0;
     delete ap_;
     ap_ = 0;
