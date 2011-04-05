@@ -79,7 +79,7 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow() {
     if (appServer_ != 0) {
         qDebug() << "deleting appSever_";
-        delete appSever_;
+        delete appServer_;
     }
     if (appClient_ != 0) {
         qDebug() << "deleting appClient_";
@@ -233,7 +233,7 @@ void MainWindow::appStartServer() {
 void MainWindow::appStopServer() {
     appServer_->disconnect();
     delete appServer_;
-    appSever_ = 0;
+    appServer_ = 0;
     ui->songList->clear();
     serverConnect(false);
     emit stopThisSong();
