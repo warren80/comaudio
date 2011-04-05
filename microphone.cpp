@@ -8,6 +8,11 @@ Microphone::Microphone() {
     QAudioDeviceInfo info = QAudioDeviceInfo::defaultInputDevice();
     QAudioFormat *format =  new QAudioFormat();
 
+    recordFile_ = 0;
+    ba_ = 0;
+    input_ = 0;
+    mic_ = 0;
+
     //Setting audio format
     format->setFrequency(44100);
     format->setChannels(2);
@@ -24,6 +29,21 @@ Microphone::Microphone() {
 
     mic_ = new QAudioInput(*format);
     recordFile_ = new QBuffer();
+}
+
+Microphone::~Microphone () {
+    if (recordFile_ != 0) {
+        delete recordFile_;
+    }
+    if (ba_ != 0) {
+        delete ba_;
+    }
+    if (input_ != 0) {
+        delete input_;
+    }
+    if (mic_ != 0) {
+        delete mic_;
+    }
 }
 
 /**
