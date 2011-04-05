@@ -82,37 +82,30 @@ MainWindow::MainWindow(QWidget *parent) :
 }
 
 MainWindow::~MainWindow() {
+    qDebug() <<  "Delete MainWindow";
     if (appServer_ != 0) {
-        qDebug() << "deleting appServer_";
         delete appServer_;
     }
     if (appClient_ != 0) {
-        qDebug() << "deleting appClient_";
         delete appClient_;
     }
     if (mic_ != 0) {
-        qDebug() << "deleting mic_";
         delete mic_;
     }
     if (micThread_ != 0) {
-        qDebug() << "deleting micThread_";
         delete micThread_;
     }
     if (stream_ != 0) {
-        qDebug() << "deleting stream_";
         delete stream_;
     }
     if (streamServer_ != 0) {
-        qDebug() << "deleting streamServer_";
         delete streamServer_;
     }
     if (streamThread_ != 0) {
-        qDebug() << "deleting streamThread_";
         streamThread_->terminate();
         delete streamThread_;
     }
     if (receivedFile_ != 0) {
-        qDebug() << "deleting receivedFile_";
         delete receivedFile_;
     }
     delete ui;

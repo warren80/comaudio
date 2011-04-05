@@ -7,7 +7,7 @@ ServerFileTransfer::ServerFileTransfer(QString filename, Socket *s)
 }
 
 ServerFileTransfer::~ServerFileTransfer() {
-    delete socket_;
+    qDebug() <<  "Delete ServerFileTransfer";
 }
 
 void ServerFileTransfer::slotStartTransfer(){
