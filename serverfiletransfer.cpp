@@ -7,10 +7,11 @@ ServerFileTransfer::ServerFileTransfer(QString filename, Socket *s)
 }
 
 ServerFileTransfer::~ServerFileTransfer() {
-    delete socket_;
+    qDebug() <<  "Delete ServerFileTransfer";
 }
 
 void ServerFileTransfer::slotStartTransfer(){
+    qDebug() << "slot start transfer";
     fileTransferInProgress.lock();
     QFile *file = new QFile("./Songs/" + fileName_);
     Packet pckt;
@@ -31,6 +32,7 @@ void ServerFileTransfer::slotStartTransfer(){
         delete[] pckt.data;
         pckt.data = 0;
     }
+    qDebug() << "slot finish transfer";
     file->close();
     cleanup();
 }

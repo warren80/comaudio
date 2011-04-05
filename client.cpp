@@ -7,6 +7,7 @@ Client::Client() : socket_(new Socket(kTCP)), running_(false) {
 }
 
 Client::~Client() {
+    qDebug() << "delete Client";
     // prepare thread for close by aborting socket operations and stopping the loop from repeating.
     running_ = false;
     delete socket_;
@@ -16,8 +17,6 @@ Client::~Client() {
 }
 
 void Client::run() {
-    running_ = true;
-
     running_ = true;
     while (running_) {
         bool deleteData = true;

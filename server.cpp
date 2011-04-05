@@ -14,6 +14,7 @@ Server::Server(int port, int backlog) : socket_(new Socket(kTCP)), running_(fals
 }
 
 Server::~Server() {
+    qDebug() <<  "Delete Server";
     // prepare thread for close by aborting socket operations and stopping the loop from repeating.
     running_ = false;
     qDebug() << "deleting socket";

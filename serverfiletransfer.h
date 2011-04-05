@@ -30,8 +30,6 @@ public:
      */
     ServerFileTransfer(QString, Socket *);
     ~ServerFileTransfer();
-
-
 public slots:
     /**
      * The worker part of this worker thread It sets up a multicast port
@@ -46,7 +44,5 @@ signals:
       @author Nick Huber
       */
     void signalTransferDone();
-
 };
-
 #endif // SERVERFILETRANSFER_H

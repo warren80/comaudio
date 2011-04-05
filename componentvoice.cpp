@@ -10,6 +10,7 @@ ComponentVoice::ComponentVoice(Socket* socket) :socket_(socket) {
 }
 
 ComponentVoice::~ComponentVoice() {
+    qDebug() <<  "Delete ComponentVoice";
     if (ap_ != 0) {
         delete ap_;
     }

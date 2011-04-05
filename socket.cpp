@@ -33,6 +33,7 @@ Socket::Socket(NetMode mode) : mode_(mode) {
 }
 
 Socket::~Socket() {
+    qDebug() <<  "Delete Socket";
     if (multicast_) {
         ip_mreq stMreq;
         stMreq.imr_multiaddr.s_addr = inet_addr("234.5.6.7");

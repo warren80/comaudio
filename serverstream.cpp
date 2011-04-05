@@ -7,9 +7,7 @@ ServerStream::ServerStream() :cleanup_(false),timer_(0), file_(0), socket_(0){
 }
 
 ServerStream::~ServerStream() {
-    if (socket_ != 0) {
-        delete socket_;
-    }
+    qDebug() <<  "Delete ServerStream";
     if (file_ != 0) {
         delete file_;
     }
