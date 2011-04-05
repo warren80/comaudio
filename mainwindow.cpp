@@ -449,9 +449,11 @@ void MainWindow::playSong() {
         return;
     }
 
-
+    ui->localSongList->setEnabled(false);
+    ui->songName->setText(song);
 }
 
 void MainWindow::pauseSong() {
-
+    ui->songName->setText(ui->songName->text() + " - Paused");
+    ui->localSongList->setEnabled(true);
 }
