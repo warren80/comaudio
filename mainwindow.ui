@@ -154,7 +154,7 @@ QLineEdit:disabled {
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <property name="elideMode">
      <enum>Qt::ElideNone</enum>
@@ -367,7 +367,11 @@ QLineEdit:disabled {
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="QLineEdit" name="serverAddrBox"/>
+        <widget class="QLineEdit" name="serverAddrBox">
+         <property name="text">
+          <string>192.168.0.58</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
