@@ -16,7 +16,6 @@ void ComponentVoice::transmitVoice(QByteArray * ba) {
     pckt.data = ba->data();
     pckt.length = ba->size();
     pckt.type = kVoice;
-    qDebug() << "sent:" << socket_->transmit(pckt);
     delete ba;
 }
 
@@ -45,9 +44,8 @@ void ComponentVoice::slotStartComponentVoice() {
 }
 
 void ComponentVoice::receiveData(char* data, int length) {
-    qDebug() << "recv: " << length;
     ap_->appendBuffer(data + (2 * sizeof(int)), length - (2 * sizeof(int)));
-    //delete[] data;
+    delete[] data;
 }
 
 void ComponentVoice::slotStopVoiceComponent() {

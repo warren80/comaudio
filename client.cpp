@@ -74,6 +74,7 @@ void Client::run() {
                     }
                 }
                 signalVoiceMessage(buffer,msgSize);
+                deleteData = false;
                 break;
 
             case kFileList:
