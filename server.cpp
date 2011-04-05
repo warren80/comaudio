@@ -127,9 +127,9 @@ void Server::processClientMessage(Socket *clientSocket, char *buffer, int msgSiz
     case kStream:
         break;
     default:
+        delete[] buffer;
         break;
     }
-    delete[] buffer;
 }
 
 void Server::slotDisconnectStream() {
@@ -180,7 +180,6 @@ void Server::setupVoiceComponent(Socket * socket) {
     QObject::connect(this,SIGNAL(serverVoiceMessage(char*,int)), cv,SLOT(receiveData(char*,int)));
     QObject::connect(this,SIGNAL(signalStartComponentVoice()),cv,SLOT(slotStartComponentVoice()));
     emit signalStartComponentVoice();
-    //cv->start();
     return;
 }
 

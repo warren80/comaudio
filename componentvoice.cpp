@@ -57,9 +57,9 @@ void ComponentVoice::slotStartComponentVoice() {
     connect(this,SIGNAL(signalStartMic()),mic_,SLOT(startRecording()));
     ap_ = new AudioPlayer(44100,2,16);
 
-//    micThread_ = new Thread();
-//    micThread_->start();
-//    mic_->moveToThread(micThread_);
+    micThread_ = new Thread();
+    micThread_->start();
+    mic_->moveToThread(micThread_);
 
     emit signalStartMic();
 

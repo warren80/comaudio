@@ -70,6 +70,5 @@ void Microphone::readData() {
 }
 
 void Microphone::bytesWritten(qint64 data) {
-    //qDebug() << "read:" << data;
     dataWritten_ = data;
 }
