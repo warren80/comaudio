@@ -33,6 +33,7 @@ void ComponentVoice::transmitVoice(QByteArray * ba) {
     pckt.data = ba->data();
     pckt.length = ba->size();
     pckt.type = kVoice;
+    socket_->transmit(pckt);
     delete ba;
     ba = 0;
 }
@@ -56,9 +57,9 @@ void ComponentVoice::slotStartComponentVoice() {
     connect(this,SIGNAL(signalStartMic()),mic_,SLOT(startRecording()));
     ap_ = new AudioPlayer(44100,2,16);
 
-    micThread_ = new Thread();
-    micThread_->start();
-    mic_->moveToThread(micThread_);
+//    micThread_ = new Thread();
+//    micThread_->start();
+//    mic_->moveToThread(micThread_);
 
     emit signalStartMic();
 
