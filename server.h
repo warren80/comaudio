@@ -44,9 +44,9 @@ protected:
 signals:
     void signalStreamFile();
     void signalStopVoiceComponent();
-    void signalSendFileList(Socket*);
     void serverVoiceMessage(char *, int);
     void signalStartComponentVoice();
+    void signalClientConnect(Socket* socket);
 
 public slots:
     /** Transmits and empty packet to indicate the end of a file stream */

@@ -60,7 +60,7 @@ void Server::run() {
             } else {
                 qDebug() << "Client connected.";
                 clients_.append(new Socket(connected, kTCP, info));
-                emit signalSendFileList(clients_.last());
+                emit signalClientConnect(clients_.last());
             }
 
             if (clients_.size() == FD_SETSIZE) {
@@ -152,7 +152,6 @@ void Server::startFileTransfer(QString fileName, Socket * s) {
     thread->start();
     sft->moveToThread(thread);
     emit signalStreamFile();
-    emit signalSendFileList(s);
 }
 
 void Server::setupVoiceComponent(Socket * socket) {

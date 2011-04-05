@@ -184,7 +184,8 @@ void MainWindow::appStartServer() {
         qDebug() << e;
     }
     connect(this, SIGNAL(stopThisSong()), appServer_, SLOT(slotDisconnectStream()));
-    connect(appServer_, SIGNAL(signalSendFileList(Socket*)), this, SLOT(slotSendFileList(Socket*)));
+    connect(appServer_, SIGNAL(signalClientConnect(Socket*)), this, SLOT(slotSendFileList(Socket*)));
+    connect(appServer_, SIGNAL(signalClientConnect(Socket*)), this, SLOT(slotSendFileName(Socket*)));
     connect(this, SIGNAL(playThisSong(QString)), appServer_, SLOT(slotPlayThisSong(QString)));
 
     appServer_->start();
@@ -400,4 +401,12 @@ void MainWindow::slotFinishTransmit() {
     ui->waiting->hide();
     receivedFile_->close();
     delete receivedFile_;
+}
+
+void MainWindow::slotSendFileName(Socket *socket) {
+    Packet packet;
+    packet.length = ui->currentSong->text().size() + 1;
+    packet.data = (char*) ui->currentSong->text().toStdString().c_str();
+    packet.type = kStream;
+    socket->transmit(packet);
 }

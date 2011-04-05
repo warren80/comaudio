@@ -188,6 +188,8 @@ private slots:
     void slotStartTransmitCurrent();
     /** shows the selected file transmited in the gui.*/
     void slotStartTransmitSelected();
+
+    void slotSendFileName(Socket* socket);
 signals:
     void playThisSong(QString);
     void signalStopVoiceComponent();
