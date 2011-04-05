@@ -26,6 +26,13 @@ Microphone::Microphone() {
     recordFile_ = new QBuffer();
 }
 
+Microphone::~Microphone() {
+    delete recordFile_;
+    delete ba_;
+    delete input_;
+    delete mic_;
+}
+
 /**
  * HELPERS
  */

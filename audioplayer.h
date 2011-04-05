@@ -31,6 +31,17 @@ public:
       */
     explicit AudioPlayer(int frequency, int channels, int sampleSize, int bufferSize = 64000);
 
+
+    /**
+      Destructor for the audio player.
+
+      @author Nick Huber
+      */
+    ~AudioPlayer() {
+        delete buffer_;
+        delete audio_;
+    }
+
     /**
       Appends data to the buffer to be played.
       @param data The data in bytes (chars).
@@ -61,10 +72,6 @@ public:
 private:
     QAudioOutput* audio_;   /**< The audio output device. */
     QIODevice* buffer_;     /**< The buffer that audio_ reads from. */
-    int frequency_;         /**< The sample rate of the pcm audio file */
-    int channels_;          /**< The number of channels in a audio file */
-    int sampleSize_;        /**< The number of bits to describe each audio sample */
-    int bufferSize_;        /**< The size of the audio buffer */
 };
 
 #endif // AUDIOPLAYER_H

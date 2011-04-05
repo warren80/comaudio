@@ -9,6 +9,12 @@ ComponentVoice::ComponentVoice(Socket* socket) :socket_(socket) {
 
 ComponentVoice::~ComponentVoice() {
     qDebug() << "destruct voice";
+    delete ap_;
+    delete socket_;
+    delete mic_;
+    micThread_->terminate();
+    micThread_->wait();
+    delete micThread_;
 }
 
 void ComponentVoice::transmitVoice(QByteArray * ba) {

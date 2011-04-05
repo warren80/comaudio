@@ -20,7 +20,7 @@
  ******************************************/
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent), ui(new Ui::MainWindow)
+    QMainWindow(parent), ui(new Ui::MainWindow), appServer_(0), appClient_(0), mic_(0), micThread_(0), stream_(0), streamServer_(0), streamThread_(0), receivedFile_(0)
 {
     setWindowIcon(QIcon(":/kidnapster.png"));
     //ComponentVoice *cv;

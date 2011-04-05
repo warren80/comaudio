@@ -11,7 +11,7 @@ Client::~Client() {
     running_ = false;
     delete socket_;
 
-    // wait for the thread to finish.
+    QThread::terminate();
     QThread::wait();
 }
 

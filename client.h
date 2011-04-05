@@ -19,11 +19,19 @@ public:
      * @author Nick Huber
      */
     Client();
+
+    /**
+      Destructor for the client.
+
+      @author Nick Huber
+      */
     ~Client();
+
     /**
      * Starts the connection to the server on the current socket
      */
     bool connect(in_addr_t address, uint16_t port) { return socket_->connect(address, port); }
+
     /**
      * @returns the client socket for use in the main window and client components
      * @author Warren Voelkl
