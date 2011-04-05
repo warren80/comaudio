@@ -40,8 +40,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->disconnectButton, SIGNAL(pressed()), this, SLOT(appDisconnectClient()));
 
     //Files Tab
-    connect(ui->downloadSongButton, SIGNAL(pressed()), this, SLOT(downloadSong()));
-    connect(ui->downloadCurrentSongButton, SIGNAL(pressed()), this, SLOT(downloadCurrentSong()));
     connect(ui->refreshServerFiles, SIGNAL(pressed()), this, SLOT(refreshServerFilesList()));
 
     //Voice Tab

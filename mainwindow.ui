@@ -26,22 +26,7 @@
    <string>Kidnapster - Disconnected</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QPushButton {
-	background: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 		rgba(204, 176, 156, 255), stop:1 rgba(196, 112, 53, 255));
-	border: 1px #c47035 brown;
-	border-radius: 40px 15px;
-	color: white;
-}
-
-QPushButton:hover {
-	background:qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 205, 0, 255), stop:1 rgba(255, 255, 255, 255));
-	color: black;
-}
-
-QPushButton:disabled {
-	background:qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255));
-	color: white;
-}</string>
+   <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralWidget">
    <property name="minimumSize">
@@ -154,7 +139,7 @@ QLineEdit:disabled {
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>2</number>
     </property>
     <property name="elideMode">
      <enum>Qt::ElideNone</enum>
@@ -222,7 +207,7 @@ QLineEdit:disabled {
          <x>10</x>
          <y>20</y>
          <width>301</width>
-         <height>71</height>
+         <height>72</height>
         </rect>
        </property>
        <layout class="QFormLayout" name="formLayout">
@@ -683,6 +668,86 @@ color: red;</string>
      <bool>true</bool>
     </property>
    </widget>
+   <widget class="QWidget" name="player" native="true">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>301</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QWidget#player {
+	background:rgb(218, 218, 218);
+	border-radius: 25px;
+	border: 3px solid rgb(173, 173, 173);
+}</string>
+    </property>
+    <widget class="QPushButton" name="play">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>41</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	background-image: url(:/play.gif);
+	background-repeat: no-repeat;
+	background-position: center;
+	background-color: rgba(255,255,255,0%);
+}
+
+QPushButton:hover {
+	background-image: url(:/playHover.gif);
+}
+
+QPushButton:pressed {
+	background-image: url(:/playPress.gif);
+}</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton">
+     <property name="geometry">
+      <rect>
+       <x>250</x>
+       <y>10</y>
+       <width>41</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	background-image: url(:/pause.gif);
+	background-repeat: no-repeat;
+	background-position: center;
+	background-color: rgba(255,255,255,0%);
+}
+
+QPushButton:hover {
+	background-image: url(:/pauseHover.gif);
+}
+
+QPushButton:pressed {
+	background-image: url(:/pausePress.gif);
+}</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </widget>
+   <zorder>backgroundChatScreen</zorder>
+   <zorder>tabWidget</zorder>
+   <zorder>notes</zorder>
+   <zorder>debug</zorder>
+   <zorder>player</zorder>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
