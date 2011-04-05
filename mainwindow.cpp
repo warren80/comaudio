@@ -83,12 +83,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow() {
     qDebug() <<  "Delete MainWindow";
-    if (appServer_ != 0) {
-        delete appServer_;
-    }
-    if (appClient_ != 0) {
-        delete appClient_;
-    }
+
     if (mic_ != 0) {
         delete mic_;
     }
@@ -107,6 +102,12 @@ MainWindow::~MainWindow() {
     }
     if (receivedFile_ != 0) {
         delete receivedFile_;
+    }
+    if (appServer_ != 0) {
+        delete appServer_;
+    }
+    if (appClient_ != 0) {
+        delete appClient_;
     }
     delete ui;
 }
@@ -401,6 +402,7 @@ void MainWindow::slotStartTransmitSelected() {
 }
 
 void MainWindow::slotStartTransmit(QString filename) {
+    qDebug() << "start transmit";
 
     if (!QDir("Songs").exists()) {
         QDir().mkdir("Songs");
@@ -415,11 +417,14 @@ void MainWindow::slotStartTransmit(QString filename) {
 }
 
 void MainWindow::slotReceiveTransmitData(char *data, int length) {
+
     receivedFile_->write(data, length);
+
     delete[] data;
 }
 
 void MainWindow::slotFinishTransmit() {
+    qDebug() << "finished transmit";
     waiting_.stop();
     ui->downloadCurrentSongButton->setEnabled(true);
     ui->downloadSongButton->setEnabled(true);

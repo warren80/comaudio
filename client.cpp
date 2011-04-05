@@ -18,8 +18,6 @@ Client::~Client() {
 
 void Client::run() {
     running_ = true;
-
-    running_ = true;
     while (running_) {
         bool deleteData = true;
         int msgSize;
