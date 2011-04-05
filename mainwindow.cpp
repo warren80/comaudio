@@ -318,8 +318,8 @@ void MainWindow::startVoice() {
     thread->start();
     cv->moveToThread(thread);
 
-    QObject::connect(this, SIGNAL(signalStopVoiceComponent()),cv, SLOT(slotStopVoiceComponent()));
-    QObject::connect(appClient_,SIGNAL(signalStopVoiceMessage()),this,SLOT(stopVoice()));
+    connect(this, SIGNAL(signalStopVoiceComponent()),cv, SLOT(slotStopVoiceComponent()));
+    connect(appClient_,SIGNAL(signalStopVoiceMessage()),this,SLOT(stopVoice()));
     connect(appClient_, SIGNAL(signalVoiceMessage(char*, int)),cv,SLOT(receiveData(char*,int)));
     cv->start();
 

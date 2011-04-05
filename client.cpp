@@ -68,7 +68,7 @@ void Client::run() {
                 break;
             case kVoice:
                 if(msgSize == sizeof(int) + 1) {
-                    if (buffer[sizeof(int)]) {
+                    if (buffer[sizeof(int)] == 0) {
                         emit signalStopVoiceMessage();
                         return;
                     }
