@@ -32,12 +32,7 @@ public:
 
       @author Nick Huber
       */
-    ~ServerStream() {
-        delete socket_;
-        delete timer_;
-        delete file_;
-        delete buffer_;
-    }
+    ~ServerStream();
 
 public slots:
 
