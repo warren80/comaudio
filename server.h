@@ -48,7 +48,11 @@ signals:
     void serverVoiceMessage(char *, int);
 
 public slots:
+    /** Transmits and empty packet to indicate the end of a file stream */
     void slotDisconnectStream();
+    /**
+     *  Transmits a packet which tells the name of the sont that is playing
+     */
     void slotPlayThisSong(QString songname);
 
 private:

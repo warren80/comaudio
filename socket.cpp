@@ -103,7 +103,6 @@ int Socket::transmit(const char *buffer, int length) {
         sent = sendto(socket_, buffer, length, 0, (const sockaddr*) &peer_, sizeof(peer_));
     }
     return sent;
-
 }
 
 

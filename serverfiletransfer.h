@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QFile>
 #include <QString>
+#include <QMutex>
 #include "socket.h"
 #include "thread.h"
 
@@ -17,6 +18,8 @@ class ServerFileTransfer : public QObject
 private:
     QString fileName_;
     Socket *socket_;
+    QMutex fileTransferInProgress;
+    void cleanup();
 public:
     /**
      * Constructor for a file transfer object.

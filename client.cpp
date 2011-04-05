@@ -42,7 +42,7 @@ void Client::run() {
             memcpy((void*) &type, buffer, sizeof(int));
 
             char* data;
-            if (msgSize > sizeof(int)) {
+            if ((unsigned)msgSize > sizeof(int)) {
                 data = new char[msgSize - sizeof(int)];
                 memcpy(data, buffer + sizeof(int), msgSize - sizeof(int));
             }
@@ -82,7 +82,7 @@ void Client::run() {
                 break;
             }
 
-            if (deleteData && msgSize > sizeof(int)) {
+            if (deleteData && msgSize > (int) sizeof(int)) {
                 delete[] data;
             }
             break;
