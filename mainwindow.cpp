@@ -315,7 +315,7 @@ void MainWindow::startVoice() {
     thread->start();
     cv->moveToThread(thread);
     QObject::connect(this, SIGNAL(signalStopVoiceComponent()),cv, SLOT(slotStopVoiceComponent()));
-    QObject::connect(this,SIGNAL(serverVoiceMessage(char*,int)), cv,SLOT(receiveData(char*,int)));
+    QObject::connect(appClient_,SIGNAL(signalVoiceMessage(char*,int)), cv,SLOT(receiveData(char*,int)));
     QObject::connect(this,SIGNAL(signalStartComponentVoice()),cv,SLOT(slotStartComponentVoice()));
     emit signalStartComponentVoice();
     ui->startTalkingButton->setEnabled(false);
