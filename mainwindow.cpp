@@ -31,9 +31,15 @@ MainWindow::MainWindow(QWidget *parent) :
     //Setting regex validation
     ui->serverAddrBox->setValidator(validIp);
 
+    ui->localSongList->addItems(QDir("./Songs").entryList(QStringList("*.wav")));
+
     /**
     * CONNECTIONS
     */
+
+    //Audio Player
+    connect(ui->play, SIGNAL(pressed()), this, SLOT(playSong()));
+    connect(ui->pause, SIGNAL(pressed()), this, SLOT(pauseSong()));
 
     //Client Tab
     connect(ui->connectButton, SIGNAL(pressed()), this, SLOT(appConnectClient()));
@@ -434,4 +440,18 @@ void MainWindow::slotSendFileName(Socket *socket) {
     packet.data = (char*) ui->currentSong->text().toStdString().c_str();
     packet.type = kStream;
     socket->transmit(packet);
+}
+
+void MainWindow::playSong() {
+    QString song = ui->localSongList->currentText();
+
+    if(song == "") {
+        return;
+    }
+
+
+}
+
+void MainWindow::pauseSong() {
+
 }
