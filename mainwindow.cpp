@@ -77,6 +77,38 @@ MainWindow::MainWindow(QWidget *parent) :
 }
 
 MainWindow::~MainWindow() {
+    if (appServer_ != 0) {
+        qDebug() << "deleting appSever_";
+        delete appSever_;
+    }
+    if (appClient_ != 0) {
+        qDebug() << "deleting appClient_";
+        delete appClient_;
+    }
+    if (mic_ != 0) {
+        qDebug() << "deleting mic_";
+        delete mic_;
+    }
+    if (micThread_ != 0) {
+        qDebug() << "deleting micThread_";
+        delete micThread_;
+    }
+    if (stream_ != 0) {
+        qDebug() << "deleting stream_";
+        delete stream_;
+    }
+    if (streamServer_ != 0) {
+        qDebug() << "deleting streamServer_";
+        delete streamServer_;
+    }
+    if (streamThread_ != 0) {
+        qDebug() << "deleting streamThread_";
+        delete streamThread_;
+    }
+    if (receivedFile_ != 0) {
+        qDebug() << "deleting receivedFile_";
+        delete receivedFile_;
+    }
     delete ui;
 }
 
@@ -138,6 +170,7 @@ void MainWindow::appConnectClient() {
 
     if (!appClient_->connect(inet_addr(ipAddr.toStdString().c_str()), htons(8001))) {
         delete appClient_;
+        appClient_ = 0;
         return;
     }
 
@@ -169,7 +202,9 @@ void MainWindow::appDisconnectClient() {
     stream_->wait();
 
     delete appClient_;
+    appClient_ = 0;
     delete stream_;
+    stream_ = 0;
     ui->serverFilesView->clear();
     clientConnect(false);
     ui->tabWidget->setTabEnabled(2, true);
@@ -197,6 +232,7 @@ void MainWindow::appStartServer() {
 void MainWindow::appStopServer() {
     appServer_->disconnect();
     delete appServer_;
+    appSever_ = 0;
     ui->songList->clear();
     serverConnect(false);
     emit stopThisSong();
@@ -400,4 +436,5 @@ void MainWindow::slotFinishTransmit() {
     ui->waiting->hide();
     receivedFile_->close();
     delete receivedFile_;
+    receivedFile_ = 0;
 }
