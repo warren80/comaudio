@@ -4,12 +4,11 @@
 #include <errno.h>
 
 ComponentVoice::ComponentVoice(Socket* socket) :socket_(socket) {
-    qDebug () << "Socket" << socket << " Socket_ " << socket;
-    //socket_ = socket;
     try {
         mic_ = new Microphone();
     } catch (const QString& e) {
         Packet pckt;
+        pckt.data = new char;
         pckt.length = 1;
         pckt.type = kVoice;
         *pckt.data = 0;
