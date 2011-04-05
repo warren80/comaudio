@@ -205,9 +205,9 @@ QLineEdit:disabled {
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>70</y>
+        <y>80</y>
         <width>321</width>
-        <height>121</height>
+        <height>101</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -222,13 +222,20 @@ QLineEdit:disabled {
          <x>10</x>
          <y>20</y>
          <width>301</width>
-         <height>91</height>
+         <height>71</height>
         </rect>
        </property>
        <layout class="QFormLayout" name="formLayout">
         <property name="fieldGrowthPolicy">
          <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
         </property>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>Song Name:</string>
+          </property>
+         </widget>
+        </item>
         <item row="0" column="1">
          <widget class="QLabel" name="songNameText">
           <property name="styleSheet">
@@ -243,13 +250,6 @@ QLineEdit:disabled {
          <widget class="QLabel" name="label_2">
           <property name="text">
            <string>Sample Rate:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="0">
-         <widget class="QLabel" name="label">
-          <property name="text">
-           <string>Song Name:</string>
           </property>
          </widget>
         </item>
@@ -297,23 +297,6 @@ QLineEdit:disabled {
           </property>
          </widget>
         </item>
-        <item row="4" column="0">
-         <widget class="QLabel" name="label_5">
-          <property name="text">
-           <string>Song Size:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="1">
-         <widget class="QLabel" name="songSizeText">
-          <property name="styleSheet">
-           <string notr="true">color: green;</string>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
        </layout>
       </widget>
      </widget>
@@ -324,7 +307,7 @@ QLineEdit:disabled {
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>200</y>
+        <y>210</y>
         <width>75</width>
         <height>23</height>
        </rect>
@@ -340,7 +323,7 @@ QLineEdit:disabled {
       <property name="geometry">
        <rect>
         <x>90</x>
-        <y>200</y>
+        <y>210</y>
         <width>75</width>
         <height>23</height>
        </rect>
@@ -375,6 +358,13 @@ QLineEdit:disabled {
        </item>
       </layout>
      </widget>
+     <zorder>connectButton</zorder>
+     <zorder>disconnectButton</zorder>
+     <zorder>groupBox</zorder>
+     <zorder>startTalkingButton</zorder>
+     <zorder>stopTalkingButton</zorder>
+     <zorder>formLayoutWidget_2</zorder>
+     <zorder>backgroundChatScreen</zorder>
     </widget>
     <widget class="QWidget" name="fileTab">
      <property name="enabled">
@@ -675,9 +665,24 @@ background-position: center;</string>
      <string/>
     </property>
    </widget>
-   <zorder>backgroundChatScreen</zorder>
-   <zorder>tabWidget</zorder>
-   <zorder>notes</zorder>
+   <widget class="QPlainTextEdit" name="debug">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>370</y>
+      <width>321</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border: 0px;
+background: rgba(255,255,255,0%);
+color: red;</string>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+   </widget>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
