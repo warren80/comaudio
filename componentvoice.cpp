@@ -52,13 +52,14 @@ void ComponentVoice::slotStartComponentVoice() {
         exception.append(strerror(errno));
         throw exception;
     }
-    micThread_ = new Thread();
-    mic_->moveToThread(micThread_);
-    micThread_->start();
+
     connect(mic_, SIGNAL(sendVoice(QByteArray*)),this, SLOT(transmitVoice(QByteArray*)));
     connect(this,SIGNAL(signalStartMic()),mic_,SLOT(startRecording()));
     ap_ = new AudioPlayer(44100,2,16);
     emit signalStartMic();
+    micThread_ = new Thread();
+    mic_->moveToThread(micThread_);
+    micThread_->start();
 }
 
 void ComponentVoice::receiveData(char* data, int length) {
