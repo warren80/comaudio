@@ -10,5 +10,7 @@
         <file>pause.gif</file>
         <file>pauseHover.gif</file>
         <file>pausePress.gif</file>
+        <file>refreshHover.gif</file>
+        <file>refresh.gif</file>
     </qresource>
 </RCC>

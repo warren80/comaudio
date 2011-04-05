@@ -40,6 +40,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //Audio Player
     connect(ui->play, SIGNAL(pressed()), this, SLOT(playSong()));
     connect(ui->pause, SIGNAL(pressed()), this, SLOT(pauseSong()));
+    connect(ui->refreshLocalSongList, SIGNAL(pressed()), this, SLOT(refreshLocalList()));
 
     //Client Tab
     connect(ui->connectButton, SIGNAL(pressed()), this, SLOT(appConnectClient()));
@@ -450,10 +451,16 @@ void MainWindow::playSong() {
     }
 
     ui->localSongList->setEnabled(false);
+    ui->songName->setStyleSheet("color: blue;");
     ui->songName->setText(song);
 }
 
 void MainWindow::pauseSong() {
-    ui->songName->setText(ui->songName->text() + " - Paused");
+    ui->songName->setStyleSheet("color: red;");
     ui->localSongList->setEnabled(true);
+}
+
+void MainWindow::refreshLocalList() {
+    ui->localSongList->clear();
+    ui->localSongList->addItems(QDir("./Songs").entryList(QStringList("*.wav")));
 }

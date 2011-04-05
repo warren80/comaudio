@@ -127,8 +127,26 @@ private slots:
     /******************************************
      * AUDIO PLAYER SLOTS
      ******************************************/
+    /**
+     * Call this function to play a local song.
+     *
+     * @author Karl Castillo
+     * @author Warren Voelkl
+     */
     void playSong();
+    /**
+     * Call this function to pause the local song being played.
+     *
+     * @author Karl Castillo
+     * @author Warren Voelkl
+     */
     void pauseSong();
+    /**
+     * Call this function to refresh the local list of songs.
+     *
+     * @author Karl Castillo
+     */
+    void refreshLocalList();
 
     /******************************************
      * FILE SLOTS
