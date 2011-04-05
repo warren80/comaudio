@@ -16,6 +16,7 @@ ComponentVoice::ComponentVoice(Socket* socket) :socket_(socket) {
         qDebug() << e;
         QString exception("Component Voice constructor failed: ");
         exception.append(strerror(errno));
+        throw exception;
         return;
     }
 
