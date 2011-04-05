@@ -4,5 +4,11 @@
         <file>cylon.gif</file>
         <file>notes.gif</file>
         <file>waiting.gif</file>
+        <file>play.gif</file>
+        <file>playHover.gif</file>
+        <file>playPress.gif</file>
+        <file>pause.gif</file>
+        <file>pauseHover.gif</file>
+        <file>pausePress.gif</file>
     </qresource>
 </RCC>

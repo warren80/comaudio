@@ -31,17 +31,21 @@ MainWindow::MainWindow(QWidget *parent) :
     //Setting regex validation
     ui->serverAddrBox->setValidator(validIp);
 
+    ui->localSongList->addItems(QDir("./Songs").entryList(QStringList("*.wav")));
+
     /**
     * CONNECTIONS
     */
+
+    //Audio Player
+    connect(ui->play, SIGNAL(pressed()), this, SLOT(playSong()));
+    connect(ui->pause, SIGNAL(pressed()), this, SLOT(pauseSong()));
 
     //Client Tab
     connect(ui->connectButton, SIGNAL(pressed()), this, SLOT(appConnectClient()));
     connect(ui->disconnectButton, SIGNAL(pressed()), this, SLOT(appDisconnectClient()));
 
     //Files Tab
-    connect(ui->downloadSongButton, SIGNAL(pressed()), this, SLOT(downloadSong()));
-    connect(ui->downloadCurrentSongButton, SIGNAL(pressed()), this, SLOT(downloadCurrentSong()));
     connect(ui->refreshServerFiles, SIGNAL(pressed()), this, SLOT(refreshServerFilesList()));
 
     //Voice Tab
@@ -436,4 +440,20 @@ void MainWindow::slotSendFileName(Socket *socket) {
     packet.data = (char*) ui->currentSong->text().toStdString().c_str();
     packet.type = kStream;
     socket->transmit(packet);
+}
+
+void MainWindow::playSong() {
+    QString song = ui->localSongList->currentText();
+
+    if(song == "") {
+        return;
+    }
+
+    ui->localSongList->setEnabled(false);
+    ui->songName->setText(song);
+}
+
+void MainWindow::pauseSong() {
+    ui->songName->setText(ui->songName->text() + " - Paused");
+    ui->localSongList->setEnabled(true);
 }
