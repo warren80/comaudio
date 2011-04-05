@@ -14,7 +14,7 @@ Microphone::Microphone() {
     format->setSampleSize(16);
     format->setCodec("audio/pcm");
     format->setByteOrder(QAudioFormat::LittleEndian);
-    format->setSampleType(QAudioFormat::SignedInt);
+    format->setSampleType(QAudioFormat::UnSignedInt);
 
     if(!info.isFormatSupported(*format)) {
         QString exception("Microphone constructor failure: ");
