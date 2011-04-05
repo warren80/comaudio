@@ -1,12 +1,12 @@
+#ifndef AUDIOPLAYER_H
+#define AUDIOPLAYER_H
+
 /**
   @file
   Plays PCM audio through a buffering system.
 
   @author Nick Huber
   */
-
-#ifndef AUDIOPLAYER_H
-#define AUDIOPLAYER_H
 
 #include <QtMultimedia>
 

@@ -28,7 +28,6 @@ private:
     Ui::MainWindow *ui;   /**< Qt form UI. */
     Server *appServer_;   /**< For when the application is running as server. */
     Client *appClient_;   /**< For when the application is running as client. */
-    AudioPlayer *player_; /**< Audioplayer for PCM audio. */
     Microphone *mic_;     /**< Recording device for user's voice through a mic. */
     Thread *micThread_;   /**< Thread the mic runs on */
     ComponentStream *stream_; /**< The stream object that will stream the music to this app */
