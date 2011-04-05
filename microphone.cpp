@@ -5,6 +5,24 @@
  * CONSTRUCTOR
  */
 Microphone::Microphone() :ba_(0), input_(0), mic_(0) {
+
+}
+
+Microphone::~Microphone () {
+    qDebug() <<  "Delete Microphone";
+    if (input_ != 0) {
+        delete input_;
+    }
+    if (mic_ != 0) {
+        delete mic_;
+    }
+}
+
+/**
+ * HELPERS
+ */
+void Microphone::startRecording() {
+
     QAudioDeviceInfo info = QAudioDeviceInfo::defaultInputDevice();
     QAudioFormat *format =  new QAudioFormat();
 
@@ -24,22 +42,7 @@ Microphone::Microphone() :ba_(0), input_(0), mic_(0) {
 
     mic_ = new QAudioInput(*format);
     recordFile_ = new QBuffer();
-}
 
-Microphone::~Microphone () {
-    qDebug() <<  "Delete Microphone";
-    if (input_ != 0) {
-        delete input_;
-    }
-    if (mic_ != 0) {
-        delete mic_;
-    }
-}
-
-/**
- * HELPERS
- */
-void Microphone::startRecording() {
     recordFile_->open(QIODevice::ReadWrite);
     mic_->start(recordFile_);
     input_ = recordFile_;
