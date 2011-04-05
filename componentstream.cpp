@@ -22,9 +22,7 @@ void ComponentStream::resetAudio() {
 void ComponentStream::run() {
     running_ = true;
     while (running_) {
-
         char* buffer = new char[STREAMPACKETSIZE];
-
         switch (socket_->receive(buffer, STREAMPACKETSIZE)) {
         case -1:
             // error
@@ -38,13 +36,9 @@ void ComponentStream::run() {
                 setupAudio(wh->frequency, wh->channels, wh->bitsPerSample, 39379536);
                 emit signalSongData(wh);
             }
-
             emit signalReceivedData(STREAMPACKETSIZE);
-
             audioPlayer_->appendBuffer(buffer + HEADER_LENGTH, STREAMPACKETSIZE - HEADER_LENGTH);
-
         }
-
         delete[] buffer;
     }
 }
