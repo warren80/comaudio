@@ -29,6 +29,9 @@ public:
      * @author Warren Voelkl
      */
     ServerFileTransfer(QString, Socket *);
+    /**
+      Destructor for the ServerFileTransfer
+      */
     ~ServerFileTransfer() {
         delete socket_;
     }
@@ -41,6 +44,11 @@ public slots:
      */
     void slotStartTransfer();
 signals:
+    /**
+      File transfer completed.
+
+      @author Nick Huber
+      */
     void signalTransferDone();
 
 };

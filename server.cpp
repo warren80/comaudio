@@ -149,7 +149,6 @@ void Server::startFileTransfer(QString fileName, Socket * s) {
     Thread *thread = new Thread();
     ServerFileTransfer *sft = new ServerFileTransfer(fileName, s);
     connect(this, SIGNAL(signalStreamFile()), sft, SLOT(slotStartTransfer()));
-    //connect(sft, SIGNAL(signalTransferDone()), thread, SLOT(deleteLater()));
     thread->start();
     sft->moveToThread(thread);
     emit signalStreamFile();

@@ -1,6 +1,11 @@
 #ifndef COMPONENTTYPE_H
 #define COMPONENTTYPE_H
 
+/**
+  Possible communication types.
+
+  @author Nick Huber
+  */
 enum ComponentType {
     kStream   = 0,  /**< Multicast Music streaming. */
     kTransfer = 1,  /**< File transfer. */

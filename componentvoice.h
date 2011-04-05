@@ -51,6 +51,11 @@ public slots:
      * @author Warren Voelkl
      */
     void receiveData(char* data, int length);
+    /**
+      Starting voice component.
+
+      @author Nick Huber
+      */
     void slotStartComponentVoice();
 signals:
     void signalStartMic();

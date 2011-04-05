@@ -3,6 +3,11 @@
 
 #include "componenttype.h"
 
+/**
+  Packet format to send data as.
+
+  @author Nick Huber
+  */
 struct Packet {
     int length;         /**< equal to size of ComponentType + data */
     ComponentType type; /**< The component this message coresponds to */

@@ -122,12 +122,14 @@ public:
 
       @param adddress IP address in network byte ordering.
       @param port Port # of the server in network byte ordering.
+      @author Nick Huber
       */
     bool connect(in_addr_t address, uint16_t port) const;
 
     /**
       Conversion operator for Socket, acts as a c-style socket descriptor.
       @return The socket descriptor.
+      @author Nick Huber
       */
     operator int() const { return socket_; }
 
@@ -138,6 +140,11 @@ public:
 
       @param adddress IP address in network byte ordering.
       @param port Port # of the server in network byte ordering.
+
+      @return Success
+
+      @author Warren Voelkl
+      @author Nick Huber
       */
     bool serverJoinMCast(in_addr_t address, uint16_t port);
 
@@ -148,6 +155,11 @@ public:
 
       @param adddress IP address in network byte ordering.
       @param port Port # of the server in network byte ordering.
+
+      @return success
+
+      @author Warren Voelkl
+      @author Nick Huber
       */
     bool clientJoinMCast(in_addr_t address, uint16_t port);
 

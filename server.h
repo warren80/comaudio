@@ -42,10 +42,40 @@ protected:
       */
     void run();
 signals:
+    /**
+      Start streaming file.
+
+      @author Nick Huber
+      */
     void signalStreamFile();
+    /**
+      Stop the voice communication.
+
+      @author Nick Huber
+      */
     void signalStopVoiceComponent();
-    void serverVoiceMessage(char *, int);
+    /**
+      Voice message received.
+
+      @param data Voice data.
+      @param length Amount of voice data.
+
+      @author Nick Huber
+      */
+    void serverVoiceMessage(char * data, int length);
+    /**
+      Start voice component.
+
+      @author Nick Huber
+      */
     void signalStartComponentVoice();
+    /**
+      Client connected.
+
+      @param socket Client's socket.
+
+      @author Nick huber
+      */
     void signalClientConnect(Socket* socket);
 
 public slots:
@@ -92,6 +122,7 @@ private:
      */
     void startVoice();
 
+private:
     Socket* socket_;          /**< The socket information for the server. */
     bool running_;            /**< State of the thread, whether it should be running or not. */
     QVector<Socket*> clients_;/**< Container for all socket objects. */

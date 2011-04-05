@@ -51,8 +51,13 @@ protected:
 private:
     AudioPlayer* audioPlayer_; /**< The object used to play all streaming audio */
 signals:
-    void signalStreamFile();
-    void signalReceivedData(int);
+    /**
+      * Song data received.
+      *
+      * @param header Wave header for the song.
+      *
+      * @author Nick Huber
+      */
     void signalSongData(WaveHeader* header);
 };
 
