@@ -139,7 +139,7 @@ QLineEdit:disabled {
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <property name="elideMode">
      <enum>Qt::ElideNone</enum>
@@ -780,12 +780,8 @@ QPushButton:pressed {
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">QComboBox {
-	background: gray;
-	color: white;
-	border-radius: 10px;
-	border: 1px;
-}</string>
+      <string notr="true">background: rgb(200, 200, 200);
+border-radius: 10px;</string>
      </property>
     </widget>
     <widget class="QPushButton" name="refreshLocalSongList">

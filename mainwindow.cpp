@@ -400,6 +400,8 @@ void MainWindow::slotStartTransmitCurrent() {
         ui->waiting->show();
     }
     waiting_.start();
+    ui->downloadCurrentSongButton->setEnabled(false);
+    ui->downloadSongButton->setEnabled(false);
     slotStartTransmit(ui->currentSongText->text());
 }
 
