@@ -35,6 +35,12 @@ public slots:
      * @author Karl Castillo
      */
     void startRecording();
+    /**
+     * Checks if there is a microphone connected to the computer.
+     *
+     * @author Warren Voelkl
+     */
+    static void MicrophoneCheck();
 
 private:
     QBuffer *recordFile_; /** The buffer that will hold the captured raw data from the mic. */

@@ -7,6 +7,11 @@ ComponentVoice::ComponentVoice(Socket* socket) :socket_(socket) {
     ap_ = 0;
     mic_ = 0;
     micThread_ = 0;
+    try {
+        Microphone::MicrophoneCheck();
+    } catch (const QString& e) {
+        throw e;
+    }
 }
 
 ComponentVoice::~ComponentVoice() {
@@ -24,7 +29,6 @@ ComponentVoice::~ComponentVoice() {
         micThread_->wait();
         delete micThread_;
     }
-    qDebug() << "destruct voice";
 }
 
 void ComponentVoice::transmitVoice(QByteArray * ba) {
@@ -47,10 +51,7 @@ void ComponentVoice::slotStartComponentVoice() {
         pckt.type = kVoice;
         *pckt.data = 0;
         socket_->transmit(pckt);
-        qDebug() << e;
-        QString exception("Component Voice constructor failed: ");
-        exception.append(strerror(errno));
-        throw exception;
+        throw e;
     }
     ap_ = new AudioPlayer(44100,2,16);
 
@@ -72,7 +73,6 @@ void ComponentVoice::receiveData(char* data, int length) {
 }
 
 void ComponentVoice::slotStopVoiceComponent() {
-    qDebug() << "Stopping voice component";
     mic_->stopRecording();
     ap_->pause();
     delete mic_;

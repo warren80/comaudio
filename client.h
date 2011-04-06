@@ -4,7 +4,6 @@
 #include <QThread>
 #include <QObject>
 #include "socket.h"
-#include <QDebug>
 
 class Client : public QThread
 {

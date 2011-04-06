@@ -1,5 +1,3 @@
-#include <QDebug>
-
 #include "client.h"
 
 Client::Client() : socket_(new Socket(kTCP)), running_(false) {

@@ -2,7 +2,6 @@
 #define COMPONENTVOICE_H
 
 #include <QThread>
-#include <QDebug>
 #include <QObject>
 
 #include "audioplayer.h"

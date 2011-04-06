@@ -38,7 +38,7 @@ Socket::~Socket() {
         stMreq.imr_multiaddr.s_addr = inet_addr("234.5.6.7");
         stMreq.imr_interface.s_addr = htonl(INADDR_ANY);
         if (setsockopt(socket_, IPPROTO_IP, IP_DROP_MEMBERSHIP, (char *)&stMreq, sizeof(stMreq)) == -1) {
-            qDebug() << "error leaving multicast";
+            //TODO
         }
         multicast_ = false;
     }

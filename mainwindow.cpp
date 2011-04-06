@@ -171,7 +171,7 @@ void MainWindow::appConnectClient() {
     try {
         appClient_ = new Client();
     } catch (const QString& e) {
-        qDebug() << e;
+        printF(e);
     }
 
 
@@ -194,6 +194,9 @@ void MainWindow::appConnectClient() {
 
     appClient_->start();
     stream_->start();
+
+    printF(QString("Connected to Server"));
+    printF(QString("Joining Multicast Session"));
 
     cylon_.start();
     clientConnect(true);
@@ -218,6 +221,7 @@ void MainWindow::appDisconnectClient() {
     ui->tabWidget->setTabEnabled(2, true);
     ui->serverAddrBox->setEnabled(true);
     ui->stopTalkingButton->setEnabled(false);
+    printF(QString("Disconnected from Server"));
 }
 
 void MainWindow::appStartServer() {
@@ -225,7 +229,7 @@ void MainWindow::appStartServer() {
     try {
         appServer_ = new Server(htons(8001));
     } catch (const QString& e) {
-        qDebug() << e;
+        printF(QString(e));
     }
     connect(this, SIGNAL(stopThisSong()), appServer_, SLOT(slotDisconnectStream()));
     connect(appServer_, SIGNAL(signalClientConnect(Socket*)), this, SLOT(slotSendFileList(Socket*)));
@@ -324,6 +328,7 @@ void MainWindow::refreshSongList() {
 }
 
 void MainWindow::startVoice() {
+    printF(QString("Starting Voice session with server"));
     Packet pckt;
     pckt.data = new char;
     *pckt.data = 1;
@@ -336,10 +341,13 @@ void MainWindow::startVoice() {
     try {
         cv = new ComponentVoice(appClient_->getSocket());
     } catch (const QString& e) {
-        qDebug() << e;
-        thread->terminate();
+        printF(e);
+        thread->exit();
+        thread->wait();
         delete thread;
         delete cv;
+        ui->startTalkingButton->setEnabled(true);
+        ui->stopTalkingButton->setEnabled(false);
         return;
     }
     thread->start();
@@ -353,6 +361,7 @@ void MainWindow::startVoice() {
 }
 
 void MainWindow::stopVoice() {
+    printF("Ending voice session with server");
     Packet pckt;
     pckt.data = new char;
     pckt.length = 1;
@@ -409,7 +418,6 @@ void MainWindow::slotStartTransmitSelected() {
 }
 
 void MainWindow::slotStartTransmit(QString filename) {
-    qDebug() << "start transmit";
 
     if (!QDir("Songs").exists()) {
         QDir().mkdir("Songs");
@@ -431,7 +439,6 @@ void MainWindow::slotReceiveTransmitData(char *data, int length) {
 }
 
 void MainWindow::slotFinishTransmit() {
-    qDebug() << "finished transmit";
     waiting_.stop();
     ui->downloadCurrentSongButton->setEnabled(true);
     ui->downloadSongButton->setEnabled(true);

@@ -15,6 +15,7 @@ typedef int socklen_t;
 #endif
 
 #include "packet.h"
+#include <QString>
 
 
 /**
@@ -33,6 +34,7 @@ enum NetMode {
   */
 class Socket {
 public:
+
 
     /**
       Constructor for a Socket based on a connection mode.
@@ -162,6 +164,7 @@ public:
       @author Nick Huber
       */
     bool clientJoinMCast(in_addr_t address, uint16_t port);
+    int getSocket() { return socket_; }
 
 private:
     int socket_;        /**< Socket file descriptor. */

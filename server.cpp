@@ -1,11 +1,12 @@
 #include <iostream>
 #include "server.h"
 #include <QFile>
-#include <QDebug>
 
 #include "thread.h"
 #include "serverfiletransfer.h"
 #include "componentvoice.h"
+
+#define LINE 256
 
 Server::Server(int port, int backlog) : socket_(new Socket(kTCP)), running_(false) {
 
@@ -30,6 +31,7 @@ Server::~Server() {
 }
 
 void Server::run() {
+    char *str = new char[LINE];
     int numReady;
     int largest = *socket_;
     int connected;
@@ -42,6 +44,7 @@ void Server::run() {
     FD_SET((unsigned)*socket_, &allset);
 
     running_ = true;
+    emit signalPrintF(QString("Server Started"));
 
     while (running_) {
         rset = allset; // check all currenet sockets
@@ -62,11 +65,12 @@ void Server::run() {
             infoSize = sizeof(info);
 
             if ((connected = accept(*socket_, (sockaddr*) &info, &infoSize)) == -1) {
-                //qDebug() << "accept error:" << strerror(errno);
                 return; // TODO: inform main window of failure.
             } else {
-                emit signalPrintF( QString("Client connected\n"));
+
                 clients_.append(new Socket(connected, kTCP, info));
+                sprintf(str, "Client connected on socket number %d", clients_.last()->getSocket());
+                emit signalPrintF(QString(str));
                 emit signalClientConnect(clients_.last());
             }
 
@@ -91,6 +95,8 @@ void Server::run() {
                 int msgSize;
                 // If there is no data from the client, it disconnected.
                 if (clients_[i]->receive((char*) &msgSize, sizeof(int)) <= 0) {
+                    sprintf(str, "Client disconnected on socket number %d,", clients_[i]->getSocket());
+                    emit signalPrintF(QString(str));
                     delete clients_[i];
                     clients_.remove(i);
                     continue;
@@ -107,6 +113,8 @@ void Server::run() {
             }
         }
     }
+    emit signalPrintF(QString("Server Stopped"));
+    delete[] str;
 }
 
 void Server::processClientMessage(Socket *clientSocket, char *buffer, int msgSize) {
@@ -131,6 +139,7 @@ void Server::processClientMessage(Socket *clientSocket, char *buffer, int msgSiz
 }
 
 void Server::slotDisconnectStream() {
+    emit signalPrintF(QString("Stopping streaming"));
     foreach (Socket* client, clients_) {
         Packet packet;
         packet.length = 0;
@@ -142,6 +151,7 @@ void Server::slotDisconnectStream() {
 
 void Server::slotPlayThisSong(QString songname) {
     QString title = songname.split('/').last();
+    emit signalPrintF(QString("Now streaming: ").append(title));
     foreach (Socket* client, clients_) {
         Packet packet;
         packet.length = title.size() + 1;
@@ -152,11 +162,13 @@ void Server::slotPlayThisSong(QString songname) {
 }
 
 void Server::startFileTransfer(QString fileName, Socket * s) {
+    emit signalPrintF(QString("Starting file transfer"));
     Thread *thread = new Thread();
     ServerFileTransfer *sft = new ServerFileTransfer(fileName, s);
     connect(this, SIGNAL(signalStreamFile()), sft, SLOT(slotStartTransfer()));
-    thread->start();
+    connect(sft, SIGNAL(signalPrintF(QString)), this, SIGNAL(signalPrintF(QString)));
     sft->moveToThread(thread);
+    thread->start();
     emit signalStreamFile();
 }
 
@@ -166,7 +178,7 @@ void Server::setupVoiceComponent(Socket * socket) {
     try {
         cv = new ComponentVoice(socket);
     } catch (const QString& e) {
-        qDebug() << e;
+        emit  signalPrintF(e);
         thread->terminate();
         delete thread;
         delete cv;
@@ -178,6 +190,7 @@ void Server::setupVoiceComponent(Socket * socket) {
     QObject::connect(this,SIGNAL(serverVoiceMessage(char*,int)), cv,SLOT(receiveData(char*,int)));
     QObject::connect(this,SIGNAL(signalStartComponentVoice()),cv,SLOT(slotStartComponentVoice()));
     emit signalStartComponentVoice();
+    emit signalPrintF(QString("Starting voice chat"));
     return;
 }
 
@@ -188,8 +201,8 @@ void Server::serverVoiceComponent(Socket * socket, char * buffer, int length) {
             return;
         }
         if (buffer[sizeof(int)] == 0) {
-            qDebug() << "Deleting microphone on server";
-            //emit signalStopVoiceComponent();
+            emit signalPrintF(QString("Stopping voice chat"));
+            emit signalStopVoiceComponent();
             return;
         }
     }

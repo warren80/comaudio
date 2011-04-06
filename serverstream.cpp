@@ -1,4 +1,3 @@
-#include <QDebug>
 #include "serverstream.h"
 
 ServerStream::ServerStream() :cleanup_(false),timer_(0), file_(0), socket_(0){
@@ -27,7 +26,7 @@ void ServerStream::slotStartTransfer(QString filename){
     file_->setFileName(filename);
     socket_ = new Socket(kUDP);
     if (!socket_->serverJoinMCast(inet_addr(MULTICAST_IP), htons(MULTICAST_PORT))) {
-        qDebug() << "failed to join MultiCast";
+        emit signalPrintF(QString("failedto join MultiCast"));
     }
     if(!file_->open(QIODevice::ReadOnly)) {
         emit signalTransferDone();
@@ -35,7 +34,7 @@ void ServerStream::slotStartTransfer(QString filename){
     }
 
     if(file_->size() < HEADER_LENGTH) {
-        qDebug() << "invalid wave file_ format";
+        emit signalPrintF(QString("Invalid wav format"));
         emit signalTransferDone();
         return;
     }

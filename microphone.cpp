@@ -6,6 +6,28 @@
  */
 Microphone::Microphone() :ba_(0), input_(0), mic_(0) {
 
+
+}
+
+void Microphone::MicrophoneCheck() {
+    QAudioDeviceInfo info = QAudioDeviceInfo::defaultInputDevice();
+    QAudioFormat *format =  new QAudioFormat();
+
+    //Setting audio format
+    format->setFrequency(44100);
+    format->setChannels(2);
+    format->setSampleSize(16);
+    format->setCodec("audio/pcm");
+    format->setByteOrder(QAudioFormat::LittleEndian);
+    format->setSampleType(QAudioFormat::SignedInt);
+
+    if(!info.isFormatSupported(*format)) {
+        QString exception("Microphone constructor failure: ");
+        exception.append(strerror(errno));
+        delete format;
+        throw exception;
+    }
+    delete format;
 }
 
 Microphone::~Microphone () {
@@ -32,12 +54,6 @@ void Microphone::startRecording() {
     format->setCodec("audio/pcm");
     format->setByteOrder(QAudioFormat::LittleEndian);
     format->setSampleType(QAudioFormat::SignedInt);
-
-    if(!info.isFormatSupported(*format)) {
-        QString exception("Microphone constructor failure: ");
-        exception.append(strerror(errno));
-        throw exception;
-    }
 
     mic_ = new QAudioInput(*format);
     recordFile_ = new QBuffer();
