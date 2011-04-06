@@ -20,7 +20,7 @@ Server::~Server() {
     delete socket_;
 
     // wait for the thread to finish.
-    QThread::terminate();
+    QThread::exit(0);
 
     // destroy all sockets in the server.
     foreach (Socket* socket, clients_) {

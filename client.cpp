@@ -9,7 +9,7 @@ Client::~Client() {
     running_ = false;
     delete socket_;
 
-    QThread::terminate();
+    QThread::exit(0);
     QThread::wait();
 }
 
