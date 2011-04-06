@@ -59,12 +59,14 @@ public slots:
     void slotStartComponentVoice();
 signals:
     void signalStartMic();
+    void signalPrintF(QString);
 private:
     AudioPlayer *ap_;       /**< The audio player for the received data*/
     Socket* socket_;        /**< The socket information for the ComponentVoice. */
     Microphone* mic_;       /**< The Microphone Reader */
     Thread* micThread_;      /**< The thread for running the microphone */
     bool running_;   /**< Used in run loops to determine if the component should be running */
+
 };
 
 #endif // SERVER_H

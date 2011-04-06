@@ -78,7 +78,6 @@ MainWindow::MainWindow(QWidget *parent) :
     // file transmits
     connect(ui->downloadCurrentSongButton, SIGNAL(clicked()), this, SLOT(slotStartTransmitCurrent()));
     connect(ui->downloadSongButton, SIGNAL(clicked()), this, SLOT(slotStartTransmitSelected()));
-    connect(this, SIGNAL(signalPrintF(const char*)), this, SLOT(printF(const char*)));
     //printDebug(QString("asdf"));
 }
 
@@ -157,9 +156,9 @@ void MainWindow::serverConnect(bool connected) {
     }
 }
 
-void MainWindow::printF(const char *debug) {
+void MainWindow::printF(QString str) {
     //ui->debug->clear();
-    ui->debug->appendPlainText(debug);
+    ui->debug->appendPlainText(str.toLatin1().data());
 }
 
 /******************************************
@@ -174,6 +173,7 @@ void MainWindow::appConnectClient() {
     } catch (const QString& e) {
         qDebug() << e;
     }
+
 
     if (!appClient_->connect(inet_addr(ipAddr.toStdString().c_str()), htons(8001))) {
         delete appClient_;
@@ -190,6 +190,7 @@ void MainWindow::appConnectClient() {
     connect(stream_, SIGNAL(signalSongData(WaveHeader*)), this, SLOT(slotClientSongInfo(WaveHeader*)));
     connect(appClient_, SIGNAL(signalFileFinished()), this, SLOT(slotFinishTransmit()));
     connect(appClient_, SIGNAL(signalFileDataReceived(char*,int)), this, SLOT(slotReceiveTransmitData(char*,int)));
+    connect(appClient_, SIGNAL(signalPrintF(QString)), this, SLOT(printF(QString)));
 
     appClient_->start();
     stream_->start();
@@ -230,6 +231,7 @@ void MainWindow::appStartServer() {
     connect(appServer_, SIGNAL(signalClientConnect(Socket*)), this, SLOT(slotSendFileList(Socket*)));
     connect(appServer_, SIGNAL(signalClientConnect(Socket*)), this, SLOT(slotSendFileName(Socket*)));
     connect(this, SIGNAL(playThisSong(QString)), appServer_, SLOT(slotPlayThisSong(QString)));
+    connect(appServer_, SIGNAL(signalPrintF(QString)), this, SLOT(printF(QString)));
 
     appServer_->start();
     refreshSongList();

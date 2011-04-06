@@ -65,7 +65,7 @@ void Server::run() {
                 //qDebug() << "accept error:" << strerror(errno);
                 return; // TODO: inform main window of failure.
             } else {
-                qDebug() << "Client connected.";
+                emit signalPrintF( QString("Client connected\n"));
                 clients_.append(new Socket(connected, kTCP, info));
                 emit signalClientConnect(clients_.last());
             }

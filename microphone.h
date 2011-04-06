@@ -66,6 +66,7 @@ signals:
      * @arg mesg - the raw data read from the buffer
      */
     void sendVoice(QByteArray *ba);
+    void signalPrintF(QString);
 };
 
 #endif // MICROPHONE_H

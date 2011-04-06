@@ -70,6 +70,7 @@ signals:
       @author Warren Voelkl
       */
     void signalTransferDone();
+    void signalPrintF(QString);
 
 };
 

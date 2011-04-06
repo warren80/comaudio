@@ -72,7 +72,7 @@ public slots:
      * @author Karl Casitllo
      * @arg debug - the message to be printed out
      */
-    void printF(const char *debug);
+    void printF(QString str);
 
     /**
      * Stops the streaming audio
@@ -217,7 +217,7 @@ signals:
     void signalStopVoiceComponent();
     void stopThisSong();
     void signalStartComponentVoice();
-    void signalPrintF(const char *);
+    void signalPrintF(QString);
 
 };
 
