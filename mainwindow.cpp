@@ -460,6 +460,7 @@ void MainWindow::slotSendFileName(Socket *socket) {
 
 void MainWindow::playSong() {
     static bool playing = false;
+    static Thread *audioThread;
     if(!playing) {
         QString song = ui->localSongList->currentText();
 
@@ -467,15 +468,20 @@ void MainWindow::playSong() {
             return;
         }
 
-        ui->play->setStyleSheet("QPushButton {background-image: url(:/pause.gif);background-repeat: no-repeat;background-position: center;background-color: rgba(255,255,255,0%);}QPushButton:hover {background-image: url(:/pauseHover.gif);}QPushButton:pressed {background-image: url(:/pausePress.gif);}");
-        ui->songName->setStyleSheet("color: blue;");
-        ui->songName->setText(song);
 
         if (localPlayer_ == 0) {
             QFile localFile(QDir::currentPath() + "/Songs/" + song);
             localFile.open(QFile::ReadOnly);
 
             WaveHeader* header = AudioPlayer::parseWaveHeader(localFile.read(44).data());
+            if (header == 0) {
+                printF(QString("Invalid wav file format"));
+                return;
+            }
+
+            ui->play->setStyleSheet("QPushButton {background-image: url(:/pause.gif);background-repeat: no-repeat;background-position: center;background-color: rgba(255,255,255,0%);}QPushButton:hover {background-image: url(:/pauseHover.gif);}QPushButton:pressed {background-image: url(:/pausePress.gif);}");
+            ui->songName->setStyleSheet("color: blue;");
+            ui->songName->setText(song);
 
             localPlayer_ = new AudioPlayer(header->frequency, header->channels, header->bitsPerSample, localFile.size());
             localPlayer_->appendBuffer(localFile.readAll().data(), localFile.size() - 44);

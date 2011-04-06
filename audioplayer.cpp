@@ -59,5 +59,21 @@ WaveHeader * AudioPlayer::parseWaveHeader(char hdr[44]) {
     memcpy(&wh->frequency, hdr + 24,4);
     wh->bitsPerSample = bps;
     wh->channels = channel;
+    QAudioDeviceInfo info = QAudioDeviceInfo::defaultInputDevice();
+    QAudioFormat *format =  new QAudioFormat();
+
+    //Setting audio format
+    format->setFrequency(44100);
+    format->setChannels(2);
+    format->setSampleSize(16);
+    format->setCodec("audio/pcm");
+    format->setByteOrder(QAudioFormat::LittleEndian);
+    format->setSampleType(QAudioFormat::SignedInt);
+
+    if(!info.isFormatSupported(*format)) {
+        delete wh;
+        delete format;
+        return 0;
+    }
     return wh;
 }
