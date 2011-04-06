@@ -8,7 +8,6 @@ ComponentStream::ComponentStream() : Component(new Socket(kUDP)), audioPlayer_(N
 }
 
 ComponentStream::~ComponentStream() {
-    qDebug() <<  "Delete ComponentStream";
     if (audioPlayer_ != 0) {
         delete audioPlayer_;
     }

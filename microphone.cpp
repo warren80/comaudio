@@ -9,7 +9,6 @@ Microphone::Microphone() :ba_(0), input_(0), mic_(0) {
 }
 
 Microphone::~Microphone () {
-    qDebug() <<  "Delete Microphone";
     if (input_ != 0) {
         delete input_;
     }

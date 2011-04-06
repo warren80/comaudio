@@ -23,7 +23,6 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent), ui(new Ui::MainWindow), appServer_(0), appClient_(0), mic_(0), micThread_(0), stream_(0), streamServer_(0), streamThread_(0), receivedFile_(0)
 {
     setWindowIcon(QIcon(":/kidnapster.png"));
-    //ComponentVoice *cv;
     QValidator *validIp = new QRegExpValidator(QRegExp("^\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}$"), this);
 
     ui->setupUi(this);
@@ -79,11 +78,11 @@ MainWindow::MainWindow(QWidget *parent) :
     // file transmits
     connect(ui->downloadCurrentSongButton, SIGNAL(clicked()), this, SLOT(slotStartTransmitCurrent()));
     connect(ui->downloadSongButton, SIGNAL(clicked()), this, SLOT(slotStartTransmitSelected()));
+    connect(this, SIGNAL(signalPrintF(const char*)), this, SLOT(printF(const char*)));
+    //printDebug(QString("asdf"));
 }
 
 MainWindow::~MainWindow() {
-    qDebug() <<  "Delete MainWindow";
-
     if (mic_ != 0) {
         delete mic_;
     }
@@ -156,6 +155,7 @@ void MainWindow::serverConnect(bool connected) {
 }
 
 void MainWindow::printF(const char *debug) {
+    //ui->debug->clear();
     ui->debug->appendPlainText(debug);
 }
 
@@ -464,4 +464,8 @@ void MainWindow::pauseSong() {
 void MainWindow::refreshLocalList() {
     ui->localSongList->clear();
     ui->localSongList->addItems(QDir("./Songs").entryList(QStringList("*.wav")));
+}
+
+void MainWindow::print(const char * str) {
+    signalPrintF(str);
 }

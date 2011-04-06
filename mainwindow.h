@@ -22,6 +22,7 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = 0);
+    void print(const char *);
     ~MainWindow();
 
 private:
@@ -62,15 +63,16 @@ private:
      * @author Karl Castillo
      */
     void getFileList();
+
+public slots:
     /**
-     * Call this function to print out a message to the debug form.
+     * Signal this slot to print out a message to the debug form.
      *
      * @author Karl Casitllo
      * @arg debug - the message to be printed out
      */
     void printF(const char *debug);
 
-public slots:
     /**
      * Stops the streaming audio
      * by calling reset on the audiostream component
@@ -206,13 +208,16 @@ private slots:
     void slotStartTransmitCurrent();
     /** shows the selected file transmited in the gui.*/
     void slotStartTransmitSelected();
-
+     /** sends the filename of the current song being played.*/
     void slotSendFileName(Socket* socket);
+
 signals:
     void playThisSong(QString);
     void signalStopVoiceComponent();
     void stopThisSong();
     void signalStartComponentVoice();
+    void signalPrintF(const char *);
+
 };
 
 #endif // MAINWINDOW_H
