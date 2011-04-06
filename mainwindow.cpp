@@ -460,7 +460,6 @@ void MainWindow::slotSendFileName(Socket *socket) {
 
 void MainWindow::playSong() {
     static bool playing = false;
-    static Thread *audioThread;
     if(!playing) {
         QString song = ui->localSongList->currentText();
 
@@ -476,6 +475,7 @@ void MainWindow::playSong() {
             WaveHeader* header = AudioPlayer::parseWaveHeader(localFile.read(44).data());
             if (header == 0) {
                 printF(QString("Invalid wav file format"));
+                localFile.close();
                 return;
             }
 
@@ -494,7 +494,9 @@ void MainWindow::playSong() {
         ui->play->setStyleSheet("QPushButton {background-image: url(:/play.gif);background-repeat: no-repeat;background-position: center;background-color: rgba(255,255,255,0%);}QPushButton:hover {background-image: url(:/playHover.gif);}QPushButton:pressed {background-image: url(:/playPress.gif);}");
         ui->songName->setStyleSheet("color: red;");
 
-        localPlayer_->pause();
+        //localPlayer_->pause();
+        delete localPlayer_;
+        localPlayer_ = 0;
 
         playing = false;
     }
