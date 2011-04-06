@@ -37,6 +37,8 @@ private:
     ServerStream* streamServer_; /**< The serverstream object for steaming audio. */
     Thread* streamThread_;/**< The thread that the serverstream runs in */
     QFile* receivedFile_; /**< The file that a file is stored in */
+    AudioPlayer* localPlayer_; /**< Local playback of audio files. */
+    QFile* localFile_;    /**< Local file to playback. */
 
     void initDispatcher();
     /**

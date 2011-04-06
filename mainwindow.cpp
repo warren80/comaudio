@@ -20,7 +20,7 @@
  ******************************************/
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent), ui(new Ui::MainWindow), appServer_(0), appClient_(0), mic_(0), micThread_(0), stream_(0), streamServer_(0), streamThread_(0), receivedFile_(0)
+    QMainWindow(parent), ui(new Ui::MainWindow), appServer_(0), appClient_(0), mic_(0), micThread_(0), stream_(0), streamServer_(0), streamThread_(0), receivedFile_(0), localPlayer_(0), localFile_(0)
 {
     setWindowIcon(QIcon(":/kidnapster.png"));
     //ComponentVoice *cv;
@@ -108,6 +108,12 @@ MainWindow::~MainWindow() {
     }
     if (appClient_ != 0) {
         delete appClient_;
+    }
+    if (localPlayer_ != 0) {
+        delete localPlayer_;
+    }
+    if (localFile_ != 0) {
+        delete localFile_;
     }
     delete ui;
 }
@@ -454,11 +460,23 @@ void MainWindow::playSong() {
     ui->localSongList->setEnabled(false);
     ui->songName->setStyleSheet("color: blue;");
     ui->songName->setText(song);
+
+
+    localFile_ = new QFile(QDir::currentPath() + "/Songs/" + song);
+    localFile_->open(QFile::ReadOnly);
+
+
+
+    WaveHeader* header = AudioPlayer::parseWaveHeader(localFile_->read(44).data());
+
+    localPlayer_ = new AudioPlayer(header->frequency, header->channels, header->bitsPerSample, localFile_->size());
+    localPlayer_->appendBuffer(localFile_->readAll().data(), localFile_->size() - 44);
 }
 
 void MainWindow::pauseSong() {
     ui->songName->setStyleSheet("color: red;");
     ui->localSongList->setEnabled(true);
+    localPlayer_->pause();
 }
 
 void MainWindow::refreshLocalList() {
