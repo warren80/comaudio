@@ -495,7 +495,7 @@ void MainWindow::playSong() {
         ui->songName->setStyleSheet("color: red;");
 
         localPlayer_->pause();
-        delete localPlayer_;
+        //delete localPlayer_;
         localPlayer_ = 0;
 
         playing = false;
