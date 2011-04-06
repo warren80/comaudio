@@ -494,7 +494,7 @@ void MainWindow::playSong() {
         ui->play->setStyleSheet("QPushButton {background-image: url(:/play.gif);background-repeat: no-repeat;background-position: center;background-color: rgba(255,255,255,0%);}QPushButton:hover {background-image: url(:/playHover.gif);}QPushButton:pressed {background-image: url(:/playPress.gif);}");
         ui->songName->setStyleSheet("color: red;");
 
-        //localPlayer_->pause();
+        localPlayer_->pause();
         delete localPlayer_;
         localPlayer_ = 0;
 
