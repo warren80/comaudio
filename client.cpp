@@ -37,7 +37,7 @@ void Client::run() {
             int type;
             memcpy((void*) &type, buffer, sizeof(int));
 
-            char* data;
+            char* data = 0;
             if ((unsigned)msgSize > sizeof(int)) {
                 data = new char[msgSize - sizeof(int)];
                 memcpy(data, buffer + sizeof(int), msgSize - sizeof(int));
