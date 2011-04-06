@@ -30,9 +30,10 @@ AudioPlayer::AudioPlayer(int frequency, int channels, int sampleSize, int buffer
 
 }
 AudioPlayer::~AudioPlayer() {
-    qDebug() << "delete AudioPlayer";
     delete buffer_;
-    if (audio_ == 0) {
+    if (audio_ != 0) {
+        audio_->suspend();
+        audio_->stop();
         delete audio_;
     }
 }
