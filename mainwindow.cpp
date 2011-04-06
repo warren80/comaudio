@@ -20,7 +20,7 @@
  ******************************************/
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent), ui(new Ui::MainWindow), appServer_(0), appClient_(0), mic_(0), micThread_(0), stream_(0), streamServer_(0), streamThread_(0), receivedFile_(0)
+    QMainWindow(parent), ui(new Ui::MainWindow), appServer_(0), appClient_(0), mic_(0), micThread_(0), stream_(0), streamServer_(0), streamThread_(0), receivedFile_(0), localPlayer_(0)
 {
     setWindowIcon(QIcon(":/kidnapster.png"));
     QValidator *validIp = new QRegExpValidator(QRegExp("^\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}$"), this);
@@ -38,8 +38,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //Audio Player
     connect(ui->play, SIGNAL(pressed()), this, SLOT(playSong()));
-    connect(ui->pause, SIGNAL(pressed()), this, SLOT(pauseSong()));
     connect(ui->refreshLocalSongList, SIGNAL(pressed()), this, SLOT(refreshLocalList()));
+    connect(ui->stop, SIGNAL(pressed()), this, SLOT(stopSong()));
 
     //Client Tab
     connect(ui->connectButton, SIGNAL(pressed()), this, SLOT(appConnectClient()));
@@ -107,6 +107,9 @@ MainWindow::~MainWindow() {
     }
     if (appClient_ != 0) {
         delete appClient_;
+    }
+    if (localPlayer_ != 0) {
+        delete localPlayer_;
     }
     delete ui;
 }
@@ -445,20 +448,50 @@ void MainWindow::slotSendFileName(Socket *socket) {
 }
 
 void MainWindow::playSong() {
-    QString song = ui->localSongList->currentText();
+    static bool playing = false;
+    if(!playing) {
+        QString song = ui->localSongList->currentText();
 
-    if(song == "") {
-        return;
+        if(song == "") {
+            return;
+        }
+
+        ui->play->setStyleSheet("QPushButton {background-image: url(:/pause.gif);background-repeat: no-repeat;background-position: center;background-color: rgba(255,255,255,0%);}QPushButton:hover {background-image: url(:/pauseHover.gif);}QPushButton:pressed {background-image: url(:/pausePress.gif);}");
+
+        ui->localSongList->setEnabled(false);
+        ui->songName->setStyleSheet("color: blue;");
+        ui->songName->setText(song);
+
+        if (localPlayer_ == 0) {
+            QFile localFile(QDir::currentPath() + "/Songs/" + song);
+            localFile.open(QFile::ReadOnly);
+
+            WaveHeader* header = AudioPlayer::parseWaveHeader(localFile.read(44).data());
+
+            localPlayer_ = new AudioPlayer(header->frequency, header->channels, header->bitsPerSample, localFile.size());
+            localPlayer_->appendBuffer(localFile.readAll().data(), localFile.size() - 44);
+        }
+
+        localPlayer_->play();
+
+        playing = true;
+    } else {
+        ui->play->setStyleSheet("QPushButton {background-image: url(:/play.gif);background-repeat: no-repeat;background-position: center;background-color: rgba(255,255,255,0%);}QPushButton:hover {background-image: url(:/playHover.gif);}QPushButton:pressed {background-image: url(:/playPress.gif);}");
+        ui->songName->setStyleSheet("color: red;");
+        ui->localSongList->setEnabled(true);
+
+        localPlayer_->pause();
+
+        playing = false;
     }
-
-    ui->localSongList->setEnabled(false);
-    ui->songName->setStyleSheet("color: blue;");
-    ui->songName->setText(song);
 }
 
-void MainWindow::pauseSong() {
-    ui->songName->setStyleSheet("color: red;");
-    ui->localSongList->setEnabled(true);
+void MainWindow::stopSong() {
+    if (localPlayer_ != 0) {
+        playSong();
+        delete localPlayer_;
+        localPlayer_ = 0;
+    }
 }
 
 void MainWindow::refreshLocalList() {

@@ -38,6 +38,7 @@ private:
     ServerStream* streamServer_; /**< The serverstream object for steaming audio. */
     Thread* streamThread_;/**< The thread that the serverstream runs in */
     QFile* receivedFile_; /**< The file that a file is stored in */
+    AudioPlayer* localPlayer_; /**< Local playback of audio files. */
 
     void initDispatcher();
     /**
@@ -133,16 +134,16 @@ private slots:
      * Call this function to play a local song.
      *
      * @author Karl Castillo
-     * @author Warren Voelkl
+     * @author Nick Huber
      */
     void playSong();
     /**
-     * Call this function to pause the local song being played.
+     * Call this function to stop the song being played.
      *
      * @author Karl Castillo
-     * @author Warren Voelkl
+     * @author Nick Huber
      */
-    void pauseSong();
+    void stopSong();
     /**
      * Call this function to refresh the local list of songs.
      *
