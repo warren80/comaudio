@@ -468,8 +468,6 @@ void MainWindow::playSong() {
         }
 
         ui->play->setStyleSheet("QPushButton {background-image: url(:/pause.gif);background-repeat: no-repeat;background-position: center;background-color: rgba(255,255,255,0%);}QPushButton:hover {background-image: url(:/pauseHover.gif);}QPushButton:pressed {background-image: url(:/pausePress.gif);}");
-
-        ui->localSongList->setEnabled(false);
         ui->songName->setStyleSheet("color: blue;");
         ui->songName->setText(song);
 
@@ -489,7 +487,6 @@ void MainWindow::playSong() {
     } else {
         ui->play->setStyleSheet("QPushButton {background-image: url(:/play.gif);background-repeat: no-repeat;background-position: center;background-color: rgba(255,255,255,0%);}QPushButton:hover {background-image: url(:/playHover.gif);}QPushButton:pressed {background-image: url(:/playPress.gif);}");
         ui->songName->setStyleSheet("color: red;");
-        ui->localSongList->setEnabled(true);
 
         localPlayer_->pause();
 
