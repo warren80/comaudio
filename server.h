@@ -77,6 +77,7 @@ signals:
       @author Nick huber
       */
     void signalClientConnect(Socket* socket);
+    void signalPrintF(QString);
 
 public slots:
     /** Transmits and empty packet to indicate the end of a file stream */

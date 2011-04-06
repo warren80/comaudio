@@ -66,6 +66,7 @@ signals:
       * @author Nick Huber
       */
     void signalSongData(WaveHeader* header);
+    void signalPrintF(QString);
 };
 
 #endif // COMPONENTSTREAM_H

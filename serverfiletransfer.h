@@ -44,5 +44,6 @@ signals:
       @author Nick Huber
       */
     void signalTransferDone();
+    void signalPrintF(QString);
 };
 #endif // SERVERFILETRANSFER_H

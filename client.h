@@ -116,6 +116,7 @@ signals:
       * @author Nick Huber
       */
     void signalStopVoiceMessage();
+    void signalPrintF(QString);
 };
 
 #endif // CLIENT_H
