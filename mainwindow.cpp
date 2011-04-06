@@ -39,8 +39,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //Audio Player
     connect(ui->play, SIGNAL(pressed()), this, SLOT(playSong()));
-    connect(ui->pause, SIGNAL(pressed()), this, SLOT(pauseSong()));
     connect(ui->refreshLocalSongList, SIGNAL(pressed()), this, SLOT(refreshLocalList()));
+    connect(ui->stop, SIGNAL(pressed()), this, SLOT(stopSong()));
 
     //Client Tab
     connect(ui->connectButton, SIGNAL(pressed()), this, SLOT(appConnectClient()));
@@ -445,20 +445,32 @@ void MainWindow::slotSendFileName(Socket *socket) {
 }
 
 void MainWindow::playSong() {
-    QString song = ui->localSongList->currentText();
+    static bool playing = false;
+    if(!playing) {
+        QString song = ui->localSongList->currentText();
 
-    if(song == "") {
-        return;
+        if(song == "") {
+            return;
+        }
+
+        ui->play->setStyleSheet("QPushButton {background-image: url(:/pause.gif);background-repeat: no-repeat;background-position: center;background-color: rgba(255,255,255,0%);}QPushButton:hover {background-image: url(:/pauseHover.gif);}QPushButton:pressed {background-image: url(:/pausePress.gif);}");
+
+        ui->localSongList->setEnabled(false);
+        ui->songName->setStyleSheet("color: blue;");
+        ui->songName->setText(song);
+
+        playing = true;
+    } else {
+        ui->play->setStyleSheet("QPushButton {background-image: url(:/play.gif);background-repeat: no-repeat;background-position: center;background-color: rgba(255,255,255,0%);}QPushButton:hover {background-image: url(:/playHover.gif);}QPushButton:pressed {background-image: url(:/playPress.gif);}");
+        ui->songName->setStyleSheet("color: red;");
+        ui->localSongList->setEnabled(true);
+
+        playing = false;
     }
-
-    ui->localSongList->setEnabled(false);
-    ui->songName->setStyleSheet("color: blue;");
-    ui->songName->setText(song);
 }
 
-void MainWindow::pauseSong() {
-    ui->songName->setStyleSheet("color: red;");
-    ui->localSongList->setEnabled(true);
+void MainWindow::stopSong() {
+
 }
 
 void MainWindow::refreshLocalList() {

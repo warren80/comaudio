@@ -139,7 +139,7 @@ QLineEdit:disabled {
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>0</number>
     </property>
     <property name="elideMode">
      <enum>Qt::ElideNone</enum>
@@ -636,6 +636,8 @@ background-position: center;</string>
       <string/>
      </property>
     </widget>
+    <zorder>cylon</zorder>
+    <zorder>player</zorder>
    </widget>
    <widget class="QLabel" name="notes">
     <property name="geometry">
@@ -713,7 +715,7 @@ QPushButton:pressed {
       <string/>
      </property>
     </widget>
-    <widget class="QPushButton" name="pause">
+    <widget class="QPushButton" name="stop">
      <property name="geometry">
       <rect>
        <x>250</x>
@@ -724,18 +726,18 @@ QPushButton:pressed {
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
-	background-image: url(:/pause.gif);
+	background-image: url(:/stop.gif);
 	background-repeat: no-repeat;
 	background-position: center;
 	background-color: rgba(255,255,255,0%);
 }
 
 QPushButton:hover {
-	background-image: url(:/pauseHover.gif);
+	background-image: url(:/stopHover.gif);
 }
 
 QPushButton:pressed {
-	background-image: url(:/pausePress.gif);
+	background-image: url(:/stopPress.gif);
 }</string>
      </property>
      <property name="text">
@@ -776,6 +778,14 @@ QPushButton:pressed {
        <width>161</width>
        <height>22</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QComboBox {
+	background: gray;
+	color: white;
+	border-radius: 10px;
+	border: 1px;
+}</string>
      </property>
     </widget>
     <widget class="QPushButton" name="refreshLocalSongList">
